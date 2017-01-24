@@ -1,5 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 
-Meteor.startup(() => {
-  // code to run on server at startup
+let Entities = new Mongo.Collection('entities');
+
+Entities.allow({
+  insert: (userId, doc) => {
+    return true;
+  }
+});
+
+Meteor.publish('all-entitites', function () {
+  return Entities.find();
 });
