@@ -1,3 +1,4 @@
+Meteor.subscribe('nearby-entities', [0, 0]);
 let domParser = new DOMParser();
 let scene;
 let Entities = new Mongo.Collection('entities');
@@ -30,15 +31,9 @@ export function createEntity() {
 }
 
 export function addEntityToScene(entity) {
-  // let domElement = domParser.parseFromString(entity.text, 'text/html').body.firstChild;
-  var div = document.createElement( "div" );
+  let div = document.createElement( "div" );
   div.innerHTML = entity.text;
-  //domElement.setAttribute('id', entity._id);
-  scene.appendChild(div.firstChild);
+  let domElement = div.firstChild;
+  domElement.setAttribute('id', entity._id);
+  scene.appendChild(domElement);
 }
-
-function append ( elString, parent ) {
-    var div = document.createElement( "div" );
-    div.innerHTML = elString;
-    document.querySelector( parent || "body" ).appendChild( div.firstChild );
- }
