@@ -6,6 +6,9 @@ Entities._ensureIndex({'location.coordinates':'2d'});
 Entities.allow({
   insert: (userId, doc) => {
     return true;
+  },
+  update: (userId, doc) => {
+    return true;
   }
 });
 

@@ -4,6 +4,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import * as Entities from '../imports/entities.js';
 import * as KeyboardControls from '../imports/keyboard-controls.js';
 import * as HandControls from '../imports/hand-controls.js';
+import '../imports/meteor-persist.js'
 
 import './main.html';
 

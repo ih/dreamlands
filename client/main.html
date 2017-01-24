@@ -1,12 +1,12 @@
 <head>
   <title>dreamlands</title>
   <script src="https://aframe.io/releases/0.4.0/aframe.min.js"></script>
-   <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+  <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
 </head>
 
 <body>
   <a-scene id="scene">
-    <a-box color="red" position="0 2 -5" rotation="0 45 45" scale="2 2 2"></a-box>
+    <a-box meteor-persist color="red" position="0 2 -5" rotation="0 45 45" scale="2 2 2"></a-box>
     <a-camera id="user-camera"></a-camera>
     <a-entity id="left-hand" hand-controls="left" teleport-controls></a-entity>
     <a-entity id="right-hand" hand-controls="right"></a-entity>
