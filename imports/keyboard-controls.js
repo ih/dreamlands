@@ -5,7 +5,7 @@ export function addKeyboardEvents() {
     switch (event.key) {
     case 'c':
     case 'C':
-      Entities.createEntity();
+      Entities.createDefaultEntity();
       break;
     }
   };
