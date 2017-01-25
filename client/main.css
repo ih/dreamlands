@@ -1,1 +1,21 @@
 /* CSS declarations go here */
+#editor {
+    position: fixed;
+    top: 10px;
+    z-index: 100;
+    width: 50%;
+    height: 100%;
+}
+
+#ace-editor {
+    height: 70%;
+    width: 100%;
+    opacity: .6;
+    z-index: 105;
+}
+
+.close-editor {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+}

@@ -7,6 +7,10 @@ let domParser = new DOMParser();
 let scene;
 let Entities = new Mongo.Collection('entities');
 
+export function getDefaultEntityString() {
+  let userPosition = document.querySelector('#user-camera').getAttribute('position');
+  return `<a-sphere meteor-persist radius=".3" color="green" position="${userPosition.x} ${userPosition.y} ${userPosition.z}"></a-sphere>`;
+}
 export function initialize() {
   scene = document.getElementById('scene');
   console.log('loading entity module...');
@@ -43,13 +47,17 @@ function onEntityChanged(entityId, changedFields) {
   }
 }
 
+export function getEntity(id) {
+  return Entities.findOne(id);
+}
+
+export function getAllEntities() {
+  return Entities.find().fetch();
+}
 
 // TODO change to createDefaultEntity and have meteor-persist create or update
 export function createDefaultEntity() {
-  let userPosition = document.querySelector('#user-camera').getAttribute('position');
-  let defaultEntityString = `<a-sphere meteor-persist radius=".3" color="green" position="${userPosition.x} ${userPosition.y} ${userPosition.z}"></a-sphere>`;
-
-  updateOrCreateEntity(null, defaultEntityString)
+  updateOrCreateEntity(null, getDefaultEntityString())
 }
 
 export function updateOrCreateEntity(id, entityString) {

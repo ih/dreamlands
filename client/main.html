@@ -11,4 +11,23 @@
     <a-entity id="left-hand" hand-controls="left" teleport-controls></a-entity>
     <a-entity id="right-hand" hand-controls="right"></a-entity>
   </a-scene>
+  {{> hud}}
 </body>
+
+<template name="hud">
+  {{> editor}}
+</template>
+
+<template name="editor">
+  <div id="editor">
+    <select id="entity-selector">
+      <option value="">Create New Entity</option>
+      {{#each entities}}
+        <option value="{{_id}}">{{_id}}</option>
+      {{/each}}
+    </select>
+    <button class="button-save">Save</button>
+    <div id="ace-editor">
+    </div>
+  </div>
+</template>
