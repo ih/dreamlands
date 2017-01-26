@@ -1,5 +1,7 @@
 import * as Entities from '../imports/entities.js';
 
+const TRUNCATE_LENGTH = 50;
+
 let editor;
 let entitySelector;
 
@@ -40,5 +42,8 @@ function onClickSaveButton(event) {
 Template.editor.helpers({
   entities: () => {
     return Entities.getAllEntities();
+  },
+  truncate: (text) => {
+    return text.slice(0, TRUNCATE_LENGTH);
   }
 });

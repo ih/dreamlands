@@ -9,15 +9,12 @@ import '../imports/meteor-persist.js'
 
 import './main.html';
 
-
 Accounts.ui.config({
   passwordSignupFields: 'USERNAME_AND_EMAIL'
 });
 
-Meteor.subscribe('all-entities');
-
 Template.body.onRendered(() => {
-  Entities.initialize();
+  Entities.clientInitialize();
   KeyboardControls.addKeyboardEvents();
   HandControls.addHandEvents();
   Editor.initialize();

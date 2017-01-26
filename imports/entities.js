@@ -1,24 +1,66 @@
 // turn this into a system?
 
-import * as DOMHelpers from '../imports/dom-helpers.js'
+import * as DOMHelpers from '../imports/dom-helpers.js';
+import * as Users from '../imports/users.js';
 
-Meteor.subscribe('nearby-entities', [0, 0]);
-let domParser = new DOMParser();
+const QUERY_RADIUS = 5;
 let scene;
 let Entities = new Mongo.Collection('entities');
 
-export function getDefaultEntityString() {
-  let userPosition = document.querySelector('#user-camera').getAttribute('position');
-  return `<a-sphere meteor-persist radius=".3" color="green" position="${userPosition.x} ${userPosition.y} ${userPosition.z}"></a-sphere>`;
+// consider moving this to its own module so clients
+// can't ses
+export function serverInitialize() {
+  Entities._ensureIndex({'location.coordinates':'2d'});
+  Entities._ensureIndex({'name': 1}: {unique: true});
+
+  Entities.allow({
+    insert: (userId, doc) => {
+      return true;
+    },
+    update: (userId, doc) => {
+      return true;
+    }
+  });
+
+  Meteor.publish('nearby-entities', function (location) {
+    console.log(`getting entities near ${JSON.stringify(location)}`);
+    return Entities.find({
+      location: {
+        $geoWithin: {$center: [location, QUERY_RADIUS]}
+      }
+    });
+  });
 }
-export function initialize() {
+
+export function clientInitialize() {
+  Meteor.subscribe('nearby-entities', [0, 0]);
   scene = document.getElementById('scene');
   console.log('loading entity module...');
   Entities.find().observeChanges({
     added: onEntityAdded,
     changed: onEntityChanged
   });
-};
+
+  // set up the current user's entity (body)
+  Tracker.autorun((computation) => {
+    let userName = Users.getCurrentUsername();
+    let userEntity = Entities.findOne({name: userName});
+    if (userEntity) {
+      // remove a guest entity for this connection it
+      // exists
+    } else {
+      // create a guest entity
+      // set userEntity to this new entity
+    }
+    // set the user's entity to match the user's
+    // camera and controls
+  });
+}
+
+export function getDefaultEntityString() {
+  let userPosition = document.querySelector('#user-camera').getAttribute('position');
+  return `<a-sphere meteor-persist radius=".3" color="green" position="${userPosition.x} ${userPosition.y} ${userPosition.z}"></a-sphere>`;
+}
 
 function onEntityAdded(entityId) {
   let entity = Entities.findOne(entityId);
@@ -68,6 +110,7 @@ export function updateOrCreateEntity(id, entityString) {
   entityString = entityElement.outerHTML;
   entityProperties = {
     text: entityString,
+    name: `${Users.getCurrentUsername()}:entity:${new Date()}}`,
     location: {
       type: 'Point',
       coordinates: [position.x, position.z]
@@ -76,8 +119,14 @@ export function updateOrCreateEntity(id, entityString) {
   if (id) {
     Entities.update({_id: id}, {$set: entityProperties});
   } else {
-    Entities.insert(entityProperties);
+    id = Entities.insert(entityProperties);
   }
+  return id;
+}
+
+export function createUserEntity(username) {
+  let entityString = Users.getDefaultUserString(username);
+  updateOrCreateEntity(null, entityString);
 }
 
 export function addEntityToScene(id, entityString) {
