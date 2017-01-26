@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { getGuestUsername } from '../imports/users.js';
 const QUERY_RADIUS = 5;
 
 let Entities = new Mongo.Collection('entities');
@@ -12,12 +13,12 @@ Meteor.onConnection((connection) => {
 
   // delete the user if it's a guest and everything they created
   connection.onClose(() => {
-
+    Entities.remove({name: getGuestUsername(connection.id)});
   });
 })
 
 Accounts.onCreateUser((options, user) => {
-   Entities.createUserEntity(user.username);
+   // Entities.createUserEntity(user.username);
 });
 
 // consider moving this to its own module
