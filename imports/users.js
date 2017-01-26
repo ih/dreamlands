@@ -7,9 +7,10 @@ export function initializeCurrentUser() {
 export function getDefaultUserString(username) {
   // user component handles persistence since we need to
   // deal w/ the camera OR have camera and user entities be separate but linked
-  `
-  <a-entity user="name: ${username}">
-    <a-entity head geometry="primitive:sphere" scale=".3 .3 .3">
+  let userPosition = getUserPosition();
+  return `
+  <a-entity user="name: ${username}" position="${userPosition.x} ${userPosition.y} ${userPosition.z}">
+    <a-entity head geometry="primitive:sphere" scale=".3 .3 .3"></a-entity>
     <a-entity hand="left"></a-entity>
     <a-entity hand="right"></a-entity>
   </a-entity>
@@ -26,4 +27,8 @@ export function getCurrentUsername() {
 
 export function getGuestUsername(guestId) {
   return 'guest' + guestId;
+}
+
+export function getUserPosition() {
+  return document.querySelector('#user-camera').getAttribute('position');
 }

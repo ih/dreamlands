@@ -7,6 +7,7 @@ serverEntitiesInitialize();
 
 Meteor.onConnection((connection) => {
   // create a temporary user entity for the guest
+  console.log(`connection ${connection.id}`);
 
 
   // delete the user if it's a guest and everything they created

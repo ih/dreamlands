@@ -1,6 +1,6 @@
 export function stringToDomElement(domString) {
   let div = document.createElement( "div" );
-  div.innerHTML = domString;
+  div.innerHTML = domString.trim();
   return div.firstChild;
 }
 

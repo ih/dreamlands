@@ -14,6 +14,15 @@ Accounts.ui.config({
 });
 
 Template.body.onRendered(() => {
+  // poll for the connection id since Meteor.connection._lastSessionId might not
+  // be set even if Meteor.status().connected is true
+  // kind of a hack
+  let sessionIdPoller = setInterval(() => {
+    if (Meteor.connection._lastSessionId) {
+      Session.set('sessionId', Meteor.connection._lastSessionId);
+      clearInterval(sessionIdPoller);
+    }
+  }, 100);
   Entities.clientInitialize();
   KeyboardControls.addKeyboardEvents();
   HandControls.addHandEvents();

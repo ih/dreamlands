@@ -3,34 +3,8 @@
 import * as DOMHelpers from '../imports/dom-helpers.js';
 import * as Users from '../imports/users.js';
 
-const QUERY_RADIUS = 5;
 let scene;
 let Entities = new Mongo.Collection('entities');
-
-// consider moving this to its own module so clients
-// can't ses
-export function serverInitialize() {
-  Entities._ensureIndex({'location.coordinates':'2d'});
-  Entities._ensureIndex({'name': 1}: {unique: true});
-
-  Entities.allow({
-    insert: (userId, doc) => {
-      return true;
-    },
-    update: (userId, doc) => {
-      return true;
-    }
-  });
-
-  Meteor.publish('nearby-entities', function (location) {
-    console.log(`getting entities near ${JSON.stringify(location)}`);
-    return Entities.find({
-      location: {
-        $geoWithin: {$center: [location, QUERY_RADIUS]}
-      }
-    });
-  });
-}
 
 export function clientInitialize() {
   Meteor.subscribe('nearby-entities', [0, 0]);
@@ -43,6 +17,12 @@ export function clientInitialize() {
 
   // set up the current user's entity (body)
   Tracker.autorun((computation) => {
+    // ideally we could just use Meteor.status().connected, but _lastSessionId
+    // might not be set on Meteor.connection even when it's true so we set this
+    // Meteor global Session variable
+    if (!Session.get('sessionId')) {
+      return;
+    }
     let userName = Users.getCurrentUsername();
     let userEntity = Entities.findOne({name: userName});
     if (userEntity) {
@@ -50,15 +30,17 @@ export function clientInitialize() {
       // exists
     } else {
       // create a guest entity
+      let userEntity = createUserEntity(userName);
       // set userEntity to this new entity
     }
     // set the user's entity to match the user's
     // camera and controls
+    computation.stop();
   });
 }
 
 export function getDefaultEntityString() {
-  let userPosition = document.querySelector('#user-camera').getAttribute('position');
+  let userPosition = Users.getUserPosition();
   return `<a-sphere meteor-persist radius=".3" color="green" position="${userPosition.x} ${userPosition.y} ${userPosition.z}"></a-sphere>`;
 }
 
@@ -99,10 +81,11 @@ export function getAllEntities() {
 
 // TODO change to createDefaultEntity and have meteor-persist create or update
 export function createDefaultEntity() {
-  updateOrCreateEntity(null, getDefaultEntityString())
+  return updateOrCreateEntity(null, getDefaultEntityString())
 }
 
-export function updateOrCreateEntity(id, entityString) {
+export function updateOrCreateEntity(id, entityString, name) {
+  name = name ? name : `${Users.getCurrentUsername()}:entity:${new Date()}}`;
   let entityElement = DOMHelpers.stringToDomElement(entityString);
   let position = DOMHelpers.positionStringToObject(
       entityElement.getAttribute('position'));
@@ -110,7 +93,7 @@ export function updateOrCreateEntity(id, entityString) {
   entityString = entityElement.outerHTML;
   entityProperties = {
     text: entityString,
-    name: `${Users.getCurrentUsername()}:entity:${new Date()}}`,
+    name: name,
     location: {
       type: 'Point',
       coordinates: [position.x, position.z]
@@ -121,12 +104,13 @@ export function updateOrCreateEntity(id, entityString) {
   } else {
     id = Entities.insert(entityProperties);
   }
-  return id;
+  entityProperties.id = id;
+  return entityProperties;
 }
 
 export function createUserEntity(username) {
   let entityString = Users.getDefaultUserString(username);
-  updateOrCreateEntity(null, entityString);
+  return updateOrCreateEntity(null, entityString, username);
 }
 
 export function addEntityToScene(id, entityString) {
