@@ -12,7 +12,8 @@ export function clientInitialize() {
   console.log('loading entity module...');
   Entities.find().observeChanges({
     added: onEntityAdded,
-    changed: onEntityChanged
+    changed: onEntityChanged,
+    removed: onEntityRemoved
   });
 
   // set up the current user's entity (body)
@@ -67,8 +68,11 @@ function onEntityChanged(entityId, changedFields) {
       // otherwise just set the attributes that are different
 
     }
-
   }
+}
+
+function onEntityRemoved(entityId) {
+  removeEntityFromScene(entityId);
 }
 
 export function getEntity(id) {
@@ -79,26 +83,32 @@ export function getAllEntities() {
   return Entities.find().fetch();
 }
 
-// TODO change to createDefaultEntity and have meteor-persist create or update
 export function createDefaultEntity() {
-  return updateOrCreateEntity(null, getDefaultEntityString())
+  return createOrUpdateEntity(null, {text: getDefaultEntityString()})
 }
 
-export function updateOrCreateEntity(id, entityString, name) {
-  name = name ? name : `${Users.getCurrentUsername()}:entity:${new Date()}}`;
-  let entityElement = DOMHelpers.stringToDomElement(entityString);
-  let position = DOMHelpers.positionStringToObject(
-      entityElement.getAttribute('position'));
-  entityElement.removeAttribute('id');
-  entityString = entityElement.outerHTML;
-  entityProperties = {
-    text: entityString,
-    name: name,
-    location: {
+export function createOrUpdateEntity(id, entityProperties) {
+  // we don't want the id of the element to be user facing (since we dynamically)
+  // add it when the element is added to the dom so strip it before saving to the db
+  // and update the position of the entity so that it is location queryable
+  if ('text' in entityProperties) {
+    let entityElement = DOMHelpers.stringToDomElement(entityProperties.text);
+    let position = entityElement.getAttribute('position');
+    if (position) {
+      position = DOMHelpers.positionStringToObject(position);
+    } else {
+      position = Users.getUserPosition();
+    }
+
+    entityElement.removeAttribute('id');
+    entityString = entityElement.outerHTML;
+    entityProperties.text = entityString;
+    entityProperties.location = {
       type: 'Point',
       coordinates: [position.x, position.z]
     }
-  };
+  }
+
   if (id) {
     Entities.update({_id: id}, {$set: entityProperties});
   } else {
@@ -110,7 +120,7 @@ export function updateOrCreateEntity(id, entityString, name) {
 
 export function createUserEntity(username) {
   let entityString = Users.getDefaultUserString(username);
-  return updateOrCreateEntity(null, entityString, username);
+  return createOrUpdateEntity(null, {text: entityString, name: username});
 }
 
 export function addEntityToScene(id, entityString) {

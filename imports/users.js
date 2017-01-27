@@ -12,15 +12,15 @@ export function getDefaultUserString(username) {
   let userPosition = getUserPosition();
   let color = Utility.randomColor();
   return `
-  <a-entity meteor-persist user="${getCurrentUsername()}" position="${userPosition.x} 0 ${userPosition.z}">
-    <a-sphere head="" radius=".2" position="0 1.6 0" color="${color}">
+  <a-entity meteor-persist user="${username}" position="${userPosition.x} ${userPosition.y} ${userPosition.z}">
+    <a-sphere head="" radius=".2" position="0 0 0" color="${color}">
       <a-circle eye="left" radius=".05" position="-.1 0 -.2" color="black" rotation="180 0 0"></a-circle>
       <a-circle eye="right" radius=".05" position=".1 0 -.2" color="black" rotation="180 0 0"></a-circle>
 
         <a-cylinder color="${color}" radius=".3" height="1" position="0 -.7 0"></a-cylinder>
     </a-sphere>
-    <a-box hand="left"  visible="false" scale=".1 .1 .1" position="-.4 .9 0" color="${color}"></a-box>
-    <a-box hand="right" visible="false" scale=".1 .1 .1" position=".4 .9 0" color="${color}"></a-box>
+    <a-box hand="left"  visible="false" scale=".1 .1 .1" position="-.4 -.5 0" color="${color}"></a-box>
+    <a-box hand="right" visible="false" scale=".1 .1 .1" position=".4 -.5 0" color="${color}"></a-box>
   </a-entity>
   `
 }

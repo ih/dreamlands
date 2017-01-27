@@ -15,7 +15,7 @@ AFRAME.registerComponent('meteor-persist', {
       let currentTextValue = this.el.outerHTML;
       if (currentTextValue !== this.lastTextValue) {
         let id = this.el.getAttribute('id');
-        Entities.updateOrCreateEntity(id, currentTextValue);
+        Entities.createOrUpdateEntity(id, {text: currentTextValue});
         this.lastTextValue = currentTextValue;
       }
       this.lastTime = time;

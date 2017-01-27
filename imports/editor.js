@@ -36,7 +36,7 @@ function onChangeEntitySelector(event) {
 function onClickSaveButton(event) {
   let id = entitySelector.options[entitySelector.selectedIndex].value;
   let entityString = editor.getValue();
-  Entities.updateOrCreateEntity(id, entityString);
+  Entities.createOrUpdate(id, {text: entityString});
 }
 
 Template.editor.helpers({

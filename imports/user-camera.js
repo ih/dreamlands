@@ -12,8 +12,9 @@ AFRAME.registerComponent('user-camera', {
 
   tick: function (time, timeDelta) {
     if (this.userElement) {
-      this.head.setAttribute('position', this.el.getAttribute('position'));
+      // don't update the head position since it exists relative to the user
       this.head.setAttribute('rotation', this.el.getAttribute('rotation'));
+      this.userElement.setAttribute('position', this.el.getAttribute('position'));
     }
   }
 })
