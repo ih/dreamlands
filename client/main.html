@@ -17,11 +17,16 @@
 
 <template name="hud">
   {{> loginButtons}}
+  {{#if editorOpen}}
+    <div class="button close-editor">Close Editor</div>
+  {{else}}
+    <div class="button open-editor">Open Editor</div>
+  {{/if}}
   {{> editor}}
 </template>
 
 <template name="editor">
-  <div id="editor">
+  <div id="editor" class="not-visible">
     <select id="entity-selector">
       <option value="">Create New Entity</option>
       {{#each entities}}

@@ -5,6 +5,7 @@ import * as Entities from '../imports/entities.js';
 import * as KeyboardControls from '../imports/keyboard-controls.js';
 import * as HandControls from '../imports/hand-controls.js';
 import * as Editor from '../imports/editor.js';
+import * as HUD from '../imports/hud.js';
 
 // components
 import '../imports/meteor-persist.js';
@@ -32,4 +33,5 @@ Template.body.onRendered(() => {
   KeyboardControls.addKeyboardEvents();
   HandControls.addHandEvents();
   Editor.initialize();
+  HUD.initialize();
 });

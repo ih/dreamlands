@@ -8,16 +8,23 @@
 }
 
 #ace-editor {
-    height: 70%;
+    height: 100%;
     width: 100%;
     opacity: .6;
     z-index: 105;
 }
 
+.open-editor {
+  position: fixed;
+  top: 50%;
+  left: 0px;
+  margin-bottom: 10px;
+}
+
 .close-editor {
-    position: fixed;
-    left: 50%;
-    top: 50%;
+  position: fixed;
+  left: 50%;
+  top: 50%;
 }
 
 #login-buttons {
@@ -25,4 +32,23 @@
     position: fixed;
     top: 10px;
     left: 20px;
+}
+
+.button {
+    padding: 8px;
+    color: #FFF;
+    background-color: #555;
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: rgb(18, 36, 70);
+}
+
+.visible {
+  display: block;
+}
+
+.not-visible {
+  display: none;
 }
