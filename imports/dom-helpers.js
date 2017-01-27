@@ -12,3 +12,7 @@ export function positionStringToObject(positionString) {
     z: Number(coordinates[2])
   }
 }
+
+export function positionObjectToString(positionObject) {
+  return `${positionObject.x} ${positionObject.y} ${positionObject.z}`;
+}

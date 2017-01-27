@@ -7,12 +7,10 @@ AFRAME.registerComponent('meteor-persist', {
   },
 
   init: function () {
-    console.log('Hello,ddd Wold!');
-    console.log(`interval is ${this.data.interval}`);
     this.lastTextValue = this.el.outerHTML;
   },
 
-  tick: function(time) {
+  tick: function (time) {
     if ((time - this.lastTime > this.data.interval) || !this.lastTime) {
       let currentTextValue = this.el.outerHTML;
       if (currentTextValue !== this.lastTextValue) {

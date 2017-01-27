@@ -5,7 +5,12 @@ import * as Entities from '../imports/entities.js';
 import * as KeyboardControls from '../imports/keyboard-controls.js';
 import * as HandControls from '../imports/hand-controls.js';
 import * as Editor from '../imports/editor.js';
-import '../imports/meteor-persist.js'
+
+// components
+import '../imports/meteor-persist.js';
+import '../imports/user-camera.js';
+import '../imports/user-hand-controls.js'
+import '../imports/user.js';
 
 import './main.html';
 

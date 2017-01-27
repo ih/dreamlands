@@ -5,11 +5,12 @@
 </head>
 
 <body>
-  <a-scene id="scene">
+  <!-- need the debug otherwise component values don't change in the dom-->
+  <a-scene id="scene" debug>
     <a-box color="red" position="0 2 -5" rotation="0 45 45" scale="2 2 2"></a-box>
-    <a-camera id="user-camera"></a-camera>
-    <a-entity id="left-hand" hand-controls="left" teleport-controls></a-entity>
-    <a-entity id="right-hand" hand-controls="right"></a-entity>
+    <a-camera id="user-camera" user-camera></a-camera>
+    <a-entity id="left-hand" hand-controls="left" user-hand-controls="left" teleport-controls></a-entity>
+    <a-entity id="right-hand" hand-controls="right" user-hand-controls="right"></a-entity>
   </a-scene>
   {{> hud}}
 </body>
