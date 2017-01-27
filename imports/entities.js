@@ -16,7 +16,7 @@ export function clientInitialize() {
     removed: onEntityRemoved
   });
 
-  // set up the current user's entity (body)
+  // set up the current user's entity (body) if they don't have an account
   Tracker.autorun((computation) => {
     // ideally we could just use Meteor.status().connected, but _lastSessionId
     // might not be set on Meteor.connection even when it's true so we set this
@@ -25,18 +25,30 @@ export function clientInitialize() {
       return;
     }
     let userName = Users.getCurrentUsername();
-    let userEntity = Entities.findOne({name: userName});
-    if (userEntity) {
-      // remove a guest entity for this connection it
-      // exists
-    } else {
-      // create a guest entity
+    let userEntity = Entities.findOne(userName);
+    if (!userEntity) {
       let userEntity = createUserEntity(userName);
-      // set userEntity to this new entity
     }
-    // set the user's entity to match the user's
-    // camera and controls
+    // stop the computation otherwise it gets called again if a user entity
+    // was created or if any guest logs out since their entity gets removed
+    // alternatively wrap the Entities.findOne as a nonreactive
     computation.stop();
+  });
+
+  Accounts.onLogin(() => {
+    // remove a guest entity for this connection if it
+    // exists
+    Entities.remove({_id: Users.getGuestUsername(Session.get('sessionId'))});
+    // we have a separate subscription for the user since their body might be
+    // out of range for the nearby-entities subscription
+    Meteor.subscribe('current-user', null, () => {
+      let userEntity = Entities.findOne(Users.getCurrentUsername());
+      if (userEntity) {
+        Users.signalUserControlsUserEntitySync();
+      } else {
+        createUserEntity(Users.getCurrentUsername());
+      }
+    });
   });
 }
 
@@ -120,7 +132,7 @@ export function createOrUpdateEntity(id, entityProperties) {
 
 export function createUserEntity(username) {
   let entityString = Users.getDefaultUserString(username);
-  return createOrUpdateEntity(null, {text: entityString, name: username});
+  return createOrUpdateEntity(null, {text: entityString, name: username, _id: username});
 }
 
 export function addEntityToScene(id, entityString) {

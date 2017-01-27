@@ -16,10 +16,6 @@ Meteor.onConnection((connection) => {
     console.log(`connection lost ${connection.id}`)
     Entities.remove({name: getGuestUsername(connection.id)});
   });
-})
-
-Accounts.onCreateUser((options, user) => {
-   // Entities.createUserEntity(user.username);
 });
 
 // consider moving this to its own module
@@ -32,7 +28,14 @@ function serverEntitiesInitialize() {
     },
     update: (userId, doc) => {
       return true;
+    },
+    remove: (userId, doc) => {
+      return true;
     }
+  });
+
+  Meteor.publish('current-user', function () {
+      return Entities.find({_id: this.userId});
   });
 
   Meteor.publish('nearby-entities', function (location) {

@@ -40,3 +40,31 @@ export function getGuestUsername(guestId) {
 export function getUserPosition() {
   return document.querySelector('#user-camera').getAttribute('position');
 }
+
+export function signalUserControlsUserEntitySync() {
+  let userElement = document.getElementById(getCurrentUsername());
+  let event = new CustomEvent(
+    // detail is a "reserved keyword" here
+    'currentUserLoaded', {detail:  userElement}
+  );
+  sendUserLoadedEvent(event, 'user-camera');
+  // load hands when in VR mode
+  document.querySelector('a-scene').addEventListener('enter-vr', function () {
+    event = new CustomEvent(
+      // detail is a "reserved keyword" here
+      'currentUserLoaded', {detail:  userElement}
+    );
+    sendUserLoadedEvent(event, 'left-hand');
+    event = new CustomEvent(
+      // detail is a "reserved keyword" here
+      'currentUserLoaded', {detail:  userElement}
+    );
+    sendUserLoadedEvent(event, 'right-hand');
+  });
+}
+
+// controls are either the camera or a hand controller
+function sendUserLoadedEvent(event, controlsId) {
+  let controlsElement = document.getElementById(controlsId);
+  controlsElement.dispatchEvent(event);
+}
