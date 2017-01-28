@@ -16,6 +16,9 @@
 </body>
 
 <template name="hud">
+  <div class="flex-container">
+    <div id="flash-message" class="not-visible"></div>
+  </div>
   {{> loginButtons}}
   {{#if editorOpen}}
     <div class="button close-editor">Close Editor</div>

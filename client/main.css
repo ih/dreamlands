@@ -14,6 +14,16 @@
     z-index: 105;
 }
 
+#flash-message {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 20px;
+  padding: 8px;
+  color: #FFF;
+  background-color: #FFA500;
+}
+
 .open-editor {
   position: fixed;
   top: 50%;
@@ -45,10 +55,6 @@
     background-color: rgb(18, 36, 70);
 }
 
-.visible {
-  display: block;
-}
-
 .not-visible {
-  display: none;
+  display: none !important;
 }

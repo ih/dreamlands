@@ -1,4 +1,5 @@
 import * as Entities from '../imports/entities.js';
+import * as HUD from '../imports/hud.js';
 
 const TRUNCATE_LENGTH = 50;
 
@@ -34,6 +35,14 @@ function onChangeEntitySelector(event) {
 }
 
 function onClickSaveButton(event) {
+  let errors = editor.getSession().getAnnotations().filter((annotation) => {
+    return annotation.type === 'error';
+  });
+  if (errors.length > 0) {
+    HUD.flashMessage(`Please fix errors with the syntax. \n
+    Hover over the red "x"s in the editor for more details`);
+    return;
+  }
   let id = entitySelector.options[entitySelector.selectedIndex].value;
   let entityString = editor.getValue();
   Entities.createOrUpdateEntity(id, {text: entityString});

@@ -131,6 +131,11 @@ export function createOrUpdateEntity(id, entityProperties) {
       position = DOMHelpers.positionStringToObject(position);
     } else {
       position = Users.getUserPosition();
+      let positionString = DOMHelpers.positionObjectToString(position);
+      // this doesn't seem to work, but may be a problem w/ a-frame so leave
+      // it in for now
+      // maybe there is an aframe wrapper for dom elements
+      entityElement.setAttribute(positionString);
     }
 
     entityElement.removeAttribute('id');
