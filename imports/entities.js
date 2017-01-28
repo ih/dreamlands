@@ -2,12 +2,33 @@
 
 import * as DOMHelpers from '../imports/dom-helpers.js';
 import * as Users from '../imports/users.js';
+import * as Utility from '../imports/utility.js';
 
+const LOCATION_POLLING_TIME = 5000;
+const DISTANCE_THRESHOLD = 3;
 let scene;
 let Entities = new Mongo.Collection('entities');
+// see http://docs.meteor.com/api/reactive-var.html particularly the equality
+// function, this will only trigger a reactive computation once the user is
+// > DISTANCE_THRESHOLD from the last position
+let userLocation = ReactiveVar([0, 0], (oldValue, newValue) => {
+    return Utility.distance(oldValue, newValue) < DISTANCE_THRESHOLD;
+});
 
 export function clientInitialize() {
-  Meteor.subscribe('nearby-entities', [0, 0]);
+  // we get nearby entities by periodically updating the user's position
+  setInterval(() => {
+    let currentUserPosition = Users.getUserPosition();
+    userLocation.set([currentUserPosition.x, currentUserPosition.z])
+  }, LOCATION_POLLING_TIME);
+  // we put this into a reactive computation instead of a polling loop b/c
+  // this will automatically unsubscribe from previous subscriptions
+  // http://docs.meteor.com/api/pubsub.html#Meteor-subscribe
+  Tracker.autorun((computation) => {
+    console.log('loading new stuff');
+    Meteor.subscribe('nearby-entities', userLocation.get());
+  });
+
   scene = document.getElementById('scene');
   console.log('loading entity module...');
   Entities.find().observeChanges({

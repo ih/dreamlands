@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { getGuestUsername } from '../imports/users.js';
-const QUERY_RADIUS = 5;
+const QUERY_RADIUS = 100;
 
 let Entities = new Mongo.Collection('entities');
 
