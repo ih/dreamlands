@@ -19,7 +19,8 @@ export function initialize() {
 
 Template.editor.events({
   'change #entity-selector': onChangeEntitySelector,
-  'click .button-save': onClickSaveButton
+  'click .button-save': onClickSaveButton,
+  'click .button-delete': onClickDelete
 });
 
 function onChangeEntitySelector(event) {
@@ -46,6 +47,11 @@ function onClickSaveButton(event) {
   let id = entitySelector.options[entitySelector.selectedIndex].value;
   let entityString = editor.getValue();
   Entities.createOrUpdateEntity(id, {text: entityString});
+}
+
+function onClickDelete(event) {
+  let id = entitySelector.options[entitySelector.selectedIndex].value;
+  Entities.removeEntity(id);
 }
 
 Template.editor.helpers({

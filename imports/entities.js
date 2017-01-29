@@ -117,6 +117,15 @@ export function getAllEntities() {
   return Entities.find().fetch();
 }
 
+export function removeEntity(id) {
+  Entities.remove(id, (error) => {
+    if (error) {
+      let entity = Entities.findOne(id);
+      HUD.flashMessage('You must be ${entity.contributors} to delete this entity.');
+    }
+  });
+}
+
 export function createDefaultEntity() {
   return createOrUpdateEntity(null, {text: getDefaultEntityString()});
 }
