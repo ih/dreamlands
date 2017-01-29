@@ -17,4 +17,4 @@ AFRAME.registerComponent('user-camera', {
       this.userElement.setAttribute('position', this.el.getAttribute('position'));
     }
   }
-})
+});
