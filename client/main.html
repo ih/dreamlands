@@ -33,7 +33,7 @@
     <select id="entity-selector">
       <option value="">Create New Entity</option>
       {{#each entities}}
-        <option value="{{_id}}">{{truncate text}}</option>
+        <option value="{{_id}}">{{contributorList contributors}}:{{truncate text}}</option>
       {{/each}}
     </select>
     <button class="button-save">Save</button>

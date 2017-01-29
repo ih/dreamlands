@@ -3,6 +3,7 @@
 import * as DOMHelpers from '../imports/dom-helpers.js';
 import * as Users from '../imports/users.js';
 import * as Utility from '../imports/utility.js';
+import * as HUD from '../imports/hud.js';
 
 const LOCATION_POLLING_TIME = 5000;
 const DISTANCE_THRESHOLD = 3;
@@ -19,7 +20,7 @@ export function clientInitialize() {
   // we get nearby entities by periodically updating the user's position
   setInterval(() => {
     let currentUserPosition = Users.getUserPosition();
-    userLocation.set([currentUserPosition.x, currentUserPosition.z])
+    userLocation.set([currentUserPosition.x, currentUserPosition.z]);
   }, LOCATION_POLLING_TIME);
   // we put this into a reactive computation instead of a polling loop b/c
   // this will automatically unsubscribe from previous subscriptions
@@ -117,7 +118,7 @@ export function getAllEntities() {
 }
 
 export function createDefaultEntity() {
-  return createOrUpdateEntity(null, {text: getDefaultEntityString()})
+  return createOrUpdateEntity(null, {text: getDefaultEntityString()});
 }
 
 export function createOrUpdateEntity(id, entityProperties) {
@@ -144,21 +145,40 @@ export function createOrUpdateEntity(id, entityProperties) {
     entityProperties.location = {
       type: 'Point',
       coordinates: [position.x, position.z]
-    }
+    };
+  }
+
+  // a hack to get around allow rules since we can't get access to the connection
+  // id on the
+  if (!Meteor.userId()) {
+    entityProperties.madeByGuest = true;
   }
 
   if (id) {
-    Entities.update({_id: id}, {$set: entityProperties});
+    Entities.update({_id: id}, {$set: entityProperties}, null, (error, result) => {
+      if (error) {
+        // should only appear for updates when a user isn't a contributors
+        let entity = Entities.findOne(id);
+        HUD.flashMessage(`Problem updating.  Only ${entity.contributors} may edit this entity`);
+      }
+    });
   } else {
+    if (!('contributors' in entityProperties)) {
+      entityProperties.contributors = [Users.getCurrentUsername()];
+    }
     id = Entities.insert(entityProperties);
   }
+
   entityProperties.id = id;
   return entityProperties;
 }
 
 export function createUserEntity(username) {
   let entityString = Users.getDefaultUserString(username);
-  return createOrUpdateEntity(null, {text: entityString, name: username, _id: username});
+  return createOrUpdateEntity(null, {
+    text: entityString,
+    name: username, _id: username
+  });
 }
 
 export function addEntityToScene(id, entityString) {

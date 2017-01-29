@@ -1,20 +1,25 @@
 import { Meteor } from 'meteor/meteor';
-import { getGuestUsername } from '../imports/users.js';
+import { getGuestUsername, serverUsersInitialize } from '../imports/users.js';
 const QUERY_RADIUS = 100;
+const ADMIN = 'morpheus';
 
 let Entities = new Mongo.Collection('entities');
 
-serverEntitiesInitialize();
+Meteor.startup(() => {
+  serverEntitiesInitialize();
+  serverUsersInitialize();
+});
+
+
 
 Meteor.onConnection((connection) => {
   // create a temporary user entity for the guest
   console.log(`connection ${connection.id}`);
 
-
   // delete the user if it's a guest and everything they created
   connection.onClose(() => {
-    console.log(`connection lost ${connection.id}`)
-    Entities.remove({name: getGuestUsername(connection.id)});
+    console.log(`connection lost ${connection.id}`);
+    Entities.remove({contributors: getGuestUsername(connection.id)});
   });
 });
 
@@ -27,10 +32,12 @@ function serverEntitiesInitialize() {
       return true;
     },
     update: (userId, doc) => {
-      return true;
+      console.log(`${userId} updating`);
+      console.log(doc.contributors.includes(userId));
+      return doc.contributors.includes(userId) || userId === ADMIN || doc.madeByGuest;
     },
     remove: (userId, doc) => {
-      return true;
+      return doc.contributors.includes(userId) || userId === ADMIN || doc.madeByGuest;
     }
   });
 

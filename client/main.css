@@ -18,6 +18,7 @@
   display: flex;
   justify-content: center;
   position: fixed;
+  width: 100%;
   top: 20px;
   padding: 8px;
   color: #FFF;

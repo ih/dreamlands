@@ -1,9 +1,16 @@
-import * as Utility from '../imports/utility.js'
+import * as Utility from '../imports/utility.js';
 
 export function initializeCurrentUser() {
   if (Meteor.userId) {
 
   }
+}
+
+export function serverUsersInitialize() {
+  Accounts.onCreateUser((options, user) => {
+    user._id = user.username;
+    return user;
+  });
 }
 
 export function getDefaultUserString(username) {
@@ -22,7 +29,7 @@ export function getDefaultUserString(username) {
     <a-box hand="left"  visible="false" scale=".1 .1 .1" position="-.4 -.5 0" color="${color}"></a-box>
     <a-box hand="right" visible="false" scale=".1 .1 .1" position=".4 -.5 0" color="${color}"></a-box>
   </a-entity>
-  `
+  `;
 }
 
 export function getCurrentUsername() {

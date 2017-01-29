@@ -10,7 +10,7 @@ import * as HUD from '../imports/hud.js';
 // components
 import '../imports/meteor-persist.js';
 import '../imports/user-camera.js';
-import '../imports/user-hand-controls.js'
+import '../imports/user-hand-controls.js';
 import '../imports/user.js';
 
 import './main.html';

@@ -13,8 +13,8 @@ export function initialize() {
     mode: 'html'
   }, (editorInstance) => {
     editor = editorInstance;
-    editor.setValue(Entities.getDefaultEntityString())
-  })
+    editor.setValue(Entities.getDefaultEntityString());
+  });
 };
 
 Template.editor.events({
@@ -24,7 +24,7 @@ Template.editor.events({
 
 function onChangeEntitySelector(event) {
   let displayText = Entities.getDefaultEntityString();
-  let entity = Entities.getEntity(event.target.value)
+  let entity = Entities.getEntity(event.target.value);
   if (entity) {
     displayText = entity.text;
   }
@@ -54,5 +54,8 @@ Template.editor.helpers({
   },
   truncate: (text) => {
     return text.slice(0, TRUNCATE_LENGTH);
+  },
+  contributorList: (contributorList) => {
+    return contributorList[0].slice(0, 10);
   }
 });
