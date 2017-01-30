@@ -14,11 +14,11 @@ Meteor.startup(() => {
 
 Meteor.onConnection((connection) => {
   // create a temporary user entity for the guest
-  console.log(`connection ${connection.id}`);
+  // console.log(`connection ${connection.id}`);
 
   // delete the user if it's a guest and everything they created
   connection.onClose(() => {
-    console.log(`connection lost ${connection.id}`);
+    // console.log(`connection lost ${connection.id}`);
     Entities.remove({contributors: getGuestUsername(connection.id)});
   });
 });
@@ -32,8 +32,6 @@ function serverEntitiesInitialize() {
       return true;
     },
     update: (userId, doc) => {
-      console.log(`${userId} updating`);
-      console.log(doc.contributors.includes(userId));
       return doc.contributors.includes(userId) || userId === ADMIN || doc.madeByGuest;
     },
     remove: (userId, doc) => {
