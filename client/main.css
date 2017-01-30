@@ -45,6 +45,10 @@
     left: 20px;
 }
 
+.login-link-text {
+  color: white;
+}
+
 .button {
     padding: 8px;
     color: #FFF;

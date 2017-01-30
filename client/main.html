@@ -1,13 +1,12 @@
 <head>
   <title>dreamlands</title>
-  <script src="https://aframe.io/releases/0.4.0/aframe.min.js"></script>
+  <script src="https://rawgit.com/aframevr/aframe/6e78aba/dist/aframe-master.min.js"></script>
   <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
 </head>
 
 <body>
   <!-- need the debug otherwise component values don't change in the dom-->
   <a-scene id="scene" debug>
-    <a-box color="red" position="0 2 -5" rotation="0 45 45" scale="2 2 2"></a-box>
     <a-camera id="user-camera" user-camera></a-camera>
     <a-entity id="left-hand" hand-controls="left" user-hand-controls="left" teleport-controls></a-entity>
     <a-entity id="right-hand" hand-controls="right" user-hand-controls="right"></a-entity>
@@ -37,7 +36,7 @@
       {{/each}}
     </select>
     <button class="button-save">Save</button>
-    <button class="button-delete">Delete</button> 
+    <button class="button-delete">Delete</button>
     <div id="ace-editor">
     </div>
   </div>
