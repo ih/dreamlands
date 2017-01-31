@@ -4,9 +4,11 @@ import * as HUD from '../imports/hud.js';
 const TRUNCATE_LENGTH = 50;
 
 let editor;
+let editorElement;
 let entitySelector;
 
 export function initialize() {
+  editorElement = document.getElementById('editor');
   entitySelector = document.getElementById('entity-selector');
   AceEditor.instance('ace-editor', {
     theme: 'dawn',
@@ -14,6 +16,13 @@ export function initialize() {
   }, (editorInstance) => {
     editor = editorInstance;
     editor.setValue(Entities.getDefaultEntityString());
+    // make sure the position of the default object is the
+    // position of the user if they open the editor to the default option
+    editorElement.addEventListener('openEditor', (event) => {
+      if (!entitySelector.options[entitySelector.selectedIndex].value) {
+        editor.setValue(Entities.getDefaultEntityString());
+      }
+    });
   });
 };
 

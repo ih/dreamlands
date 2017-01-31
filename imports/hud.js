@@ -31,6 +31,9 @@ Template.hud.events({
 function openEditor() {
   editorOpen.set(true);
   editorElement.classList.remove('not-visible');
+
+  let event = new Event('openEditor');
+  editorElement.dispatchEvent(event);
 }
 
 function closeEditor() {
