@@ -85,22 +85,24 @@ function onEntityAdded(entityId) {
 }
 
 function onEntityChanged(entityId, changedFields) {
-  // can do all this w/o cloning so change if performance suffers
-  let currentEntityElement = document.getElementById(entityId).cloneNode();
-  currentEntityElement.removeAttribute('id');
+  let currentEntityElement = document.getElementById(entityId);
+  // since we don't store the id in the db we clone and remove it when
+  // comparing string representations
+  // we can do all this w/o cloning so change if performance suffers
+  let currentEntityElementWithoutId = currentEntityElement.cloneNode();
+  currentEntityElementWithoutId.removeAttribute('id');
   let updatedEntityString = changedFields.text;
-  if (currentEntityElement.outerHTML !== updatedEntityString) {
+  if (currentEntityElementWithoutId.outerHTML !== updatedEntityString) {
     let updatedEntityElement = DOMHelpers.stringToDomElement(updatedEntityString);
-
-    // for simplicity, move this to if tag changes if block
-    removeEntityFromScene(entityId);
-    addEntityToScene(entityId, updatedEntityString);
     // if the tag changed replace the whole thing
     if (updatedEntityElement.tagName != currentEntityElement.tagName) {
-
+      currentEntityElement.setAttribute('id', entityId);
+      removeEntityFromScene(entityId);
+      addEntityToScene(entityId, updatedEntityString);
     } else {
       // otherwise just set the attributes that are different
-
+      DOMHelpers.matchAttributes(currentEntityElement, updatedEntityElement);
+      currentEntityElement.setAttribute('id', entityId);
     }
   }
 }
