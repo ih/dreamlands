@@ -101,7 +101,10 @@ function onEntityChanged(entityId, changedFields) {
       addEntityToScene(entityId, updatedEntityString);
     } else {
       // otherwise just set the attributes that are different
-      DOMHelpers.matchAttributes(currentEntityElement, updatedEntityElement);
+      let elementsMatched = DOMHelpers.matchElement(currentEntityElement, updatedEntityElement);
+      if (!elementsMatched) {
+        console.log('problems matching elements');
+      }
       currentEntityElement.setAttribute('id', entityId);
     }
   }
