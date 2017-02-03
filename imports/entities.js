@@ -89,7 +89,7 @@ function onEntityChanged(entityId, changedFields) {
   // since we don't store the id in the db we clone and remove it when
   // comparing string representations
   // we can do all this w/o cloning so change if performance suffers
-  let currentEntityElementWithoutId = currentEntityElement.cloneNode();
+  let currentEntityElementWithoutId = currentEntityElement.cloneNode(true);
   currentEntityElementWithoutId.removeAttribute('id');
   let updatedEntityString = changedFields.text;
   if (currentEntityElementWithoutId.outerHTML !== updatedEntityString) {
@@ -101,11 +101,11 @@ function onEntityChanged(entityId, changedFields) {
       addEntityToScene(entityId, updatedEntityString);
     } else {
       // otherwise just set the attributes that are different
+      updatedEntityElement.setAttribute('id', entityId);
       let elementsMatched = DOMHelpers.matchElement(currentEntityElement, updatedEntityElement);
       if (!elementsMatched) {
         console.log('problems matching elements');
       }
-      currentEntityElement.setAttribute('id', entityId);
     }
   }
 }

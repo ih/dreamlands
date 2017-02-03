@@ -21,26 +21,35 @@ export function positionObjectToString(positionObject) {
 // look into virtual dom/dom diffing libraries to do this instead
 export function matchAttributes(originalDomElement, targetDomElement) {
   let targetAttributes = targetDomElement.attributes;
+  // kind of a hack but originalNonAFrameElement is used to compare attribute values
+  // w/ targetDomElement since originalDomElement is 'AFrame wrapped' while
+  // targetDomElement is not e.g. getAttribute() on orinalDomElement might be
+  // {x: 0, y: 0, z: 0}, but for targetDomElement it would be "0 0 0"
+  let originalNonAFrameElement = stringToDomElement(originalDomElement.outerHTML);
   // used for removal of attributes at the end
   let targetAttributeNames = new Set([]);
   // add new attributes or update existing ones
   for (let i = 0; i < targetAttributes.length; i++) {
     let targetAttribute = targetAttributes[i];
-    let originalAttributeValue = originalDomElement.getAttribute(targetAttribute.name);
+    let originalAttributeValue = originalNonAFrameElement.getAttribute(targetAttribute.name);
     if (originalAttributeValue != targetAttribute.value) {
       originalDomElement.setAttribute(targetAttribute.name, targetAttribute.value);
     }
     targetAttributeNames.add(targetAttribute.name);
   }
 
+  // NOTE: Don't remove for now since targetDomElement may not have default
+  // attributes/components like rotation/visible/etc since it hasn't been
+  // processed by aframe
+  // ----
   // remove attributes from original that are not on target
-  let originalAttributes = originalDomElement.attributes;
-  for (let i = 0; i < originalAttributes.length; i ++) {
-    let originalAttribute = originalAttributes[i];
-    if (!targetAttributeNames.has(originalAttribute.name)) {
-      originalDomElement.removeAttribute(originalAttribute.name);
-    }
-  }
+  // let originalAttributes = originalDomElement.attributes;
+  // for (let i = 0; i < originalAttributes.length; i ++) {
+  //   let originalAttribute = originalAttributes[i];
+  //   if (!targetAttributeNames.has(originalAttribute.name)) {
+  //     originalDomElement.removeAttribute(originalAttribute.name);
+  //   }
+  // }
   return originalDomElement;
 }
 
