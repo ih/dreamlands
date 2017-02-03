@@ -89,7 +89,7 @@ function onEntityChanged(entityId, changedFields) {
   // since we don't store the id in the db we clone and remove it when
   // comparing string representations
   // we can do all this w/o cloning so change if performance suffers
-  let currentEntityElementWithoutId = currentEntityElement.cloneNode();
+  let currentEntityElementWithoutId = currentEntityElement.cloneNode(true);
   currentEntityElementWithoutId.removeAttribute('id');
   let updatedEntityString = changedFields.text;
   if (currentEntityElementWithoutId.outerHTML !== updatedEntityString) {
@@ -101,11 +101,11 @@ function onEntityChanged(entityId, changedFields) {
       addEntityToScene(entityId, updatedEntityString);
     } else {
       // otherwise just set the attributes that are different
+      updatedEntityElement.setAttribute('id', entityId);
       let elementsMatched = DOMHelpers.matchElement(currentEntityElement, updatedEntityElement);
       if (!elementsMatched) {
         console.log('problems matching elements');
       }
-      currentEntityElement.setAttribute('id', entityId);
     }
   }
 }
@@ -123,12 +123,7 @@ export function getAllEntities() {
 }
 
 export function removeEntity(id) {
-  Entities.remove(id, (error) => {
-    if (error) {
-      let entity = Entities.findOne(id);
-      HUD.flashMessage('You must be ${entity.contributors} to delete this entity.');
-    }
-  });
+  Entities.remove(id);
 }
 
 export function createDefaultEntity() {
@@ -164,18 +159,12 @@ export function createOrUpdateEntity(id, entityProperties) {
 
   // a hack to get around allow rules since we can't get access to the connection
   // id on the
-  if (!Meteor.userId()) {
+  if (!Meteor.userId() && !id) {
     entityProperties.madeByGuest = true;
   }
 
   if (id) {
-    Entities.update({_id: id}, {$set: entityProperties}, null, (error, result) => {
-      if (error) {
-        // should only appear for updates when a user isn't a contributors
-        let entity = Entities.findOne(id);
-        HUD.flashMessage(`Problem updating.  Only ${entity.contributors} may edit this entity`);
-      }
-    });
+    Entities.update({_id: id}, {$set: entityProperties});
   } else {
     if (!('contributors' in entityProperties)) {
       entityProperties.contributors = [Users.getCurrentUsername()];
@@ -206,4 +195,13 @@ export function addEntityToScene(id, entityString) {
 export function removeEntityFromScene(id) {
   let element = document.getElementById(id);
   element.parentNode.removeChild(element);
+}
+
+export function isContributor(userId, entityId) {
+  let entity = Entities.findOne(entityId);
+  if (entity) {
+    return entity.contributors.includes(userId);
+  }
+  console.error(`no entity found for id ${entityId}`);
+  return false;
 }
