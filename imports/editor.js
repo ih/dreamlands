@@ -45,6 +45,11 @@ function onChangeEntitySelector(event) {
 }
 
 function onClickSaveButton(event) {
+  let id = entitySelector.options[entitySelector.selectedIndex].value;
+  if (id && !Entities.isContributor(Meteor.userId(), id)) {
+    HUD.flashMessage(`You are not allowed to modify this entity.`);
+    return;
+  }
   let errors = editor.getSession().getAnnotations().filter((annotation) => {
     return annotation.type === 'error';
   });
@@ -53,13 +58,16 @@ function onClickSaveButton(event) {
     Hover over the red "x"s in the editor for more details`);
     return;
   }
-  let id = entitySelector.options[entitySelector.selectedIndex].value;
   let entityString = editor.getValue();
   Entities.createOrUpdateEntity(id, {text: entityString});
 }
 
 function onClickDelete(event) {
   let id = entitySelector.options[entitySelector.selectedIndex].value;
+  if (id && !Entities.isContributor(Meteor.userId(), id)) {
+    HUD.flashMessage(`You are not allowed to delete this entity.`);
+    return;
+  }
   Entities.removeEntity(id);
 }
 
