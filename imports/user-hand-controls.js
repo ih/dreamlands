@@ -1,3 +1,4 @@
+import {pointDifference} from '../imports/utility.js';
 AFRAME.registerComponent('user-hand-controls', {
   schema: {type: 'string'},
 
@@ -18,7 +19,9 @@ AFRAME.registerComponent('user-hand-controls', {
     if (this.userElement) {
       // this needs to be the position relative to the user instead of world
       // position
-      this.hand.setAttribute('position', this.el.getAttribute('position'));
+      let relativeHandPosition = pointDifference(
+        this.el.getAttribute('position'), this.userElement.getAttribute('position'));
+      this.hand.setAttribute('position', relativeHandPosition);
       this.hand.setAttribute('rotation', this.el.getAttribute('rotation'));
     }
   }

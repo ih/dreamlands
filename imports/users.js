@@ -48,6 +48,13 @@ export function getUserPosition() {
   return document.querySelector('#user-camera').getAttribute('position');
 }
 
+// this connects the current user's user-hand-control entity (defined in main.html)
+// to the user's avatar hand entity (an entity saved in the db that is dynamically)
+// loaded. basically fires an event that will pass the user element (which has the
+// hand elements) to the user-hand-control entity.  the user-hand-control
+// element listens for the event and then updates the user entities hand
+// whenever the user-hand-control entity is moved basically
+// physical hand moves -> user-hand-control-entity moves -> user hand entity moves
 export function signalUserControlsUserEntitySync() {
   let userElement = document.getElementById(getCurrentUsername());
   let event = new CustomEvent(

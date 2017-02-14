@@ -9,3 +9,11 @@ export function randomColor() {
 export function distance(point1, point2) {
   return Math.sqrt(Math.pow(point1[0] - point2[0], 2) + Math.pow(point1[1] - point2[1], 2));
 }
+
+export function pointDifference(point1, point2) {
+  return {
+    x: point1.x - point2.x,
+    y: point1.y - point2.y,
+    z: point1.z - point2.z
+  };
+}

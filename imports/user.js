@@ -5,6 +5,8 @@ AFRAME.registerComponent('user', {
 
   init: function () {
     if (this.data === Users.getCurrentUsername()) {
+      // have the hand movements of the current user control
+      // the avatar's hands
       Users.signalUserControlsUserEntitySync();
     }
   }
