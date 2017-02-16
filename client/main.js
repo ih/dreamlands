@@ -12,6 +12,7 @@ import '../imports/meteor-persist.js';
 import '../imports/user-camera.js';
 import '../imports/user-hand-controls.js';
 import '../imports/user.js';
+import '../imports/aabb-collider.js';
 
 import './main.html';
 

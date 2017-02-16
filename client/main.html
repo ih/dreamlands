@@ -3,7 +3,8 @@
   <script src="https://rawgit.com/aframevr/aframe/master/dist/aframe-master.min.js"></script>
 
   <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
-  <script src="https://rawgit.com/donmccurdy/aframe-extras/master/dist/aframe-extras.min.js"></script>
+  <!-- <script src="https://rawgit.com/donmccurdy/aframe-extras/master/dist/aframe-extras.js"></script> -->
+  <!-- <script src="https://rawgit.com/aframevr/aframe/master/examples/showcase/tracked-controls/components/aabb-collider.js"></script> -->
   <script src="https://rawgit.com/wmurphyrd/aframe-super-hands-component/master/examples/build.js"></script>
   <!-- TODO why do we have to use the build.js script from examples instead of the dist version -->
   <!-- <script src="https://rawgit.com/wmurphyrd/aframe-super-hands-component/master/dist/super-hands.min.js"></script> -->
@@ -14,10 +15,10 @@
 <body>
   <!-- need the debug otherwise component values don't change in the dom-->
   <a-scene id="scene" debug>
-    <a-box class="cube" color="red" grabbable hoverable></a-box>
+    <a-box class="collidable" color="red" grabbable hoverable></a-box>
     <a-camera id="user-camera" user-camera></a-camera>
-    <a-entity id="left-hand" super-hands sphere-collider="objects: .cube" hand-controls="left" grab user-hand-controls="left" teleport-controls></a-entity>
-    <a-entity id="right-hand" super-hands sphere-collider="objects: .cube" hand-controls="right" grab user-hand-controls="right"></a-entity>
+    <a-entity id="left-hand" super-hands aabb-collider="objects: .collidable" hand-controls="left" grab user-hand-controls="left" teleport-controls></a-entity>
+    <a-entity id="right-hand" super-hands aabb-collider="objects: .collidable" hand-controls="right" grab user-hand-controls="right"></a-entity>
   </a-scene>
   {{> hud}}
 </body>

@@ -76,7 +76,7 @@ export function clientInitialize() {
 
 export function getDefaultEntityString() {
   let userPosition = Users.getUserPosition();
-  return `<a-sphere radius=".3" color="green" grabbable hoverable position="${userPosition.x} ${userPosition.y} ${userPosition.z}"></a-sphere>`;
+  return `<a-sphere class="collidable" radius=".3" color="green" grabbable hoverable position="${userPosition.x} ${userPosition.y} ${userPosition.z}"></a-sphere>`;
 }
 
 function onEntityAdded(entityId) {
