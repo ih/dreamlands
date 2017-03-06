@@ -18,7 +18,7 @@ Meteor.onConnection((connection) => {
 
   // delete the user if it's a guest and everything they created
   connection.onClose(() => {
-    // console.log(`connection lost ${connection.id}`);
+    console.log(`connection lost ${connection.id}`);
     Entities.remove({contributors: getGuestUsername(connection.id)});
   });
 });

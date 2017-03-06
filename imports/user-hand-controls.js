@@ -3,14 +3,14 @@ AFRAME.registerComponent('user-hand-controls', {
   schema: {type: 'string'},
 
   init: function () {
+    let self = this;
     this.el.addEventListener('currentUserLoaded', (event) => {
       console.log('hands activating');
-      this.userElement = event.detail;
-      this.hand = this.userElement.querySelector(`[hand=${this.data}]`);
-      this.hand.setAttribute('visible', 'true');
-      let _this = this;
+      self.userElement = event.detail;
+      self.hand = this.userElement.querySelector(`[hand=${this.data}]`);
+      self.hand.setAttribute('visible', 'true');
       document.querySelector('a-scene').addEventListener('exit-vr', function () {
-        _this.hand.setAttribute('visible', 'false');
+        self.hand.setAttribute('visible', 'false');
       });
     });
   },
