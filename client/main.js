@@ -13,7 +13,8 @@ import '../imports/user-camera.js';
 import '../imports/user-hand-controls.js';
 import '../imports/user.js';
 import '../imports/aabb-collider.js';
-import '../imports/programming-menu.js'
+import '../imports/menu-item-select.js';
+import '../imports/programming-menu.js';
 
 import './main.html';
 
