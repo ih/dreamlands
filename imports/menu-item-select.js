@@ -12,6 +12,7 @@ AFRAME.registerComponent('menu-item-select', {
     });
     this.el.addEventListener('hit', (event) => {
       if (event.detail.el && event.detail.el.classList.contains('menu-item')) {
+        console.log('menu item collision');
         self.selectedItemElement = event.detail.el;
         if (!self.disabled && self.isGripping) {
           self.selectedItemElement.emit('selected', {el: self.selectedItemElement});

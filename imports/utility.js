@@ -17,3 +17,16 @@ export function pointDifference(point1, point2) {
     z: point1.z - point2.z
   };
 }
+
+export function scaleToSize(entity, newSize) {
+  let size = getBoundingSize(entity);
+  let newScale = newSize/size;
+  entity.setAttribute('scale', `${newScale} ${newScale} ${newScale}`);
+}
+
+export function getBoundingSize(entity) {
+  let mesh = entity.getObject3D('mesh');
+  let boundingBox = new THREE.Box3().setFromObject(mesh);
+  let size = boundingBox.getSize();
+  return Math.max(size.x, size.y, size.z);
+}
