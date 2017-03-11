@@ -16,6 +16,7 @@ import '../imports/aabb-collider.js';
 import '../imports/menu-item-select.js';
 import '../imports/programming-menu.js';
 import '../imports/snap-site.js';
+import '../imports/number-menu-item.js';
 
 import './main.html';
 

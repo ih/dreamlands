@@ -1,23 +1,21 @@
 import * as DOMHelpers from '../imports/dom-helpers.js';
+import * as Utility from '../imports/utility.js';
 
 AFRAME.registerComponent('programming-menu', {
-  dependencies: ['aabb-collider', 'menu-item'],
+  dependencies: ['aabb-collider', 'menu-item', 'number-menu-item'],
 
   init: function () {
     let self = this;
     this.menu = DOMHelpers.stringToDomElement(`
-      <a-plane visible="false" color="red" height=".3" width=".2" position=".2 0 0" rotation="0 45 -90" text="value: menu;">
-        <a-box depth=".1" height=".1" width=".1" class="menu-item">
-          <a-entity text="value:operand;align:center;color:blue;side:double;" position="0 .12 0"></a-entity>
-        </a-box>
-        <a-sphere radius=".1" class="menu-item snappable">
-          <a-entity text="value:operator;align:center;color:red;side:double" position="0 .12 0"></a-entity>
-        </a-sphere>
-        <a-sphere radius=".2" snap-site="controller:#right-hand" class="menu-item" color="yellow" material="transparent:true; opacity:.5;">
-        </a-sphere>
+      <a-plane class="programming-menu" visible="false" color="red" height=".3" width=".2" position=".2 0 0" rotation="0 45 -90" text="value: menu;">
+        <a-entity class="menu-item" number-menu-item></a-entity>
       </a-plane>
     `);
-
+        // <a-box depth=".1" height=".1" width=".1" class="menu-item">
+        //   <a-entity text="value:operand;align:center;color:blue;side:double;" position="0 .12 0"></a-entity>
+        // </a-box>
+        //         <a-sphere radius=".2" snap-site="controller:#right-hand" class="menu-item" color="yellow" material="transparent:true; opacity:.5;">
+        // </a-sphere>
     this.el.appendChild(this.menu);
     //this.formatMenuItems();
     this.el.addEventListener('menudown', (event) => {
@@ -49,24 +47,14 @@ AFRAME.registerComponent('programming-menu', {
     for (let i=0; i < this.menu.children.length; i++) {
       let menuItem = this.menu.children[i];
       // scale to a set size
-      let mesh = menuItem.getObject3D('mesh');
-      let boundingBox = new THREE.Box3().setFromObject(mesh);
-      let size = boundingBox.getSize();
-      size = Math.max(size.x, size.y, size.z);
-      let newScale = targetSize/size;
-      menuItem.setAttribute('scale', `${newScale} ${newScale} ${newScale}`);
+      let menuIcon = menuItem.querySelector('.menu-icon');
+      Utility.scaleToSize(menuIcon, targetSize);
       // position item
-      let position = menuItem.getAttribute('position');
+      let position = menuIcon.getAttribute('position');
       position.x = currentX;
       position.z = currentZ;
-      menuItem.setAttribute('position', position);
+      menuIcon.setAttribute('position', position);
       currentX += margin;
-
-      // handle when the menu item is selected
-      menuItem.addEventListener('selected', (event) => {
-        console.log(`item selected ${event.detail.el}`);
-        self.createNewItem(event.detail.el);
-      });
     };
     this.menuProcessed = true;
   },

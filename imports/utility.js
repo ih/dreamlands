@@ -30,3 +30,9 @@ export function getBoundingSize(entity) {
   let size = boundingBox.getSize();
   return Math.max(size.x, size.y, size.z);
 }
+
+export function getWorldPosition(entity) {
+  let worldPosition = new THREE.Vector3();
+  worldPosition.setFromMatrixPosition(entity.object3D.matrixWorld);
+  return worldPosition;
+}
