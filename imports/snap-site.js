@@ -22,7 +22,7 @@ AFRAME.registerComponent('snap-site', {
     });
 
     this.el.addEventListener('hit', (event) => {
-      if (event.detail.el && self.gripOpened && self.el.children.length === 0) {
+      if (event.detail.el && event.detail.el.classList.contains('snappable') && self.gripOpened && self.el.children.length === 0) {
         console.log('snap item gripped');
         self.snapItem(event.detail.el);
       }
@@ -31,7 +31,10 @@ AFRAME.registerComponent('snap-site', {
 
   snapItem: function(snappedItem) {
     // resize items
+    console.log(`snapping ${snappedItem}`);
     Utility.scaleToSize(snappedItem, this.boundingSize * .75);
+    // TODO make removing adding back certain attributes dynamic
+    snappedItem.removeAttribute('grabbable');
     // add entity as child to snap-site and position to center
     this.el.appendChild(snappedItem);
     snappedItem.setAttribute('position', '0 0 0');

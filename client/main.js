@@ -17,6 +17,7 @@ import '../imports/menu-item-select.js';
 import '../imports/programming-menu.js';
 import '../imports/snap-site.js';
 import '../imports/number-menu-item.js';
+import '../imports/binary-operator-menu-item';
 
 import './main.html';
 

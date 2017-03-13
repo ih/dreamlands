@@ -55,7 +55,7 @@ AFRAME.registerComponent('aabb-collider', {
       // Emit events.
       collisions.forEach(handleHit);
       // No collisions.
-      if (collisions.length === 0) { self.el.emit('hit', {el: null}); }
+      // if (collisions.length === 0) { self.el.emit('hit', {el: null}); }
       // Updated the state of the elements that are not intersected anymore.
       this.collisions.filter(function (el) {
         return collisions.indexOf(el) === -1;

@@ -1,4 +1,5 @@
-import * as DOMHelpers from '../imports/dom-helpers';
+import * as DOMHelpers from '../imports/dom-helpers.js';
+import * as Utility from '../imports/utility.js';
 
 AFRAME.registerComponent('number-menu-item', {
     init: function () {
@@ -23,7 +24,7 @@ AFRAME.registerComponent('number-menu-item', {
 
     createNewItem: function () {
       let number = DOMHelpers.stringToDomElement(`
-      <a-sphere radius=".1" grabbable collidable></a-sphere>
+      <a-sphere radius=".1" grabbable class="collidable snappable"></a-sphere>
       `);
 
       // set the position of the new item to be where the icon is in the world

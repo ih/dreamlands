@@ -9,8 +9,10 @@ AFRAME.registerComponent('programming-menu', {
     this.menu = DOMHelpers.stringToDomElement(`
       <a-plane class="programming-menu" visible="false" color="red" height=".3" width=".2" position=".2 0 0" rotation="0 45 -90" text="value: menu;">
         <a-entity class="menu-item" number-menu-item></a-entity>
+        <a-entity class="menu-item" binary-operator-menu-item></a-entity>
       </a-plane>
     `);
+    //
         // <a-box depth=".1" height=".1" width=".1" class="menu-item">
         //   <a-entity text="value:operand;align:center;color:blue;side:double;" position="0 .12 0"></a-entity>
         // </a-box>
@@ -40,7 +42,7 @@ AFRAME.registerComponent('programming-menu', {
   // layout, size, and attach event handlers to menu items
   processMenuItems: function () {
     let targetSize = .05;
-    let currentX = 0;
+    let currentX = -.1;
     let currentZ = .06;
     let margin = .1;
     let self = this;
