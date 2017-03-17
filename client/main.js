@@ -13,11 +13,17 @@ import '../imports/user-camera.js';
 import '../imports/user-hand-controls.js';
 import '../imports/user.js';
 import '../imports/aabb-collider.js';
+import '../imports/aabb-collider-collection.js';
 import '../imports/menu-item-select.js';
 import '../imports/programming-menu.js';
 import '../imports/snap-site.js';
-import '../imports/number-menu-item.js';
-import '../imports/binary-operator-menu-item';
+import '../imports/menu-item.js';
+import '../imports/environment.js';
+import '../imports/environment-icon.js';
+import '../imports/number-icon.js';
+import '../imports/number.js';
+import '../imports/environment.js';
+import '../imports/binary-operator-icon.js';
 
 import './main.html';
 

@@ -6,23 +6,24 @@ AFRAME.registerComponent('programming-menu', {
 
   init: function () {
     let self = this;
+    // we add menu-item class to items here instead of on the component definition
+    // b/c there's an odd behavior where menu-item might be attached to the plane
+    // during initialization and we need this to distinguish the menu items from
+    // the menu (see menu-item code) for more details
     this.menu = DOMHelpers.stringToDomElement(`
       <a-plane class="programming-menu" visible="false" color="red" height=".3" width=".2" position=".2 0 0" rotation="0 45 -90" text="value: menu;">
-        <a-entity class="menu-item" number-menu-item></a-entity>
-        <a-entity class="menu-item" binary-operator-menu-item></a-entity>
+        <a-entity class="menu-item" menu-item="enabled: false; icon: number-icon; item: number;"></a-entity>
+        <a-entity class="menu-item" menu-item="enabled: false; icon: binary-operator-icon; item: binary-operator;"></a-entity>
+        <a-entity class="menu-item" menu-item="enabled: false; icon: environment-icon; item: environment;"></a-entity>
       </a-plane>
     `);
-    //
-        // <a-box depth=".1" height=".1" width=".1" class="menu-item">
-        //   <a-entity text="value:operand;align:center;color:blue;side:double;" position="0 .12 0"></a-entity>
-        // </a-box>
-        //         <a-sphere radius=".2" snap-site="controller:#right-hand" class="menu-item" color="yellow" material="transparent:true; opacity:.5;">
-        // </a-sphere>
+
     this.el.appendChild(this.menu);
     //this.formatMenuItems();
+    this.enabled = false;
     this.el.addEventListener('menudown', (event) => {
       console.log('menu button pushed');
-      self.menu.setAttribute('visible', !self.menu.getAttribute('visible'));
+      self.toggle();
     });
 
   },
@@ -39,12 +40,23 @@ AFRAME.registerComponent('programming-menu', {
     //console.log(this.menu.getObject3D('mesh'));
   },
 
+  toggle: function () {
+      this.enabled = !this.enabled;
+
+      this.menu.setAttribute('visible', !this.menu.getAttribute('visible'));
+
+      for (let i = 0; i < this.menu.children.length; i++) {
+        let menuItem = this.menu.children[i];
+        menuItem.setAttribute('menu-item', 'enabled', this.enabled);
+      }
+  },
+
   // layout, size, and attach event handlers to menu items
   processMenuItems: function () {
     let targetSize = .05;
     let currentX = -.1;
     let currentZ = .06;
-    let margin = .1;
+    let margin = .15;
     let self = this;
     for (let i=0; i < this.menu.children.length; i++) {
       let menuItem = this.menu.children[i];
@@ -59,17 +71,5 @@ AFRAME.registerComponent('programming-menu', {
       currentX += margin;
     };
     this.menuProcessed = true;
-  },
-
-  createNewItem: function (itemElement) {
-    let newItem = itemElement.cloneNode(true);
-    newItem.setAttribute('grabbable', true);
-    newItem.setAttribute('collidable', true);
-    newItem.setAttribute('scale', 1);
-    // set the new item's position to the menu/controller position which is
-    // based on world coordinates
-    let itemSelector = document.querySelector('[menu-item-select]');
-    newItem.setAttribute('position', itemSelector.getAttribute('position'));
-    this.el.sceneEl.appendChild(newItem);
   }
 });
