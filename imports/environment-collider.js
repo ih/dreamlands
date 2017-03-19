@@ -1,6 +1,6 @@
 // from https://raw.githubusercontent.com/aframevr/aframe/master/examples/showcase/tracked-controls/components/aabb-collider.js
 // similar but has events for when an entity first collides and when it stops colliding
-AFRAME.registerComponent('aabb-collider-collection', {
+AFRAME.registerComponent('environment-collider', {
   schema: {
     objects: {default: ''},
     state: {default: 'collided'},
@@ -26,17 +26,21 @@ AFRAME.registerComponent('aabb-collider-collection', {
     return function (time) {
       if ((time - this.lastTime > this.data.interval) || !this.lastTime) {
         var data = this.data;
-        var objectEls;
 
         // Push entities into list of els to intersect.
         if (data.objects) {
-          objectEls = this.el.sceneEl.querySelectorAll(data.objects);
+          // only look at direct siblings and children for valid things to check
+          // for and maintain collisions with
+          // e.g. for a binary operator w/ 2 number components as arguments
+          // we only want the binary operator and not the numbers
+          this.objectEls = Array.from(this.el.parentNode.querySelectorAll(`:scope > ${data.objects}`));
+          this.objectEls = this.objectEls.concat(Array.from(this.el.querySelectorAll(`:scope > ${data.objects}`)));
         } else {
           // If objects not defined, intersect with everything.
-          objectEls = this.el.sceneEl.children;
+          this.objectEls = Array.from(this.el.parentNode.children);
+          this.objectEls = this.objectEls.concat(Array.from(this.el.children));
         }
-        // Convert from NodeList to Array
-        this.els = Array.prototype.slice.call(objectEls);
+
         this.lastTime = time;
       }
 
@@ -48,11 +52,14 @@ AFRAME.registerComponent('aabb-collider-collection', {
       // Update the bounding box to account for rotations and
       // position changes.
       updateBoundingBox();
-      // Update collisions.
-      this.els.forEach(intersect);
+      // Update collisions for objectEls moving in or out of the element
+      this.objectEls.forEach(intersect);
+      // update for elements that were colliding but are no longer in objectEls
+      // e.g. if an object is deleted or moves to be a child of another
+      this.collisions.forEach(remove);
 
       // AABB collision detection
-      function intersect (el) {
+      function intersect(el) {
         var intersected;
         var mesh = el.getObject3D('mesh');
         var elMin;
@@ -72,21 +79,29 @@ AFRAME.registerComponent('aabb-collider-collection', {
           if (self.collisions.has(el)) {
             self.collisions.delete(el);
             el.removeState(self.data.state);
-            self.el.emit('removed', {el: el, collection: self.collisions});
+            self.el.emit('removed', {el: el, collection: Array.from(self.collisions)});
           }
           return;
         }
         if (!self.collisions.has(el)) {
             self.collisions.add(el);
             el.addState(self.data.state);
-            self.el.emit('added', {el: el, collection: self.collisions});
+            self.el.emit('added', {el: el, collection: Array.from(self.collisions)});
         }
       }
 
-      function updateBoundingBox () {
+      function updateBoundingBox() {
         boundingBox.setFromObject(mesh);
         self.elMin.copy(boundingBox.min);
         self.elMax.copy(boundingBox.max);
+      }
+
+      function remove(el) {
+        if (!self.objectEls.includes(el)) {
+            self.collisions.delete(el);
+            el.removeState(self.data.state);
+            self.el.emit('removed', {el: el, collection: Array.from(self.collisions)});
+        }
       }
     };
   })()

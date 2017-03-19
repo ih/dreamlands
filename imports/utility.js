@@ -36,3 +36,7 @@ export function getWorldPosition(entity) {
   worldPosition.setFromMatrixPosition(entity.object3D.matrixWorld);
   return worldPosition;
 }
+
+export function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

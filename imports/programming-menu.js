@@ -56,7 +56,7 @@ AFRAME.registerComponent('programming-menu', {
     let targetSize = .05;
     let currentX = -.1;
     let currentZ = .06;
-    let margin = .15;
+    let margin = .2;
     let self = this;
     for (let i=0; i < this.menu.children.length; i++) {
       let menuItem = this.menu.children[i];

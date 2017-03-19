@@ -1,6 +1,6 @@
 AFRAME.registerComponent('binary-operator', {
   init: function () {
-        this.el.setAttribute('geometry', {
+    this.el.setAttribute('geometry', {
       primitive: 'box',
       depth: .1,
       height: .1,
