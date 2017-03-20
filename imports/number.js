@@ -9,5 +9,16 @@ AFRAME.registerComponent('number', {
       primitive: 'sphere',
       radius: .1
     });
+    this.value = 1;
+
+    this.el.evaluate = this.evaluate.bind(this);
+  },
+
+  evaluate: function () {
+    return eval(this.getString());
+  },
+
+  getString: function () {
+    return Number(this.value);
   }
 });

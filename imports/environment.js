@@ -54,7 +54,7 @@ AFRAME.registerComponent('environment', {
     });
 
     for (let entity of this.entities) {
-      console.log(`evaluating ${entity.outerHTML}`);
+      console.log(`evaluating ${entity.outerHTML}: ${entity.evaluate()}`);
       await Utility.sleep(this.interval);
     }
   },
