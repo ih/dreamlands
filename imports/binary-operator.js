@@ -11,12 +11,28 @@ AFRAME.registerComponent('binary-operator', {
     this.el.setAttribute('class', 'collidable syntax');
     this.el.innerHTML = `<a-sphere snap-site="controller:#right-hand" radius=".1" color="yellow" material="transparent:true; opacity:.5;" position=".22 0 0"></a-sphere>
           <a-sphere snap-site="controller:#right-hand" radius=".1" color="yellow" material="transparent:true; opacity:.5;" position="-.22 0 0"></a-sphere>`;
-    this.el.evaluate = this.evaluate.bind(this);
+    this.el.setAttribute('output', {
+      position: '0 .15 0',
+      size: .03
+    });
     this.value = '+';
+    this.el.evaluate = this.evaluate.bind(this);
   },
 
   evaluate: function () {
-    return eval(this.getString());
+    let code = this.getString();
+    let output = eval(code);
+    let type = '';
+    let textOutput = `${code} => ${output}`
+    if (typeof output === 'string') {
+      type = 'error';
+      textOutput = output;
+    }
+    this.el.setAttribute('output', {
+      output: textOutput,
+      type: type
+    })
+    return output;
   },
 
   getString: function () {

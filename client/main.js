@@ -25,6 +25,7 @@ import '../imports/number.js';
 import '../imports/environment.js';
 import '../imports/binary-operator-icon.js';
 import '../imports/binary-operator.js';
+import '../imports/output.js';
 
 import './main.html';
 
