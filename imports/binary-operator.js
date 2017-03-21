@@ -1,3 +1,5 @@
+import * as Utility from '../imports/utility.js';
+
 AFRAME.registerComponent('binary-operator', {
   init: function () {
     this.el.setAttribute('geometry', {
@@ -19,11 +21,11 @@ AFRAME.registerComponent('binary-operator', {
     this.el.evaluate = this.evaluate.bind(this);
   },
 
-  evaluate: function () {
-    let code = this.getString();
-    let output = eval(code);
+  evaluate: function (context) {
+    let code = this.getString(context);
+    let output = Utility.evaluate(code, context);
     let type = '';
-    let textOutput = `${code} => ${output}`
+    let textOutput = `${code} => ${output}`;
     if (typeof output === 'string') {
       type = 'error';
       textOutput = output;
@@ -31,15 +33,15 @@ AFRAME.registerComponent('binary-operator', {
     this.el.setAttribute('output', {
       output: textOutput,
       type: type
-    })
+    });
     return output;
   },
 
-  getString: function () {
+  getString: function (context) {
     let operand0 = this.getOperand(0);
     let operand1 = this.getOperand(1);
     if (operand0 !== undefined && operand1 !== undefined) {
-      return `${operand0.evaluate()} ${this.value} ${operand1.evaluate()}`;
+      return `${operand0.evaluate(context)} ${this.value} ${operand1.evaluate(context)}`;
     } else {
       return '"undefined operand"';
     }

@@ -26,6 +26,10 @@ import '../imports/environment.js';
 import '../imports/binary-operator-icon.js';
 import '../imports/binary-operator.js';
 import '../imports/output.js';
+import '../imports/variable-assignment-icon.js';
+import '../imports/variable-assignment.js';
+import '../imports/variable-icon.js';
+import '../imports/variable.js';
 
 import './main.html';
 

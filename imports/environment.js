@@ -23,9 +23,8 @@ AFRAME.registerComponent('environment', {
     });
     this.el.setAttribute('class', 'environment collidable');
     this.el.setAttribute('stretchable', true);
-    this.el.setAttribute
 
-
+    this.context = {};
 
     // start execution of code in the environment
     this.evaluationId = setInterval(this.evaluate.bind(this), this.interval);
@@ -54,7 +53,17 @@ AFRAME.registerComponent('environment', {
     });
 
     for (let entity of this.entities) {
-      console.log(`evaluating ${entity.outerHTML}: ${entity.evaluate()}`);
+      if (entity.hasAttribute('variable-assignment')) {
+        console.log(`evaluating variable assignment`);
+        let contextUpdate = entity.evaluate(this.context);
+        if (contextUpdate) {
+          let {variable, value} = contextUpdate;
+          this.context[variable] = value;
+        }
+      } else {
+        console.log(`evaluating ${entity.outerHTML}: ${entity.evaluate(this.context)}`);
+      }
+
       await Utility.sleep(this.interval);
     }
   },

@@ -40,3 +40,9 @@ export function getWorldPosition(entity) {
 export function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+// from http://stackoverflow.com/a/40109254
+export function evaluate(code, context) {
+    // execute script in private context
+    return (new Function(`with(this) { return ${code}}`)).call(context);
+}
