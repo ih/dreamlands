@@ -2,7 +2,8 @@ AFRAME.registerComponent('variable', {
   init: function () {
     this.el.setAttribute('geometry', {
       primitive: 'octahedron',
-      radius: .1
+      radius: .1,
+      color: 'blue'
     });
     this.el.setAttribute('grabbable', true);
     this.el.setAttribute('class', 'collidable snappable syntax');
@@ -11,6 +12,11 @@ AFRAME.registerComponent('variable', {
       size: .03
     });
     this.label = 'x';
+    this.el.setAttribute('text', {
+      align: 'center',
+      zOffset: .1,
+      value: this.label
+    });
     this.el.evaluate = this.evaluate.bind(this);
   },
 

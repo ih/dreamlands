@@ -4,7 +4,7 @@ import * as Utility from '../imports/utility.js';
 AFRAME.registerComponent('environment', {
   init: function () {
     var self = this;
-    this.interval = 5000;
+    this.interval = 1000;
     this.entities = [];
     // it'd be nice if we could do something like this
     // consider writing a function to do this
@@ -14,12 +14,22 @@ AFRAME.registerComponent('environment', {
     //  this.el.appendChild(this.environment);
     this.el.setAttribute('geometry', {
       primitive: 'box',
+      height: .1,
+      width: .1,
+      depth: .1,
+      color: 'white'
     });
     this.el.setAttribute('material', {
       wireframe: true
     });
     this.el.setAttribute('environment-collider', {
       objects: '.syntax'
+    });
+    this.el.setAttribute('text', {
+      align: 'center',
+      zOffset: .1,
+      value: 'environment',
+      width: 1
     });
     this.el.setAttribute('class', 'environment collidable');
     this.el.setAttribute('stretchable', true);

@@ -11,7 +11,7 @@ AFRAME.registerComponent('programming-menu', {
     // during initialization and we need this to distinguish the menu items from
     // the menu (see menu-item code) for more details
     this.menu = DOMHelpers.stringToDomElement(`
-      <a-plane class="programming-menu" visible="false" color="red" height=".3" width=".2" position=".2 0 0" rotation="0 45 -90" text="value: menu;">
+      <a-plane class="programming-menu" visible="false" color="red" height=".4" width=".4" position=".2 0 0" rotation="0 45 -90" text="value: menu;">
         <a-entity class="menu-item" menu-item="enabled: false; icon: number-icon; item: number;"></a-entity>
         <a-entity class="menu-item" menu-item="enabled: false; icon: binary-operator-icon; item: binary-operator;"></a-entity>
         <a-entity class="menu-item" menu-item="enabled: false; icon: environment-icon; item: environment;"></a-entity>
@@ -56,11 +56,17 @@ AFRAME.registerComponent('programming-menu', {
   // layout, size, and attach event handlers to menu items
   processMenuItems: function () {
     let targetSize = .05;
-    let currentX = -.1;
+    let itemsPerRow = 3;
+    let initX = -.2;
     let currentZ = .06;
+    let initY = .2;
     let margin = .2;
     let self = this;
     for (let i=0; i < this.menu.children.length; i++) {
+      if (i % itemsPerRow === 0) {
+        currentX = initX;
+      }
+      currentY = initY + (-1 * Math.floor(i/itemsPerRow) * margin);
       let menuItem = this.menu.children[i];
       // scale to a set size
       let menuIcon = menuItem.querySelector('.menu-icon');
@@ -68,6 +74,7 @@ AFRAME.registerComponent('programming-menu', {
       // position item
       let position = menuIcon.getAttribute('position');
       position.x = currentX;
+      position.y = currentY;
       position.z = currentZ;
       menuIcon.setAttribute('position', position);
       currentX += margin;

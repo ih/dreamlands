@@ -2,11 +2,19 @@ import * as Utility from '../imports/utility.js';
 
 AFRAME.registerComponent('binary-operator', {
   init: function () {
+    this.value = '+';
     this.el.setAttribute('geometry', {
       primitive: 'box',
       depth: .1,
       height: .1,
-      width: .1
+      width: .1,
+      color: 'green'
+    });
+    this.el.setAttribute('text', {
+      align: 'center',
+      zOffset: .1,
+      value: this.value,
+      width: 1
     });
     this.el.setAttribute('grabbable', true);
     this.el.setAttribute('stretchable', true);
@@ -17,7 +25,7 @@ AFRAME.registerComponent('binary-operator', {
       position: '0 .15 0',
       size: .03
     });
-    this.value = '+';
+
     this.el.evaluate = this.evaluate.bind(this);
   },
 

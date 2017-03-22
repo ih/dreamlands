@@ -16,6 +16,9 @@
 <body>
   <!-- need the debug otherwise component values don't change in the dom-->
   <a-scene id="scene" debug>
+    <a-assets>
+      <!-- is there a way to make mixins importable? -->
+    </a-assets>
     <a-camera id="user-camera" user-camera></a-camera>
     <a-entity id="left-hand" super-hands aabb-collider="objects: .collidable" hand-controls="left" grab user-hand-controls="left"  teleport-controls programming-menu></a-entity>
     <a-entity id="right-hand" super-hands aabb-collider="objects: .collidable,.menu-icon" hand-controls="right" grab user-hand-controls="right" menu-item-select></a-entity>

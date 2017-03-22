@@ -7,6 +7,7 @@ AFRAME.registerComponent('number', {
     this.el.setAttribute('class', 'collidable snappable syntax');
     this.el.setAttribute('geometry', {
       primitive: 'sphere',
+      color: 'red',
       radius: .1
     });
     this.el.setAttribute('output', {
@@ -14,7 +15,11 @@ AFRAME.registerComponent('number', {
       size: .03
     });
     this.value = '1';
-
+    this.el.setAttribute('text', {
+      align: 'center',
+      zOffset: .1,
+      value: this.value
+    });
     this.el.evaluate = this.evaluate.bind(this);
   },
 

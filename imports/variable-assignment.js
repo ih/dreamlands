@@ -1,14 +1,21 @@
 AFRAME.registerComponent('variable-assignment', {
   init: function () {
+      this.label = 'x';
       this.el.setAttribute('geometry', {
         primitive: 'octahedron',
-        radius: .1
+        radius: .1,
+        color: 'blue'
       });
       this.el.setAttribute('grabbable', true);
       this.el.setAttribute('class', 'collidable syntax');
       this.el.setAttribute('output', {
         position: '0 .15 0',
         size: .03
+      });
+      this.el.setAttribute('text', {
+        align: 'center',
+        zOffset: .1,
+        value: `let ${this.label} =`
       });
       this.el.innerHTML = `
         <a-sphere
@@ -19,7 +26,6 @@ AFRAME.registerComponent('variable-assignment', {
           position=".22 0 0">
         </a-sphere>
       `;
-      this.label = 'x';
       this.el.evaluate = this.evaluate.bind(this);
   },
 
