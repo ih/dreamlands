@@ -18,6 +18,7 @@ AFRAME.registerComponent('variable', {
       value: this.label
     });
     this.el.evaluate = this.evaluate.bind(this);
+    this.el.getString = this.getString.bind(this);
   },
 
   evaluate: function (context) {
@@ -34,5 +35,9 @@ AFRAME.registerComponent('variable', {
       });
       return undefined;
     }
+  },
+
+  getString: function () {
+    return this.label;
   }
 });

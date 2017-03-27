@@ -19,37 +19,45 @@ AFRAME.registerComponent('binary-operator', {
     this.el.setAttribute('grabbable', true);
     this.el.setAttribute('stretchable', true);
     this.el.setAttribute('class', 'collidable syntax');
-    this.el.innerHTML = `<a-sphere snap-site="controller:#right-hand" radius=".1" color="yellow" material="transparent:true; opacity:.5;" position=".22 0 0"></a-sphere>
-          <a-sphere snap-site="controller:#right-hand" radius=".1" color="yellow" material="transparent:true; opacity:.5;" position="-.22 0 0"></a-sphere>`;
+    this.el.innerHTML = `<a-sphere snap-site="controller:#right-hand" radius=".1" color="yellow" material="transparent:true; opacity:.5;" position="-.22 0 0"></a-sphere>
+          <a-sphere snap-site="controller:#right-hand" radius=".1" color="yellow" material="transparent:true; opacity:.5;" position=".22 0 0"></a-sphere>`;
     this.el.setAttribute('output', {
       position: '0 .15 0',
       size: .03
     });
 
     this.el.evaluate = this.evaluate.bind(this);
+    this.el.getString = this.getString.bind(this);
   },
 
   evaluate: function (context) {
-    let code = this.getString(context);
-    let output = Utility.evaluate(code, context);
-    let type = '';
-    let textOutput = `${code} => ${output}`;
-    if (typeof output === 'string') {
-      type = 'error';
-      textOutput = output;
+    let operand0 = this.getOperand(0);
+    let operand1 = this.getOperand(1);
+    if (operand0 === undefined || operand1 === undefined) {
+      this.el.setAttribute('output', {
+        output: 'undefined operand',
+        type: 'error'
+      });
+      // TODO change this to throw an exception?
+      return;
     }
+
+    let code = `${operand0.evaluate(context)} ${this.value} ${operand1.evaluate(context)}`;
+    let output = Utility.evaluate(code, context);
+    let textOutput = `${this.getString()} => ${output}`;
+
     this.el.setAttribute('output', {
       output: textOutput,
-      type: type
+      type: ''
     });
     return output;
   },
 
-  getString: function (context) {
+  getString: function () {
     let operand0 = this.getOperand(0);
     let operand1 = this.getOperand(1);
     if (operand0 !== undefined && operand1 !== undefined) {
-      return `${operand0.evaluate(context)} ${this.value} ${operand1.evaluate(context)}`;
+      return `${operand0.getString()} ${this.value} ${operand1.getString()}`;
     } else {
       return '"undefined operand"';
     }
