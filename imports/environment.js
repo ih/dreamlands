@@ -33,6 +33,9 @@ AFRAME.registerComponent('environment', {
     });
     this.el.setAttribute('class', 'environment collidable');
     this.el.setAttribute('stretchable', true);
+    this.el.setAttribute('resizable', {
+      geometryDimensions: 'height, width, depth'
+    });
 
     this.context = {};
 
@@ -43,6 +46,10 @@ AFRAME.registerComponent('environment', {
     this.el.addEventListener('added', (event) => {
       console.log('added to env');
       let newElement = event.detail.el;
+      // ideally position would be translated from its current position into the
+      // correct relative position inside this.el
+      newElement.setAttribute('position', '0 0 0');
+      self.el.appendChild(newElement);
       self.entities = event.detail.collection;
     });
     //

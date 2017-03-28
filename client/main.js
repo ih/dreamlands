@@ -8,6 +8,7 @@ import * as Editor from '../imports/editor.js';
 import * as HUD from '../imports/hud.js';
 
 // components
+import '../imports/super-hands.js';
 import '../imports/meteor-persist.js';
 import '../imports/user-camera.js';
 import '../imports/user-hand-controls.js';
