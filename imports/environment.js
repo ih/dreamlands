@@ -46,9 +46,8 @@ AFRAME.registerComponent('environment', {
     this.el.addEventListener('added', (event) => {
       console.log('added to env');
       let newElement = event.detail.el;
-      // ideally position would be translated from its current position into the
-      // correct relative position inside this.el
-      newElement.setAttribute('position', '0 0 0');
+      let relativePosition = Utility.getRelativePosition(newElement, self.el);
+      newElement.setAttribute('position', relativePosition);
       self.el.appendChild(newElement);
       self.entities = event.detail.collection;
     });
@@ -56,6 +55,9 @@ AFRAME.registerComponent('environment', {
     this.el.addEventListener('removed', (event) => {
       console.log('removed from env');
       let removedElement = event.detail.el;
+      let worldPosition = Utility.getWorldPosition(removedElement);
+      self.el.parentNode.appendChild(removedElement);
+      removedElement.setAttribute('position', worldPosition);
       self.entities = event.detail.collection;
     });
   },

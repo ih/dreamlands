@@ -37,6 +37,12 @@ export function getWorldPosition(entity) {
   return worldPosition;
 }
 
+export function getRelativePosition(entity, referenceEntity) {
+    let entityWorldPosition = this.getWorldPosition(entity);
+    let referenceWorldPosition = this.getWorldPosition(referenceEntity);
+    return this.pointDifference(entityWorldPosition, referenceWorldPosition);
+}
+
 export function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
