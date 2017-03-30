@@ -31,6 +31,8 @@ import '../imports/variable-assignment-icon.js';
 import '../imports/variable-assignment.js';
 import '../imports/variable-icon.js';
 import '../imports/variable.js';
+import '../imports/function-icon.js';
+import '../imports/function.js';
 
 import './main.html';
 

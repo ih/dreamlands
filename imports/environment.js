@@ -1,7 +1,13 @@
 import * as DOMHelpers from '../imports/dom-helpers.js';
 import * as Utility from '../imports/utility.js';
 
+// environment should never be created on it's own at the scene level , but
+// should exist as the child of another element otherwise see
+// environment-collider for more details
 AFRAME.registerComponent('environment', {
+  schema: {
+  },
+
   init: function () {
     var self = this;
     this.interval = 1000;
@@ -23,7 +29,8 @@ AFRAME.registerComponent('environment', {
       wireframe: true
     });
     this.el.setAttribute('environment-collider', {
-      objects: '.syntax'
+      objects: '.syntax',
+      parentLevel: this.data.parentLevel
     });
     this.el.setAttribute('text', {
       align: 'center',

@@ -1,10 +1,17 @@
 // from https://raw.githubusercontent.com/aframevr/aframe/master/examples/showcase/tracked-controls/components/aabb-collider.js
 // similar but has events for when an entity first collides and when it stops colliding
+
+// we assume the environment always exists within
+// some other element e.g. a 'function' or 'if' etc
+// detect collisions with siblings of the environment container and any children
+// of the environment, but NOT the container
+// e.g. for a function we don't want to detect collisions w/ the entity that is
+// the function label
 AFRAME.registerComponent('environment-collider', {
   schema: {
     objects: {default: ''},
     state: {default: 'collided'},
-    interval: {type: 'number', default: 100}
+    interval: {type: 'number', default: 100},
   },
 
   init: function () {
@@ -21,6 +28,19 @@ AFRAME.registerComponent('environment-collider', {
 
   },
 
+  // get siblings of the parent container
+  selectPossibleElements: function () {
+    let data = this.data;
+    // outsideElement contains both the environment and what it's attached to
+    // e.g. function component
+    let outsideElement = this.el.parentNode.parentNode;
+    let elements = Array.from(outsideElement.querySelectorAll(`:scope > ${data.objects}`));
+
+    // siblings of environment are ignored here and handled in the
+    elements = elements.concat(Array.from(this.el.querySelectorAll(`:scope > ${data.objects}`)));
+    return elements;
+  },
+
   tick: (function () {
     var boundingBox = new THREE.Box3();
     return function (time) {
@@ -29,16 +49,10 @@ AFRAME.registerComponent('environment-collider', {
 
         // Push entities into list of els to intersect.
         if (data.objects) {
-          // only look at direct siblings and children for valid things to check
-          // for and maintain collisions with
-          // e.g. for a binary operator w/ 2 number components as arguments
-          // we only want the binary operator and not the numbers
-          this.objectEls = Array.from(this.el.parentNode.querySelectorAll(`:scope > ${data.objects}`));
-          this.objectEls = this.objectEls.concat(Array.from(this.el.querySelectorAll(`:scope > ${data.objects}`)));
+          this.objectEls = this.selectPossibleElements();
         } else {
-          // If objects not defined, intersect with everything.
-          this.objectEls = Array.from(this.el.parentNode.children);
-          this.objectEls = this.objectEls.concat(Array.from(this.el.children));
+          // TODO If objects not defined, intersect with everything at children and above level.
+          this.objectEls = [];
         }
 
         this.lastTime = time;
@@ -89,6 +103,7 @@ AFRAME.registerComponent('environment-collider', {
             self.el.emit('added', {el: el, collection: Array.from(self.collisions)});
         }
       }
+
 
       function updateBoundingBox() {
         boundingBox.setFromObject(mesh);

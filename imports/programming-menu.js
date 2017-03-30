@@ -16,7 +16,8 @@ AFRAME.registerComponent('programming-menu', {
         <a-entity class="menu-item" menu-item="enabled: false; icon: binary-operator-icon; item: binary-operator;"></a-entity>
         <a-entity class="menu-item" menu-item="enabled: false; icon: environment-icon; item: environment;"></a-entity>
         <a-entity class="menu-item" menu-item="enabled: false; icon: variable-assignment-icon; item: variable-assignment;"></a-entity>
-        <a-entity class="menu-item" menu-item="enbaled: false; icon: variable-icon; item: variable;"></a-entity>
+        <a-entity class="menu-item" menu-item="enabled: false; icon: variable-icon; item: variable;"></a-entity>
+        <a-entity class="menu-item" menu-item="enabled: false; icon: function-icon; item: function;"></a-entity>
       </a-plane>
     `);
 
