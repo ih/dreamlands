@@ -52,6 +52,9 @@ AFRAME.registerComponent('aabb-collider', {
       updateBoundingBox();
       // Update collisions.
       this.els.forEach(intersect);
+      if (this.collisions.length > 0) {
+        console.log(`collisions ${JSON.stringify(this.collisions.map((item) => {return item.tagName;}))}`);
+      }
       // Emit events.
       collisions.forEach(handleHit);
       // No collisions.
@@ -87,7 +90,6 @@ AFRAME.registerComponent('aabb-collider', {
       }
 
       function handleHit (hitEl) {
-        hitEl.emit('hit');
         hitEl.addState(self.data.state);
         self.el.emit('hit', {el: hitEl});
       }

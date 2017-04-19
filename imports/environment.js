@@ -9,6 +9,9 @@ AFRAME.registerComponent('environment', {
   },
 
   init: function () {
+    if (this.el.parentEl === this.el.sceneEl) {
+      console.error('environment should not be a top level element!');
+    }
     var self = this;
     this.interval = 1000;
     this.entities = [];
@@ -63,7 +66,7 @@ AFRAME.registerComponent('environment', {
       console.log('removed from env');
       let removedElement = event.detail.el;
       let worldPosition = Utility.getWorldPosition(removedElement);
-      self.el.parentNode.appendChild(removedElement);
+      self.el.parentNode.parentNode.appendChild(removedElement);
       removedElement.setAttribute('position', worldPosition);
       self.entities = event.detail.collection;
     });

@@ -14,14 +14,14 @@ AFRAME.registerComponent('menu-item-select', {
     });
     this.el.addEventListener('hit', (event) => {
       if (event.detail.el && event.detail.el.classList.contains('menu-icon')) {
-        console.log('menu icon collision');
+        // console.log('menu icon collision');
         self.selectedItemElement = event.detail.el;
         if (!self.disabled && self.isGripping) {
           console.log(`selection event for ${self.selectedItemElement}`);
           self.selectedItemElement.emit('selected', {el: self.selectedItemElement});
           self.disabled = true;
         }
-      } 
+      }
     });
   }
 });

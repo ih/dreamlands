@@ -1,3 +1,5 @@
+import * as Utility from '../imports/utility.js';
+
 // from https://raw.githubusercontent.com/aframevr/aframe/master/examples/showcase/tracked-controls/components/aabb-collider.js
 // similar but has events for when an entity first collides and when it stops colliding
 
@@ -11,7 +13,7 @@ AFRAME.registerComponent('environment-collider', {
   schema: {
     objects: {default: ''},
     state: {default: 'collided'},
-    interval: {type: 'number', default: 100},
+    interval: {type: 'number', default: 100}
   },
 
   init: function () {
@@ -35,8 +37,9 @@ AFRAME.registerComponent('environment-collider', {
     // e.g. function component
     let outsideElement = this.el.parentNode.parentNode;
     let elements = Array.from(outsideElement.querySelectorAll(`:scope > ${data.objects}`));
+    // remove the parentNode though e.g. the function entity that contains the environemnt
+    elements = Utility.arrayRemove(elements, this.el.parentNode);
 
-    // siblings of environment are ignored here and handled in the
     elements = elements.concat(Array.from(this.el.querySelectorAll(`:scope > ${data.objects}`)));
     return elements;
   },

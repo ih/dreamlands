@@ -52,3 +52,9 @@ export function evaluate(code, context) {
     // execute script in private context
     return (new Function(`with(this) { return ${code}}`)).call(context);
 }
+
+export function arrayRemove(array, item) {
+  return array.filter((currentItem) => {
+      return currentItem !== item;
+  });
+}
