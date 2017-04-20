@@ -83,14 +83,14 @@ AFRAME.registerComponent('environment', {
 
     for (let entity of this.entities) {
       if (entity.hasAttribute('variable-assignment')) {
-        console.log(`evaluating variable assignment`);
+        //console.log(`evaluating variable assignment`);
         let contextUpdate = entity.evaluate(this.context);
         if (contextUpdate) {
           let {variable, value} = contextUpdate;
           this.context[variable] = value;
         }
       } else {
-        console.log(`evaluating ${entity.outerHTML}: ${entity.evaluate(this.context)}`);
+        // console.log(`evaluating ${entity.outerHTML}: ${entity.evaluate(this.context)}`);
       }
 
       await Utility.sleep(this.interval);

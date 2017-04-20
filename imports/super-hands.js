@@ -251,7 +251,8 @@
 	      return;
 	    }
 	    hitElIndex = this.hoverEls.indexOf(hitEl);
-	    // interactions target the oldest entity in the stack, if present
+	    // interactions target the newest entity in the stack, if present
+	    // this means the most nested element
 	    var getTarget = function getTarget() {
 	      if (!used) {
 	        used = true;
@@ -331,7 +332,7 @@
 	  },
 	  /* called when the current target entity is used by another gesture */
 	  useHoveredEl: function useHoveredEl() {
-	    var el = this.hoverEls.shift();
+	    var el = this.hoverEls.pop();
 	    this._unHover(el);
 	    return el;
 	  },

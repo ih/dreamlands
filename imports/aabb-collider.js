@@ -53,7 +53,7 @@ AFRAME.registerComponent('aabb-collider', {
       // Update collisions.
       this.els.forEach(intersect);
       if (this.collisions.length > 0) {
-        console.log(`collisions ${JSON.stringify(this.collisions.map((item) => {return item.tagName;}))}`);
+        // console.log(`collisions ${JSON.stringify(this.collisions.map((item) => {return item.tagName;}))}`);
       }
       // Emit events.
       collisions.forEach(handleHit);
