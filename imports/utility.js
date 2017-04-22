@@ -18,6 +18,14 @@ export function pointDifference(point1, point2) {
   };
 }
 
+export function pointSum(point1, point2) {
+  return {
+    x: point1.x + point2.x,
+    y: point1.y + point2.y,
+    z: poitn1.z + point2.z
+  };
+}
+
 export function scaleToSize(entity, newSize) {
   let size = getBoundingSize(entity);
   let newScale = newSize/size;

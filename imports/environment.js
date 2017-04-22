@@ -9,7 +9,7 @@ AFRAME.registerComponent('environment', {
   },
 
   init: function () {
-    if (this.el.parentEl === this.el.sceneEl) {
+    if (this.el.parentNode === this.sceneEl) {
       console.error('environment should not be a top level element!');
     }
     var self = this;
@@ -53,6 +53,9 @@ AFRAME.registerComponent('environment', {
     this.evaluationId = setInterval(this.evaluate.bind(this), this.interval);
 
     // update the list of entities inside the environment
+    // this event is fired by environment-collider
+    // assumes all syntax entities intersecting w/ the environment are
+    // included in the event (same for removed event)
     this.el.addEventListener('added', (event) => {
       console.log('added to env');
       let newElement = event.detail.el;
@@ -61,7 +64,7 @@ AFRAME.registerComponent('environment', {
       self.el.appendChild(newElement);
       self.entities = event.detail.collection;
     });
-    //
+    // this event is fired by environment-collider
     this.el.addEventListener('removed', (event) => {
       console.log('removed from env');
       let removedElement = event.detail.el;
@@ -83,14 +86,14 @@ AFRAME.registerComponent('environment', {
 
     for (let entity of this.entities) {
       if (entity.hasAttribute('variable-assignment')) {
-        //console.log(`evaluating variable assignment`);
+        console.log(`evaluating variable assignment`);
         let contextUpdate = entity.evaluate(this.context);
         if (contextUpdate) {
           let {variable, value} = contextUpdate;
           this.context[variable] = value;
         }
       } else {
-        // console.log(`evaluating ${entity.outerHTML}: ${entity.evaluate(this.context)}`);
+        console.log(`evaluating ${entity.outerHTML}: ${entity.evaluate(this.context)}`);
       }
 
       await Utility.sleep(this.interval);

@@ -55,10 +55,10 @@
 	__webpack_require__(1);
 	__webpack_require__(2);
 	__webpack_require__(3);
-	__webpack_require__(4);
 	__webpack_require__(5);
 	__webpack_require__(6);
 	__webpack_require__(7);
+	__webpack_require__(8);
 
 	/**
 	 * Super Hands component for A-Frame.
@@ -521,9 +521,15 @@
 
 /***/ },
 /* 3 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	var _utility = __webpack_require__(4);
+
+	var Utility = _interopRequireWildcard(_utility);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	AFRAME.registerComponent('grabbable', {
 	  schema: {
@@ -557,11 +563,14 @@
 	          position = this.el.getAttribute('position');
 
 	      this.previousPosition = handPosition;
-	      this.el.setAttribute('position', {
-	        x: position.x + deltaPosition.x,
-	        y: position.y + deltaPosition.y,
-	        z: position.z + deltaPosition.z
-	      });
+	      // translate el to global position then adjust by delta then translate
+	      // back to it's local position relative to its parent
+	      var elWorldPosition = Utility.getWorldPosition(this.el.getAttribute(position));
+	      var elNewWorldPosition = Utility.pointSum(elWorldPosition, deltaPosition);
+	      var elParentPosition = this.el.parentEl.getAttribute(position);
+	      var newElPosition = Utility.pointDifference(elNewWorldPosition, elParentPosition);
+
+	      this.el.setAttribute('position', newElPosition);
 	    }
 	  },
 	  pause: function pause() {
@@ -602,6 +611,50 @@
 
 /***/ },
 /* 4 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.getWorldPosition = getWorldPosition;
+	exports.getRelativePosition = getRelativePosition;
+	exports.pointSum = pointSum;
+	exports.pointDifference = pointDifference;
+	// TODO unify this file w/ the one in the dreamlands repo
+	// (make a utility repo use git submodules here and in dreamlands?)
+
+	function getWorldPosition(entity) {
+	  var worldPosition = new THREE.Vector3();
+	  worldPosition.setFromMatrixPosition(entity.object3D.matrixWorld);
+	  return worldPosition;
+	}
+
+	function getRelativePosition(entity, referenceEntity) {
+	  var entityWorldPosition = this.getWorldPosition(entity);
+	  var referenceWorldPosition = this.getWorldPosition(referenceEntity);
+	  return this.pointDifference(entityWorldPosition, referenceWorldPosition);
+	}
+
+	function pointSum(point1, point2) {
+	  return {
+	    x: point1.x + point2.x,
+	    y: point1.y + point2.y,
+	    z: poitn1.z + point2.z
+	  };
+	}
+
+	function pointDifference(point1, point2) {
+	  return {
+	    x: point1.x - point2.x,
+	    y: point1.y - point2.y,
+	    z: point1.z - point2.z
+	  };
+	}
+
+/***/ },
+/* 5 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -681,7 +734,7 @@
 	});
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -770,7 +823,7 @@
 	});
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -801,7 +854,7 @@
 	});
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	'use strict';
