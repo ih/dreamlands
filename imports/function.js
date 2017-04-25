@@ -6,6 +6,7 @@ AFRAME.registerComponent('function', {
       radius: .1,
       color: 'orange'
     });
+    this.el.setAttribute('grabbable', true);
     this.el.setAttribute('class', 'collidable syntax');
     this.el.setAttribute('output', {
       position: '0 .15 0',
@@ -16,11 +17,9 @@ AFRAME.registerComponent('function', {
     // TODO make environment follow tetrheadron as well as the outer part
     // the inner tetrahedron overlaps with the outer but only the inner is grabbable
     this.el.innerHTML =`
-      <a-tetrahedron color="orange" radius=".1" grabbable ></a-tetrahedron>
-
       <a-entity environment scale=".2 .2 .2" position="0 -.22 0"><a-entity>
     `;
-
+    //       <a-tetrahedron class="collidable syntax" color="orange" radius=".1" grabbable ></a-tetrahedron>
     this.el.evaluate = this.evaluate.bind(this);
   },
 

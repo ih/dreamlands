@@ -23,9 +23,9 @@ AFRAME.registerComponent('environment', {
     //  this.el.appendChild(this.environment);
     this.el.setAttribute('geometry', {
       primitive: 'box',
-      height: .1,
-      width: .1,
-      depth: .1,
+      height: .15,
+      width: .15,
+      depth: .15,
       color: 'white'
     });
     this.el.setAttribute('material', {
