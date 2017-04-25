@@ -55,10 +55,10 @@
 	__webpack_require__(1);
 	__webpack_require__(2);
 	__webpack_require__(3);
+	__webpack_require__(4);
 	__webpack_require__(5);
 	__webpack_require__(6);
 	__webpack_require__(7);
-	__webpack_require__(8);
 
 	/**
 	 * Super Hands component for A-Frame.
@@ -521,15 +521,9 @@
 
 /***/ },
 /* 3 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	'use strict';
-
-	var _utility = __webpack_require__(4);
-
-	var Utility = _interopRequireWildcard(_utility);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	AFRAME.registerComponent('grabbable', {
 	  schema: {
@@ -553,24 +547,29 @@
 	  },
 	  tick: function tick() {
 	    if (this.grabbed && !this.constraint && this.data.usePhysics !== 'only') {
+	      // compute based on entire ancestor chain
+	      var scalingFactor = this.getScalingFactor(this.el);
+
+	      if (!scalingFactor) {
+	        scalingFactor = { x: 1, y: 1, z: 1 };
+	      }
 	      var handPosition = this.grabber.getAttribute('position'),
 	          previousPosition = this.previousPosition || handPosition,
-	          deltaPosition = {
-	        x: handPosition.x - previousPosition.x,
-	        y: handPosition.y - previousPosition.y,
-	        z: handPosition.z - previousPosition.z
+
+	      // TODO also handle when scaling factor is 0
+	      deltaPosition = {
+	        x: (handPosition.x - previousPosition.x) * 1 / scalingFactor.x,
+	        y: (handPosition.y - previousPosition.y) * 1 / scalingFactor.y,
+	        z: (handPosition.z - previousPosition.z) * 1 / scalingFactor.z
 	      },
 	          position = this.el.getAttribute('position');
 
 	      this.previousPosition = handPosition;
-	      // translate el to global position then adjust by delta then translate
-	      // back to it's local position relative to its parent
-	      var elWorldPosition = Utility.getWorldPosition(this.el.getAttribute(position));
-	      var elNewWorldPosition = Utility.pointSum(elWorldPosition, deltaPosition);
-	      var elParentPosition = this.el.parentEl.getAttribute(position);
-	      var newElPosition = Utility.pointDifference(elNewWorldPosition, elParentPosition);
-
-	      this.el.setAttribute('position', newElPosition);
+	      this.el.setAttribute('position', {
+	        x: position.x + deltaPosition.x,
+	        y: position.y + deltaPosition.y,
+	        z: position.z + deltaPosition.z
+	      });
 	    }
 	  },
 	  pause: function pause() {
@@ -606,55 +605,28 @@
 	    this.grabber = null;
 	    this.grabbed = false;
 	    this.el.removeState(this.GRABBED_STATE);
+	  },
+	  getScalingFactor: function getScalingFactor(element) {
+	    var scalingFactor = {
+	      x: 1,
+	      y: 1,
+	      z: 1
+	    };
+
+	    while (element.parentEl.getAttribute('scale')) {
+	      var parentScale = element.parentEl.getAttribute('scale');
+	      scalingFactor.x *= parentScale.x !== 0 ? parentScale.x : 1;
+	      scalingFactor.y *= parentScale.y !== 0 ? parentScale.y : 1;
+	      scalingFactor.z *= parentScale.z !== 0 ? parentScale.z : 1;
+	      element = element.parentEl;
+	    }
+
+	    return scalingFactor;
 	  }
 	});
 
 /***/ },
 /* 4 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.getWorldPosition = getWorldPosition;
-	exports.getRelativePosition = getRelativePosition;
-	exports.pointSum = pointSum;
-	exports.pointDifference = pointDifference;
-	// TODO unify this file w/ the one in the dreamlands repo
-	// (make a utility repo use git submodules here and in dreamlands?)
-
-	function getWorldPosition(entity) {
-	  var worldPosition = new THREE.Vector3();
-	  worldPosition.setFromMatrixPosition(entity.object3D.matrixWorld);
-	  return worldPosition;
-	}
-
-	function getRelativePosition(entity, referenceEntity) {
-	  var entityWorldPosition = this.getWorldPosition(entity);
-	  var referenceWorldPosition = this.getWorldPosition(referenceEntity);
-	  return this.pointDifference(entityWorldPosition, referenceWorldPosition);
-	}
-
-	function pointSum(point1, point2) {
-	  return {
-	    x: point1.x + point2.x,
-	    y: point1.y + point2.y,
-	    z: poitn1.z + point2.z
-	  };
-	}
-
-	function pointDifference(point1, point2) {
-	  return {
-	    x: point1.x - point2.x,
-	    y: point1.y - point2.y,
-	    z: point1.z - point2.z
-	  };
-	}
-
-/***/ },
-/* 5 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -734,7 +706,7 @@
 	});
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -823,7 +795,7 @@
 	});
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -854,7 +826,7 @@
 	});
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports) {
 
 	'use strict';
