@@ -1,4 +1,7 @@
 AFRAME.registerComponent('variable-assignment', {
+  schema: {
+    grabbable: {default: true}
+  },
   init: function () {
       this.label = 'x';
       this.el.setAttribute('geometry', {
@@ -6,7 +9,9 @@ AFRAME.registerComponent('variable-assignment', {
         radius: .1,
         color: 'blue'
       });
-      this.el.setAttribute('grabbable', true);
+      if (this.data.grabbable) {
+        this.el.setAttribute('grabbable', true);
+      }
       this.el.setAttribute('class', 'collidable syntax');
       this.el.setAttribute('output', {
         position: '0 .15 0',
@@ -29,7 +34,7 @@ AFRAME.registerComponent('variable-assignment', {
       this.el.evaluate = this.evaluate.bind(this);
   },
 
-  evaluate: function () {
+  evaluate: function (context) {
     let variableValueEntity = this.getValueEntity();
     if (variableValueEntity === undefined) {
        this.el.setAttribute('output', {
@@ -39,18 +44,14 @@ AFRAME.registerComponent('variable-assignment', {
        return null;
     }
     let variableValue = variableValueEntity.evaluate();
+    context[this.label] = variableValue;
+
     this.el.setAttribute('output', {
       output: `${this.label} = ${variableValue}`,
       type: ''
     });
-    // TODO change so environment context/scope is either directly manipulated
-    // or signal is sent to manipulate it, since this expression may be nested
-    // in other expressions whose evaluation does not necessarily return a context
-    // update
-    return {
-      variable: this.label,
-      value: variableValue
-    };
+
+    return variableValue;
   },
 
   getValueEntity: function () {

@@ -66,3 +66,7 @@ export function arrayRemove(array, item) {
       return currentItem !== item;
   });
 }
+
+export function copyContext(object) {
+  return JSON.parse(JSON.stringify(object));
+}

@@ -9,8 +9,6 @@ AFRAME.registerComponent('snap-site', {
   init: function () {
     let self = this;
 
-    this.boundingSize = Utility.getBoundingSize(this.el);
-
     this.el.setAttribute('aabb-collider', 'objects: .snappable');
 
     this.data.controller.addEventListener('gripopen', (event) => {
@@ -24,6 +22,7 @@ AFRAME.registerComponent('snap-site', {
     this.el.addEventListener('hit', (event) => {
       if (event.detail.el && event.detail.el.classList.contains('snappable') && self.gripOpened && self.el.children.length === 0) {
         console.log('snap item gripped');
+        event.stopPropagation();
         self.snapItem(event.detail.el);
       }
     });
@@ -32,9 +31,12 @@ AFRAME.registerComponent('snap-site', {
   snapItem: function(snappedItem) {
     // resize items
     console.log(`snapping ${snappedItem}`);
-    Utility.scaleToSize(snappedItem, this.boundingSize * .75);
+    let boundingSize = Utility.getBoundingSize(this.el);
+    Utility.scaleToSize(snappedItem, boundingSize * .75);
     // TODO make removing adding back certain attributes dynamic
     snappedItem.removeAttribute('grabbable');
+    // do this otherwise this item will constantly be triggering snapItem handler
+    snappedItem.classList.remove('snappable');
     // add entity as child to snap-site and position to center
     this.el.appendChild(snappedItem);
     snappedItem.setAttribute('position', '0 0 0');
