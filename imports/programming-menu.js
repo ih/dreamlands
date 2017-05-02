@@ -24,16 +24,27 @@ AFRAME.registerComponent('programming-menu', {
     this.el.appendChild(this.menu);
     //this.formatMenuItems();
     this.enabled = false;
-    this.el.addEventListener('menudown', (event) => {
-      console.log('menu button pushed');
-      self.toggle();
-    });
-
+    this.toggle = this.toggle.bind(this);
+    this.el.addEventListener('menudown', this.toggle);
   },
 
   update: function () {
-
+    console.log('updating');
   },
+
+  remove: function () {
+    console.log('removing');
+  },
+
+  // play: function () {
+  //   console.log('programming-menu playing');
+  //
+  // },
+  //
+  // pause: function () {
+  //   console.log('programming-menu pausing');
+  //   this.el.removeEventListener('menudown', this.toggle);
+  // },
 
   tick: function () {
     // a hack, figure out how to do this in init/update

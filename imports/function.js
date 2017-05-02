@@ -2,10 +2,21 @@ import * as Utility from '../imports/utility.js';
 
 AFRAME.registerComponent('function', {
   init: function () {
+    // TODO add button for creating new arguments
+    // TODO make environment follow tetrheadron as well as the outer part
+    // the inner tetrahedron overlaps with the outer but only the inner is grabbable
+    this.el.innerHTML =`
+      <a-entity class="parameter" variable-assignment="grabbable: false;" scale=".1 .1 .1" position=".3 0 0"></a-entity>
+
+      <a-entity class="body" environment scale=".2 .2 .2" position="0 -.22 0"><a-entity>
+    `;
+
     this.label = 'f';
     this.el.setAttribute('geometry', {
       primitive: 'tetrahedron',
-      radius: .1,
+      radius: .1
+    });
+    this.el.setAttribute('material', {
       color: 'orange'
     });
     this.el.setAttribute('grabbable', true);
@@ -20,14 +31,6 @@ AFRAME.registerComponent('function', {
       size: .03
     });
 
-    // TODO add button for creating new arguments
-    // TODO make environment follow tetrheadron as well as the outer part
-    // the inner tetrahedron overlaps with the outer but only the inner is grabbable
-    this.el.innerHTML =`
-      <a-entity class="parameter" variable-assignment="grabbable: false;" scale=".1 .1 .1" position=".3 0 0"></a-entity>
-
-      <a-entity class="body" environment scale=".2 .2 .2" position="0 -.22 0"><a-entity>
-    `;
     //       <a-tetrahedron class="collidable syntax" color="orange" radius=".1" grabbable ></a-tetrahedron>
     this.el.evaluate = this.evaluate.bind(this);
 

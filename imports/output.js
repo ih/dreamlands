@@ -10,12 +10,19 @@ AFRAME.registerComponent('output', {
   },
 
   init: function () {
+    // b/c component is re-initialized when an element moves in the dom-helpers
+    // we don't want to recreate the element TODO is there a better way to do this?
+    this.output = this.el.querySelector('.output');
+    if (this.output) {
+      return;
+    }
     this.output = DOMHelpers.stringToDomElement(
       `<a-icosahedron
         radius="${this.data.size}"
         wireframe="true"
         color="${this.getColor()}"
-        position="${this.data.position}">
+        position="${this.data.position}"
+        class="output">
       </a-icosahedron>`
     );
 
@@ -31,6 +38,10 @@ AFRAME.registerComponent('output', {
     });
 
     this.output.setAttribute('color', this.getColor());
+  },
+
+  removed: function () {
+    this.removeChild(this.output);
   },
 
   getColor: function () {

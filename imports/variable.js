@@ -2,7 +2,9 @@ AFRAME.registerComponent('variable', {
   init: function () {
     this.el.setAttribute('geometry', {
       primitive: 'octahedron',
-      radius: .1,
+      radius: .1
+    });
+    this.el.setAttribute('material', {
       color: 'blue'
     });
     this.el.setAttribute('grabbable', true);

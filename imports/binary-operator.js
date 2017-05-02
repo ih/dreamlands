@@ -7,7 +7,9 @@ AFRAME.registerComponent('binary-operator', {
       primitive: 'box',
       depth: .1,
       height: .1,
-      width: .1,
+      width: .1
+    });
+    this.el.setAttribute('material', {
       color: 'green'
     });
     this.el.setAttribute('text', {

@@ -1,8 +1,20 @@
+import * as DOMHelpers from '../imports/dom-helpers.js';
+
 AFRAME.registerComponent('variable-assignment', {
   schema: {
     grabbable: {default: true}
   },
   init: function () {
+      let valueHolder = DOMHelpers.stringToDomElement(`
+        <a-sphere
+          snap-site="controller:#right-hand"
+          radius=".1"
+          color="yellow"
+          material="transparent:true; opacity:.5;"
+          position=".22 0 0">
+        </a-sphere>
+      `);
+      this.el.appendChild(valueHolder);
       this.label = 'x';
       this.el.setAttribute('geometry', {
         primitive: 'octahedron',
@@ -22,15 +34,7 @@ AFRAME.registerComponent('variable-assignment', {
         zOffset: .1,
         value: `let ${this.label} =`
       });
-      this.el.innerHTML = `
-        <a-sphere
-          snap-site="controller:#right-hand"
-          radius=".1"
-          color="yellow"
-          material="transparent:true; opacity:.5;"
-          position=".22 0 0">
-        </a-sphere>
-      `;
+
       this.el.evaluate = this.evaluate.bind(this);
   },
 

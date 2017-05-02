@@ -25,11 +25,11 @@ AFRAME.registerComponent('environment', {
       primitive: 'box',
       height: .15,
       width: .15,
-      depth: .15,
-      color: 'white'
+      depth: .15
     });
     this.el.setAttribute('material', {
-      wireframe: true
+      wireframe: true,
+      color: 'white'
     });
     this.el.setAttribute('environment-collider', {
       objects: '.syntax',
@@ -50,7 +50,7 @@ AFRAME.registerComponent('environment', {
     this.context = {};
 
     // start execution of code in the environment
-    this.evaluationId = setInterval(this.evaluate.bind(this), this.interval);
+    // this.evaluationId = setInterval(this.evaluate.bind(this), this.interval);
 
     // update the list of entities inside the environment
     // this event is fired by environment-collider
@@ -76,7 +76,7 @@ AFRAME.registerComponent('environment', {
   },
 
   evaluate: async function () {
-    console.log('evaluating...');
+    // console.log('evaluating...');
     // order entities by y coordinate
     this.entities.sort((entity1, entity2) => {
       let entity1Position = entity1.getAttribute('position');
@@ -85,7 +85,7 @@ AFRAME.registerComponent('environment', {
     });
 
     for (let entity of this.entities) {
-      console.log(`evaluating ${entity.outerHTML}: ${entity.evaluate(this.context)}`);
+      // console.log(`evaluating ${entity.outerHTML}: ${entity.evaluate(this.context)}`);
       await Utility.sleep(this.interval);
     }
   },
