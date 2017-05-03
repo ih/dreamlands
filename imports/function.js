@@ -6,9 +6,10 @@ AFRAME.registerComponent('function', {
     // TODO make environment follow tetrheadron as well as the outer part
     // the inner tetrahedron overlaps with the outer but only the inner is grabbable
     this.el.innerHTML =`
-      <a-entity class="parameter" variable-assignment="grabbable: false;" scale=".1 .1 .1" position=".3 0 0"></a-entity>
-
-      <a-entity class="body" environment scale=".2 .2 .2" position="0 -.22 0"><a-entity>
+      <a-entity class="parameter" variable-assignment="grabbable: false;" scale=".1 .1 .1" position=".3 0 0">
+      </a-entity>
+      <a-entity class="body" environment scale=".2 .2 .2" position="0 -.22 0">
+      </a-entity>
     `;
 
     this.label = 'f';

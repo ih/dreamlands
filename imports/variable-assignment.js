@@ -5,7 +5,7 @@ AFRAME.registerComponent('variable-assignment', {
     grabbable: {default: true}
   },
   init: function () {
-      let valueHolder = DOMHelpers.stringToDomElement(`
+      this.el.innerHTML = `
         <a-sphere
           snap-site="controller:#right-hand"
           radius=".1"
@@ -13,8 +13,7 @@ AFRAME.registerComponent('variable-assignment', {
           material="transparent:true; opacity:.5;"
           position=".22 0 0">
         </a-sphere>
-      `);
-      this.el.appendChild(valueHolder);
+      `;
       this.label = 'x';
       this.el.setAttribute('geometry', {
         primitive: 'octahedron',

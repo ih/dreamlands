@@ -50,7 +50,7 @@ AFRAME.registerComponent('environment', {
     this.context = {};
 
     // start execution of code in the environment
-    // this.evaluationId = setInterval(this.evaluate.bind(this), this.interval);
+    this.evaluationId = setInterval(this.evaluate.bind(this), this.interval);
 
     // update the list of entities inside the environment
     // this event is fired by environment-collider
@@ -68,10 +68,17 @@ AFRAME.registerComponent('environment', {
     this.el.addEventListener('removed', (event) => {
       console.log('removed from env');
       let removedElement = event.detail.el;
+      self.entities = event.detail.collection;
+      // if the removed event was triggered b/c the element become more nested
+      // i.e. the parent is no longer the environment
+      // don't move it otherwise bring it out of the environment
+      if (removedElement.parentElement !== this.el) {
+        return;
+      }
       let worldPosition = Utility.getWorldPosition(removedElement);
       self.el.parentNode.parentNode.appendChild(removedElement);
+      // need to add some margin so doesn't immediately re-collide w/ environment
       removedElement.setAttribute('position', worldPosition);
-      self.entities = event.detail.collection;
     });
   },
 
@@ -85,7 +92,8 @@ AFRAME.registerComponent('environment', {
     });
 
     for (let entity of this.entities) {
-      // console.log(`evaluating ${entity.outerHTML}: ${entity.evaluate(this.context)}`);
+      let value = entity.evaluate(this.context);
+      // console.log(`evaluating ${entity.outerHTML}: ${value}`);
       await Utility.sleep(this.interval);
     }
   },
