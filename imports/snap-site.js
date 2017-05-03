@@ -33,12 +33,16 @@ AFRAME.registerComponent('snap-site', {
     console.log(`snapping ${snappedItem}`);
     let boundingSize = Utility.getBoundingSize(this.el);
     Utility.scaleToSize(snappedItem, boundingSize * .75);
+    // add entity as child to snap-site and position to center
+    this.el.appendChild(snappedItem);
+    snappedItem.setAttribute('position', '0 0 0');
+
+    // important to do this after snappedItem has been moved since changing
+    // it's place in the DOM re-initializes the component, it'd be nice if
+    // we did this in a way that wasn't sensitive to order of operations
     // TODO make removing adding back certain attributes dynamic
     snappedItem.removeAttribute('grabbable');
     // do this otherwise this item will constantly be triggering snapItem handler
     snappedItem.classList.remove('snappable');
-    // add entity as child to snap-site and position to center
-    this.el.appendChild(snappedItem);
-    snappedItem.setAttribute('position', '0 0 0');
   }
 });

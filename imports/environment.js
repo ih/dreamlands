@@ -15,12 +15,6 @@ AFRAME.registerComponent('environment', {
     var self = this;
     this.interval = 1000;
     this.entities = [];
-    // it'd be nice if we could do something like this
-    // consider writing a function to do this
-    // this.environment = DOMHelpers.stringToDomElement(`
-    //   <a-box class="environment collidable" environment-collider="objects: .syntax" stretchable wireframe=true></a-box>
-    // `);
-    //  this.el.appendChild(this.environment);
     this.el.setAttribute('geometry', {
       primitive: 'box',
       height: .15,
