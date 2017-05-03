@@ -8,7 +8,7 @@ AFRAME.registerComponent('function', {
     this.el.innerHTML =`
       <a-entity class="parameter" variable-assignment="grabbable: false;" scale=".1 .1 .1" position=".3 0 0">
       </a-entity>
-      <a-entity class="body" environment scale=".2 .2 .2" position="0 -.22 0">
+      <a-entity class="body" environment="height:.15; width:.15; depth:.15" scale=".2 .2 .2" position="0 -.22 0">
       </a-entity>
     `;
 

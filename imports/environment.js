@@ -6,6 +6,9 @@ import * as Utility from '../imports/utility.js';
 // environment-collider for more details
 AFRAME.registerComponent('environment', {
   schema: {
+    height: {default: 1},
+    width: {default: 1},
+    depth: {default: 1}
   },
 
   init: function () {
@@ -17,9 +20,9 @@ AFRAME.registerComponent('environment', {
     this.entities = [];
     this.el.setAttribute('geometry', {
       primitive: 'box',
-      height: .15,
-      width: .15,
-      depth: .15
+      height: this.data.height,
+      width: this.data.width,
+      depth: this.data.depth
     });
     this.el.setAttribute('material', {
       wireframe: true,

@@ -32,6 +32,8 @@ import '../imports/variable-icon.js';
 import '../imports/variable.js';
 import '../imports/function-icon.js';
 import '../imports/function.js';
+import '../imports/program-icon.js';
+import '../imports/program.js';
 
 import './main.html';
 

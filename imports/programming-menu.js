@@ -18,6 +18,7 @@ AFRAME.registerComponent('programming-menu', {
         <a-entity class="menu-item" menu-item="enabled: false; icon: variable-assignment-icon; item: variable-assignment;"></a-entity>
         <a-entity class="menu-item" menu-item="enabled: false; icon: variable-icon; item: variable;"></a-entity>
         <a-entity class="menu-item" menu-item="enabled: false; icon: function-icon; item: function;"></a-entity>
+        <a-entity class="menu-item" menu-item="enabled: false; icon: program-icon; item: program;"></a-entity>
       </a-plane>
     `);
 
