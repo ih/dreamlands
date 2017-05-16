@@ -1,5 +1,7 @@
 AFRAME.registerComponent('program', {
   init: function () {
+    this.interval = 1000;
+
     this.el.innerHTML = `
       <a-entity class="body" environment position="0 -1 0">
       </a-entity>
@@ -24,5 +26,13 @@ AFRAME.registerComponent('program', {
       zOffset: .1,
       value: `${this.label}`
     });
+
+        // start execution of code in the environment
+    this.evaluationId = setInterval(this.evaluate.bind(this), this.interval);
+  },
+
+  evaluate: function () {
+    let body = this.el.querySelector('.body');
+    body.evaluate({});
   }
 });

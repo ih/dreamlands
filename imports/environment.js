@@ -16,7 +16,6 @@ AFRAME.registerComponent('environment', {
       console.error('environment should not be a top level element!');
     }
     var self = this;
-    this.interval = 1000;
     this.entities = [];
     this.el.setAttribute('geometry', {
       primitive: 'box',
@@ -38,16 +37,12 @@ AFRAME.registerComponent('environment', {
       value: 'environment',
       width: 1
     });
-    this.el.setAttribute('class', 'environment collidable');
+    this.el.classList.add('environment');
+    this.el.classList.add('collidable');
     this.el.setAttribute('stretchable', true);
     this.el.setAttribute('resizable', {
       geometryDimensions: 'height, width, depth'
     });
-
-    this.context = {};
-
-    // start execution of code in the environment
-    this.evaluationId = setInterval(this.evaluate.bind(this), this.interval);
 
     // update the list of entities inside the environment
     // this event is fired by environment-collider
@@ -77,9 +72,11 @@ AFRAME.registerComponent('environment', {
       // need to add some margin so doesn't immediately re-collide w/ environment
       removedElement.setAttribute('position', worldPosition);
     });
+
+    this.el.evaluate = this.evaluate.bind(this);
   },
 
-  evaluate: async function () {
+  evaluate: function (context = {}) {
     // console.log('evaluating...');
     // order entities by y coordinate
     this.entities.sort((entity1, entity2) => {
@@ -89,10 +86,17 @@ AFRAME.registerComponent('environment', {
     });
 
     for (let entity of this.entities) {
-      let value = entity.evaluate(this.context);
+      let value = entity.evaluate(context);
       // console.log(`evaluating ${entity.outerHTML}: ${value}`);
-      await Utility.sleep(this.interval);
+      // await Utility.sleep(this.interval);
     }
+
+    // TODO make a return component
+    if (this.entities.length > 0) {
+      let lastValue = this.entities[this.entities.length - 1].evaluate(context);
+      return lastValue;
+    }
+    return undefined;
   },
   // // consider compiling code into a generator function and using that to
   // // incrementally execute things https://ponyfoo.com/articles/es6-generators-in-depth

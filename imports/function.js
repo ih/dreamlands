@@ -34,8 +34,6 @@ AFRAME.registerComponent('function', {
 
     //       <a-tetrahedron class="collidable syntax" color="orange" radius=".1" grabbable ></a-tetrahedron>
     this.el.evaluate = this.evaluate.bind(this);
-
-    this.el.evaluate = this.evaluate.bind(this);
   },
 
   evaluate: function (context) {
@@ -46,6 +44,9 @@ AFRAME.registerComponent('function', {
     });
     let body = this.el.querySelector('.body');
     let value = body.evaluate(localContext);
+    this.el.setAttribute('output', {
+      output: value
+    });
     return value;
   }
 });

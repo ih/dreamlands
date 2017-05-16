@@ -96,14 +96,26 @@ AFRAME.registerComponent('environment-collider', {
           if (self.collisions.has(el)) {
             self.collisions.delete(el);
             el.removeState(self.data.state);
-            self.el.emit('removed', {el: el, collection: Array.from(self.collisions)});
+            // make sure not to bubble events b/c there can
+            // be nested environments
+            self.el.emit(
+              'removed',
+              {el: el, collection: Array.from(self.collisions)},
+              false
+            );
           }
           return;
         }
         if (!self.collisions.has(el)) {
             self.collisions.add(el);
             el.addState(self.data.state);
-            self.el.emit('added', {el: el, collection: Array.from(self.collisions)});
+            // make sure not to bubble events b/c there can
+            // be nested environments
+            self.el.emit(
+              'added',
+              {el: el, collection: Array.from(self.collisions)},
+              false
+            );
         }
       }
 
@@ -118,7 +130,13 @@ AFRAME.registerComponent('environment-collider', {
         if (!self.objectEls.includes(el)) {
             self.collisions.delete(el);
             el.removeState(self.data.state);
-            self.el.emit('removed', {el: el, collection: Array.from(self.collisions)});
+            // make sure not to bubble events b/c there can
+            // be nested environments
+            self.el.emit(
+              'removed',
+              {el: el, collection: Array.from(self.collisions)},
+              false
+            );
         }
       }
     };
