@@ -8,7 +8,9 @@ AFRAME.registerComponent('variable', {
       color: 'blue'
     });
     this.el.setAttribute('grabbable', true);
-    this.el.setAttribute('class', 'collidable snappable syntax');
+    this.el.classList.add('collidable');
+    this.el.classList.add('syntax');
+    this.el.classList.add('snappable');
     this.el.setAttribute('output', {
       position: '0 .15 0',
       size: .03

@@ -23,7 +23,8 @@ AFRAME.registerComponent('variable-assignment', {
       if (this.data.grabbable) {
         this.el.setAttribute('grabbable', true);
       }
-      this.el.setAttribute('class', 'collidable syntax');
+      this.el.classList.add('collidable');
+      this.el.classList.add('syntax');
       this.el.setAttribute('output', {
         position: '0 .15 0',
         size: .03

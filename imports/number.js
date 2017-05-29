@@ -4,7 +4,9 @@ AFRAME.registerComponent('number', {
   init: function () {
     //radius=".1" grabbable class="collidable snappable syntax"></a-sphere
     this.el.setAttribute('grabbable', true);
-    this.el.setAttribute('class', 'collidable snappable syntax');
+    this.el.classList.add('collidable');
+    this.el.classList.add('syntax');
+    this.el.classList.add('snappable');
     this.el.setAttribute('geometry', {
       primitive: 'sphere',
       radius: .1

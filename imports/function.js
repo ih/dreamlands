@@ -6,7 +6,7 @@ AFRAME.registerComponent('function', {
     // TODO make environment follow tetrheadron as well as the outer part
     // the inner tetrahedron overlaps with the outer but only the inner is grabbable
     this.el.innerHTML =`
-      <a-entity class="parameter" variable-assignment="grabbable: false;" scale=".1 .1 .1" position=".3 0 0">
+      <a-entity class="parameter" variable-assignment="grabbable: false;" scale=".3 .3 .3" position=".1 0 0">
       </a-entity>
       <a-entity class="body" environment="height:.15; width:.15; depth:.15" scale=".2 .2 .2" position="0 -.22 0">
       </a-entity>
@@ -21,7 +21,9 @@ AFRAME.registerComponent('function', {
       color: 'orange'
     });
     this.el.setAttribute('grabbable', true);
-    this.el.setAttribute('class', 'function collidable syntax');
+    this.el.classList.add('collidable');
+    this.el.classList.add('syntax');
+    this.el.classList.add('function');
     this.el.setAttribute('text', {
       align: 'center',
       zOffset: .1,
@@ -40,7 +42,7 @@ AFRAME.registerComponent('function', {
     let localContext = Utility.copyContext(context);
     let parameters = this.el.querySelectorAll(':scope > .parameter');
     parameters.forEach((assignment) => {
-      assignment.evaluate(context);
+      assignment.evaluate(localContext);
     });
     let body = this.el.querySelector('.body');
     let value = body.evaluate(localContext);

@@ -20,7 +20,8 @@ AFRAME.registerComponent('program', {
     });
 
     this.el.setAttribute('grabbable', true);
-    this.el.setAttribute('class', 'program collidable');
+    this.el.classList.add('collidable');
+    this.el.classList.add('program');
     this.el.setAttribute('text', {
       align: 'center',
       zOffset: .1,
