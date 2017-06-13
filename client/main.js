@@ -20,6 +20,8 @@ import '../imports/snap-site.js';
 import '../imports/menu-item.js';
 import '../imports/environment.js';
 import '../imports/environment-icon.js';
+
+import '../imports/syntax.js';
 import '../imports/number-icon.js';
 import '../imports/number.js';
 import '../imports/environment.js';

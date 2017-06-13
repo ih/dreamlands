@@ -53,6 +53,9 @@ AFRAME.registerComponent('environment', {
       let newElement = event.detail.el;
       let relativePosition = Utility.getRelativePosition(newElement, self.el);
       newElement.setAttribute('position', relativePosition);
+      // TODO this creates a bug since appendChild re-runs initialize for
+      // components on the element so e.g. an element like variable assignment
+      // with a snap-site that has something snapped will lose it
       self.el.appendChild(newElement);
       self.entities = event.detail.collection;
     });

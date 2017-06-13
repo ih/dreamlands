@@ -42,7 +42,7 @@ AFRAME.registerComponent('variable-assignment', {
     let variableValueEntity = this.getValueEntity();
     if (variableValueEntity === undefined) {
        this.el.setAttribute('output', {
-         output: `undefined value`,
+         output: 'undefined value',
          type: 'error'
        });
        return null;
