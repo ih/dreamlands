@@ -91,7 +91,7 @@ AFRAME.registerComponent('programming-menu', {
       position.z = currentZ;
       menuIcon.setAttribute('position', position);
       currentX += margin;
-    };
+    }
     this.menuProcessed = true;
   }
 });

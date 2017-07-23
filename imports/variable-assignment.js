@@ -2,9 +2,13 @@ import * as DOMHelpers from '../imports/dom-helpers.js';
 
 AFRAME.registerComponent('variable-assignment', {
   schema: {
-    grabbable: {default: true}
+    grabbable: {default: true},
+    initialized: {default: false}
   },
   init: function () {
+    if (this.data.initialized) {
+      return;
+    }
       this.el.innerHTML = `
         <a-sphere
           snap-site="controller:#right-hand"
@@ -36,6 +40,8 @@ AFRAME.registerComponent('variable-assignment', {
       });
 
       this.el.evaluate = this.evaluate.bind(this);
+      AFRAME.utils.entity.setComponentProperty(this.el, 'initialized', true);
+      console.log('variable assignment initialized');
   },
 
   evaluate: function (context) {

@@ -70,3 +70,20 @@ export function arrayRemove(array, item) {
 export function copyContext(object) {
   return JSON.parse(JSON.stringify(object));
 }
+
+export function appendChildOutsideIn(newParent, child) {
+  child.classList.remove('syntax');
+  let queue = [[child, newParent]];
+  while (queue.length > 0) {
+    let [currentNode, newParent] = queue.pop();
+    let newChild = currentNode.cloneNode(false);
+    let parent = newParent.appendChild(newChild);
+    for (let i = 0; i < currentNode.children.length; i++) {
+      let childNode = currentNode.children[i];
+      queue.push([childNode, parent]);
+    }
+  }
+  // seems like a-entity wraps remove and takes an argument
+  // that's why we use removeChild
+  child.parentNode.removeChild(child);
+}
