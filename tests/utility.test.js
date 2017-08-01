@@ -5,5 +5,5 @@ test('arrayRemove removes an element from an array', () => {
 
   let result = Utility.arrayRemove(testArray, 2);
 
-  expect(result).toEqual([1, 3]);
+  expect(result).to.deep.equal([1, 3]);
 });
