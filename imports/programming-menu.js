@@ -75,6 +75,8 @@ AFRAME.registerComponent('programming-menu', {
     let initY = .2;
     let margin = .2;
     let self = this;
+    let currentX = null;
+    let currentY = null;
     for (let i=0; i < this.menu.children.length; i++) {
       if (i % itemsPerRow === 0) {
         currentX = initX;

@@ -12,7 +12,8 @@ AFRAME.registerComponent('environment', {
   },
 
   init: function () {
-    if (this.el.parentNode === this.sceneEl) {
+    console.log('initializing an environment');
+    if (this.el.parentNode === this.el.sceneEl) {
       console.error('environment should not be a top level element!');
     }
     var self = this;

@@ -7,6 +7,7 @@
  * @returns {object} An `<a-entity>` element.
  */
 module.exports.entityFactory = function (opts) {
+    console.log('creating an entity');
     var scene = document.createElement('a-scene');
     var assets = document.createElement('a-assets');
     var entity = document.createElement('a-entity');

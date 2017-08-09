@@ -1,3 +1,5 @@
+import ElementCollider from '../imports/element-collider.js';
+
 AFRAME.registerComponent('environment-collider', {
   schema: {
     objects: { default: '' },
@@ -6,7 +8,9 @@ AFRAME.registerComponent('environment-collider', {
   },
 
   init: function () {
+    console.log('environment-collider initializing');
     this.tick = AFRAME.utils.throttleTick(this.throttledTick, this.data.interval, this);
+    this.collider = new ElementCollider(this.el);
   },
 
   throttledTick: function () {
@@ -24,8 +28,8 @@ AFRAME.registerComponent('environment-collider', {
     // outsideElement contains both the environment and what it's attached to
     // e.g. function component
     let outsideElement = this.el.parentNode.parentNode;
-    let outsideObjects = Array.from(outsideElement.querySelectorAll(`:scope > ${data.objects}`));
-    // remove the parentNode though e.g. the function entity that contains the environemnt
+    let outsideObjects = Array.from(outsideElement.querySelectorAll(`:scope > ${this.data.objects}`));
+    // remove the parentNode though e.g. the function entity that contains the environment
     outsideObjects = Utility.arrayRemove(elements, this.el.parentNode);
     return outsideObjects;
   },
@@ -40,12 +44,13 @@ AFRAME.registerComponent('environment-collider', {
       this.el.parentNode.parentNode.appendChild(object);
       // need to add some margin so doesn't immediately re-collide w/ environment
       object.setAttribute('position', worldPosition);
+      this.el.emit('removed', {el: this.el}, false);
     });
   },
 
   addColliding: function (objects) {
     let colliding = objects.filter((object) => {
-      return this.isIntersecting(object);
+      return this.collider.isIntersecting(object);
     });
 
     colliding.map((object) => {
@@ -55,6 +60,7 @@ AFRAME.registerComponent('environment-collider', {
       // components on the element so e.g. an element like variable assignment
       // with a snap-site that has something snapped will lose it
       this.el.appendChild(object);
+      this.el.emit('added', {el: this.el}, false);
     });
   }
 });
