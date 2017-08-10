@@ -22,5 +22,5 @@ suite('environment-collider component', function () {
       done();
     });
     this.scene.append(numberElement);
-  });
+ });
 });

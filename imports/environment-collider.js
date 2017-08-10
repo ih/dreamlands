@@ -1,4 +1,5 @@
 import ElementCollider from '../imports/element-collider.js';
+import * as Utility from '../imports/utility.js';
 
 AFRAME.registerComponent('environment-collider', {
   schema: {
@@ -21,7 +22,7 @@ AFRAME.registerComponent('environment-collider', {
   },
 
   getObjectsInsideEnvironment: function () {
-    return this.el.querySelectorAll(`:scope > ${this.data.objects}`);
+    return Array.from(this.el.querySelectorAll(`:scope > ${this.data.objects}`));
   },
 
   getObjectsOutsideEnvironment: function () {
@@ -30,12 +31,12 @@ AFRAME.registerComponent('environment-collider', {
     let outsideElement = this.el.parentNode.parentNode;
     let outsideObjects = Array.from(outsideElement.querySelectorAll(`:scope > ${this.data.objects}`));
     // remove the parentNode though e.g. the function entity that contains the environment
-    outsideObjects = Utility.arrayRemove(elements, this.el.parentNode);
+    outsideObjects = Utility.arrayRemove(outsideObjects, this.el.parentNode);
     return outsideObjects;
   },
 
   removeNonColliding: function (objects) {
-    let nonColliding = objects.filter((object) => {
+   let nonColliding = objects.filter((object) => {
       return !this.isIntersecting(object);
     });
 
@@ -49,7 +50,7 @@ AFRAME.registerComponent('environment-collider', {
   },
 
   addColliding: function (objects) {
-    let colliding = objects.filter((object) => {
+   let colliding = objects.filter((object) => {
       return this.collider.isIntersecting(object);
     });
 

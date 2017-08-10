@@ -149,7 +149,7 @@ export function createOrUpdateEntity(id, entityProperties) {
     }
 
     entityElement.removeAttribute('id');
-    entityString = entityElement.outerHTML;
+    let entityString = entityElement.outerHTML;
     entityProperties.text = entityString;
     entityProperties.location = {
       type: 'Point',
