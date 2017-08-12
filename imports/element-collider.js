@@ -15,10 +15,13 @@ export default class ElementCollider {
     this.boundingBox.setFromObject(otherMesh);
     let otherMax = this.boundingBox.max;
     let otherMin = this.boundingBox.min;
-    return (this.elementMin.x <= otherMax.x && this.elementMax.x >= otherMin.x) &&
+    let intersected = (this.elementMin.x <= otherMax.x && this.elementMax.x >= otherMin.x) &&
       (this.elementMin.y <= otherMax.y && this.elementMax.y >= otherMin.y) &&
       (this.elementMin.z <= otherMax.z && this.elementMax.z >= otherMin.z);
+
+    return intersected;
   }
+
   updateBounds() {
     this.boundingBox.setFromObject(this.mesh);
     this.elementMax.copy(this.boundingBox.max);

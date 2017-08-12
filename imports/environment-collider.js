@@ -15,6 +15,7 @@ AFRAME.registerComponent('environment-collider', {
   },
 
   throttledTick: function () {
+    this.collider.updateBounds();
     let insideObjects = this.getObjectsInsideEnvironment();
     let outsideObjects = this.getObjectsOutsideEnvironment();
     this.removeNonColliding(insideObjects);
@@ -37,7 +38,7 @@ AFRAME.registerComponent('environment-collider', {
 
   removeNonColliding: function (objects) {
    let nonColliding = objects.filter((object) => {
-      return !this.isIntersecting(object);
+      return !this.collider.isIntersecting(object);
     });
 
     nonColliding.map((object) => {

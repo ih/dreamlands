@@ -45,38 +45,6 @@ AFRAME.registerComponent('environment', {
       geometryDimensions: 'height, width, depth'
     });
 
-    // update the list of entities inside the environment
-    // this event is fired by environment-collider
-    // assumes all syntax entities intersecting w/ the environment are
-    // included in the event (same for removed event)
-    this.el.addEventListener('added', (event) => {
-      console.log('added to env');
-      let newElement = event.detail.el;
-      let relativePosition = Utility.getRelativePosition(newElement, self.el);
-      newElement.setAttribute('position', relativePosition);
-      // TODO this creates a bug since appendChild re-runs initialize for
-      // components on the element so e.g. an element like variable assignment
-      // with a snap-site that has something snapped will lose it
-      self.el.appendChild(newElement);
-      self.entities = event.detail.collection;
-    });
-    // this event is fired by environment-collider
-    this.el.addEventListener('removed', (event) => {
-      console.log('removed from env');
-      let removedElement = event.detail.el;
-      self.entities = event.detail.collection;
-      // if the removed event was triggered b/c the element become more nested
-      // i.e. the parent is no longer the environment
-      // don't move it otherwise bring it out of the environment
-      if (removedElement.parentElement !== this.el) {
-        return;
-      }
-      let worldPosition = Utility.getWorldPosition(removedElement);
-      self.el.parentNode.parentNode.appendChild(removedElement);
-      // need to add some margin so doesn't immediately re-collide w/ environment
-      removedElement.setAttribute('position', worldPosition);
-    });
-
     this.el.evaluate = this.evaluate.bind(this);
   },
 
