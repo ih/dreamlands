@@ -17,7 +17,6 @@ AFRAME.registerComponent('environment', {
       console.error('environment should not be a top level element!');
     }
     var self = this;
-    this.entities = [];
     this.el.setAttribute('geometry', {
       primitive: 'box',
       height: this.data.height,
@@ -48,24 +47,28 @@ AFRAME.registerComponent('environment', {
     this.el.evaluate = this.evaluate.bind(this);
   },
 
+  getSyntaxElements: function () {
+    return Array.from(this.el.querySelectorAll(':scope > .syntax'));
+  },
+
   evaluate: function (context = {}) {
-    // console.log('evaluating...');
+    let syntaxElements = this.getSyntaxElements();
     // order entities by y coordinate
-    this.entities.sort((entity1, entity2) => {
-      let entity1Position = entity1.getAttribute('position');
-      let entity2Position = entity2.getAttribute('position');
-      return entity2Position.y - entity1Position.y;
+    syntaxElements.sort((element1, element2) => {
+      let element1Position = element1.getAttribute('position');
+      let element2Position = element2.getAttribute('position');
+      return element2Position.y - element1Position.y;
     });
 
-    for (let entity of this.entities) {
-      let value = entity.evaluate(context);
-      // console.log(`evaluating ${entity.outerHTML}: ${value}`);
+    for (let element of syntaxElements) {
+      let value = element.evaluate(context);
+      // console.log(`evaluating ${element.outerHTML}: ${value}`);
       // await Utility.sleep(this.interval);
     }
 
     // TODO make a return component
-    if (this.entities.length > 0) {
-      let lastValue = this.entities[this.entities.length - 1].evaluate(context);
+    if (syntaxElements.length > 0) {
+      let lastValue = syntaxElements[syntaxElements.length - 1].evaluate(context);
       return lastValue;
     }
     return undefined;
