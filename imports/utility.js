@@ -87,3 +87,15 @@ export function appendChildOutsideIn(newParent, child) {
   // that's why we use removeChild
   child.parentNode.removeChild(child);
 }
+
+export function appendNode(parentNode, newNode) {
+  let newClone = newNode.cloneNode(false);
+  function appendChildren(event) {
+    for (let child of newNode.getChildren()) {
+      appendNode(newClone, child);
+    }
+  }
+  newClone.addEventListener('loaded', appendChildren);
+  console.log('appending ' + newClone.outerHTML);
+  parentNode.appendChild(newClone);
+}

@@ -6,10 +6,10 @@ AFRAME.registerComponent('variable-assignment', {
     initialized: {default: false}
   },
   init: function () {
-    if (this.data.initialized) {
-      return;
-    }
-      this.el.innerHTML = `
+    // if (this.data.initialized) {
+    //   return;
+    // }
+       this.el.innerHTML = `
         <a-sphere
           snap-site="controller:#right-hand"
           radius=".1"
@@ -40,7 +40,7 @@ AFRAME.registerComponent('variable-assignment', {
       });
 
       this.el.evaluate = this.evaluate.bind(this);
-      AFRAME.utils.entity.setComponentProperty(this.el, 'initialized', true);
+      //AFRAME.utils.entity.setComponentProperty(this.el, 'initialized', true);
       console.log('variable assignment initialized');
   },
 

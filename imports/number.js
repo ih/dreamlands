@@ -24,6 +24,7 @@ AFRAME.registerComponent('number', {
     });
     this.el.evaluate = this.evaluate.bind(this);
     this.el.getString = this.getString.bind(this);
+    console.log('number initialized');
   },
 
   evaluate: function () {
