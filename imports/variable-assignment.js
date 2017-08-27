@@ -11,7 +11,7 @@ AFRAME.registerComponent('variable-assignment', {
     // }
        this.el.innerHTML = `
         <a-sphere
-          snap-site="controller:#right-hand"
+          snap-collider="controller:#right-hand"
           radius=".1"
           color="yellow"
           material="transparent:true; opacity:.5;"

@@ -60,7 +60,7 @@ AFRAME.registerComponent('environment-collider', {
       object.setAttribute('position', relativePosition);
       // TODO this creates a bug since appendChild re-runs initialize for
       // components on the element so e.g. an element like variable assignment
-      // with a snap-site that has something snapped will lose it
+      // with a snap-collider that has something snapped will lose it
       // this.el.appendChild(object);
       Utility.appendNode(this.el, object);
       this.el.emit('added', {el: this.el}, false);

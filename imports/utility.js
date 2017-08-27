@@ -91,9 +91,11 @@ export function appendChildOutsideIn(newParent, child) {
 export function appendNode(parentNode, newNode) {
   let newClone = newNode.cloneNode(false);
   function appendChildren(event) {
+    console.log(`calling appendChildren for ${newClone.outerHTML}`);
     for (let child of newNode.getChildren()) {
       appendNode(newClone, child);
     }
+    newClone.removeEventListener('loaded', appendChildren);
   }
   newClone.addEventListener('loaded', appendChildren);
   console.log('appending ' + newClone.outerHTML);

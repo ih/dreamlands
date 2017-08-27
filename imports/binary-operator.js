@@ -22,8 +22,8 @@ AFRAME.registerComponent('binary-operator', {
     this.el.setAttribute('stretchable', true);
     this.el.classList.add('collidable');
     this.el.classList.add('syntax');
-    this.el.innerHTML = `<a-sphere snap-site="controller:#right-hand" radius=".1" color="yellow" material="transparent:true; opacity:.5;" position="-.22 0 0"></a-sphere>
-          <a-sphere snap-site="controller:#right-hand" radius=".1" color="yellow" material="transparent:true; opacity:.5;" position=".22 0 0"></a-sphere>`;
+    this.el.innerHTML = `<a-sphere snap-collider="controller:#right-hand" radius=".1" color="yellow" material="transparent:true; opacity:.5;" position="-.22 0 0"></a-sphere>
+          <a-sphere snap-collider="controller:#right-hand" radius=".1" color="yellow" material="transparent:true; opacity:.5;" position=".22 0 0"></a-sphere>`;
     this.el.setAttribute('output', {
       position: '0 .15 0',
       size: .03
