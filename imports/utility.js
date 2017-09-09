@@ -99,5 +99,6 @@ export function appendNode(parentNode, newNode) {
   }
   newClone.addEventListener('loaded', appendChildren);
   console.log('appending ' + newClone.outerHTML);
-  parentNode.appendChild(newClone);
+  newNode.parentNode.removeChild(newNode);
+  return parentNode.appendChild(newClone);
 }

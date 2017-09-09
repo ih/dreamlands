@@ -62,14 +62,15 @@ AFRAME.registerComponent('snap-collider', {
     // add entity as child to snap-collider and position to center
 
     snappedItem.setAttribute('position', '0 0 0');
-    Utility.appendNode(this.el, snappedItem);
+    snappedItem = Utility.appendNode(this.el, snappedItem);
 
     // important to do this after snappedItem has been moved since changing
-    // it's place in the DOM re-initializes the component, it'd be nice if
+    // it's place in the DOM re-initializes the component,
+    // syntax component's check if element is snapped and if so does not add
+    // grabbable, snappable etc.
+    // it'd be nice if
     // we did this in a way that wasn't sensitive to order of operations
     // TODO make removing adding back certain attributes dynamic
-    snappedItem.removeAttribute('grabbable');
-    // do this otherwise this item will constantly be triggering snapItem handler
-    snappedItem.classList.remove('snappable');
+    snappedItem.setAttribute('snapped', true);
   }
 });

@@ -1,7 +1,12 @@
 AFRAME.registerComponent('syntax', {
   init: function () {
-    this.el.setAttribute('grabbable', true);
-    this.el.classList.add('collidable');
+    if (this.el.getAttribute('snapped')) {
+      this.el.removeAttribute('grabbable');
+      this.el.classList.remove('collidable');
+    } else {
+      this.el.setAttribute('grabbable', true);
+      this.el.classList.add('collidable');
+    }
     this.el.classList.add('syntax');
   }
 });
