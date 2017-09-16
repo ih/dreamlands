@@ -92,6 +92,10 @@ export function appendNode(parentNode, newNode) {
   let newClone = newNode.cloneNode(false);
   function appendChildren(event) {
     console.log(`calling appendChildren for ${newClone.outerHTML}`);
+    // remove children of the clone and replace with the original
+    while (newClone.firstChild) {
+      newClone.removeChild(newClone.firstChild);
+    }
     for (let child of newNode.getChildren()) {
       appendNode(newClone, child);
     }

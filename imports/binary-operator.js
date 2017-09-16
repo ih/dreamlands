@@ -18,9 +18,9 @@ AFRAME.registerComponent('binary-operator', {
       value: this.value,
       width: 1
     });
-    this.el.setAttribute('grabbable', true);
+    this.el.setAttribute('syntax', true);
     this.el.setAttribute('stretchable', true);
-    this.el.classList.add('collidable');
+    //this.el.classList.add('collidable');
     this.el.classList.add('syntax');
     this.el.innerHTML = `<a-sphere snap-collider="controller:#right-hand" radius=".1" color="yellow" material="transparent:true; opacity:.5;" position="-.22 0 0"></a-sphere>
           <a-sphere snap-collider="controller:#right-hand" radius=".1" color="yellow" material="transparent:true; opacity:.5;" position=".22 0 0"></a-sphere>`;
