@@ -33,10 +33,27 @@ export function scaleToSize(entity, newSize) {
 }
 
 export function getBoundingSize(entity) {
-  let mesh = entity.getObject3D('mesh');
-  let boundingBox = new THREE.Box3().setFromObject(mesh);
+  let object3D = getGeometryGroup(entity.object3D);
+  //let object3D = entity.getObject3D('mesh');
+  let boundingBox = new THREE.Box3().setFromObject(object3D);
   let size = boundingBox.getSize();
   return Math.max(size.x, size.y, size.z);
+}
+
+// extract only the nodes in object3D that have a geometry
+// i.e. aren't a group
+export function getGeometryGroup(object3D) {
+  let geometryGroup = new THREE.Group();
+  let queue = [object3D];
+  while (queue.length > 0) {
+    let node = queue.shift();
+    // text geometry doesn't behave well with bounding boxes
+    if (node.geometry && node.geometry.constructor.name !== 'TextGeometry') {
+      geometryGroup.add(node);
+    }
+    queue = queue.concat(node.children);
+  }
+  return geometryGroup;
 }
 
 export function getWorldPosition(entity) {
