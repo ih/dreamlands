@@ -1,3 +1,5 @@
+import * as DOMHelpers from '../imports/dom-helpers.js';
+
 AFRAME.registerComponent('variable-assignment-icon', {
   init: function () {
     this.el.innerHTML = `
@@ -15,5 +17,6 @@ AFRAME.registerComponent('variable-assignment-icon', {
         </a-sphere>
       </a-octahedron>
     `;
+    DOMHelpers.addReadyEvent(this.el, [{entity: this.el, event: 'loaded'}]);
   }
 });

@@ -1,3 +1,5 @@
+import * as DOMHelpers from '../imports/dom-helpers.js';
+
 AFRAME.registerComponent('function-icon', {
   init: function () {
     this.el.innerHTML = `
@@ -8,5 +10,6 @@ AFRAME.registerComponent('function-icon', {
         color="orange"
         text="value:function; align:center; zOffset:.1">
     `;
+    DOMHelpers.addReadyEvent(this.el, [{entity: this.el, event: 'loaded'}]);
   }
 });

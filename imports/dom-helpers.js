@@ -77,3 +77,20 @@ export function matchElement(originalDomElement, targetDomElement) {
   }
   return true;
 }
+
+// from https://stackoverflow.com/a/43747254/1415432 used for
+// waiting until all sub-entities are ready before firing a ready event
+// indicating the entity is loaded/ready
+export function addReadyEvent(entity, subEntityData) {
+  let promises = subEntityData.map((entityAndEvent) => {
+    let { entity, event } = entityAndEvent;
+    return new Promise(resolve => entity.addEventListener(event, () => {
+      resolve(event);
+    }));
+  });
+
+  Promise.all(promises).then(() => {
+    console.log('everything loaded');
+    entity.emit('ready', {}, false);
+  });
+}

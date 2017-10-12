@@ -1,3 +1,5 @@
+import * as DOMHelpers from '../imports/dom-helpers.js';
+
 AFRAME.registerComponent('variable-icon', {
   init: function () {
       this.el.innerHTML = `
@@ -9,5 +11,6 @@ AFRAME.registerComponent('variable-icon', {
           text="value:variable; align:center; zOffset:.1">
         </a-octahedron>
       `;
+    DOMHelpers.addReadyEvent(this.el, [{entity: this.el, event: 'loaded'}]);
   }
 });

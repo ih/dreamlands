@@ -5,7 +5,13 @@ AFRAME.registerComponent('programming-menu', {
   dependencies: ['aabb-collider', 'menu-item', 'number-menu-item'],
 
   init: function () {
-    let self = this;
+    this.iconSize = .05;
+    this.itemsPerRow = 3;
+    this.initX = -.2;
+    this.initZ = .06;
+    this.initY = .2;
+    this.margin = .2;
+
     // we add menu-item class to items here instead of on the component definition
     // b/c there's an odd behavior where menu-item might be attached to the plane
     // during initialization and we need this to distinguish the menu items from
@@ -22,8 +28,35 @@ AFRAME.registerComponent('programming-menu', {
       </a-plane>
     `);
 
+
     this.el.appendChild(this.menu);
     //this.formatMenuItems();
+    this.processMenuItems = this.processMenuItems.bind(this);
+    this.processMenutItem = this.processMenuItem.bind(this);
+    console.log(`number of children ${this.menu.children.length} `);
+
+    for (let i = 0; i < this.menu.children.length; i++) {
+      let menuItem = this.menu.children[i];
+      console.log('in the loop');
+      debugger;
+      menuItem.addEventListener('ready', () => {
+        console.log('menu item ready');
+        this.processMenuItem(menuItem, i);
+      });
+    }
+
+   // this.menu.childNodes.forEach((menuItem, index) => {
+    //   console.log(`adding event listener for ${menuItem} ${index}`);
+    //   debugger;
+    //   this.menuItem.addEventListener('loaded', () => {
+    //     debugger;
+    //     this.processMenuItem(menuItem, index);
+    //   });
+    // });
+    this.menu.addEventListener('loaded', () => {
+     console.log(`after load number of children ${this.menu.children.length} `);
+
+    });
     this.enabled = false;
     this.toggle = this.toggle.bind(this);
     this.el.addEventListener('menudown', this.toggle);
@@ -49,23 +82,36 @@ AFRAME.registerComponent('programming-menu', {
 
   tick: function () {
     // a hack, figure out how to do this in init/update
-    if (!this.menuProcessed) {
-      this.processMenuItems();
-    }
+    // if (!this.menuProcessed) {
+    //   this.processMenuItems();
+    // }
     //console.log(this.menu.getObject3D('mesh'));
   },
 
   toggle: function () {
-      this.enabled = !this.enabled;
+    this.enabled = !this.enabled;
 
-      this.menu.setAttribute('visible', !this.menu.getAttribute('visible'));
+    this.menu.setAttribute('visible', !this.menu.getAttribute('visible'));
 
-      for (let i = 0; i < this.menu.children.length; i++) {
-        let menuItem = this.menu.children[i];
-        menuItem.setAttribute('menu-item', 'enabled', this.enabled);
-      }
+    for (let i = 0; i < this.menu.children.length; i++) {
+      let menuItem = this.menu.children[i];
+      menuItem.setAttribute('menu-item', 'enabled', this.enabled);
+    }
   },
 
+  processMenuItem: function (menuItem, index) {
+    let x = ((index % this.itemsPerRow) * this.margin) + this.initX;
+    let y = (Math.floor(index / this.itemsPerRow) * this.margin) + this.initY;
+
+    let menuIcon = menuItem.querySelector('.menu-icon');
+    Utility.scaleToSize(menuIcon, this.iconSize);
+    // position item
+    let position = menuIcon.getAttribute('position');
+    position.x = x;
+    position.y = y;
+    position.z = this.initZ;
+    menuIcon.setAttribute('position', position);
+  },
   // layout, size, and attach event handlers to menu items
   processMenuItems: function () {
     let targetSize = .05;
@@ -77,11 +123,11 @@ AFRAME.registerComponent('programming-menu', {
     let self = this;
     let currentX = null;
     let currentY = null;
-    for (let i=0; i < this.menu.children.length; i++) {
+    for (let i = 0; i < this.menu.children.length; i++) {
       if (i % itemsPerRow === 0) {
         currentX = initX;
       }
-      currentY = initY + (-1 * Math.floor(i/itemsPerRow) * margin);
+      currentY = initY + (-1 * Math.floor(i / itemsPerRow) * margin);
       let menuItem = this.menu.children[i];
       // scale to a set size
       let menuIcon = menuItem.querySelector('.menu-icon');
@@ -93,6 +139,7 @@ AFRAME.registerComponent('programming-menu', {
       position.z = currentZ;
       menuIcon.setAttribute('position', position);
       currentX += margin;
+      menuIcon.flushToDOM(true);
     }
     this.menuProcessed = true;
   }

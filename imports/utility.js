@@ -34,7 +34,7 @@ export function scaleToSize(entity, newSize) {
 
 export function getBoundingSize(entity) {
   let object3D = getGeometryGroup(entity.object3D);
-  //let object3D = entity.getObject3D('mesh');
+  // let object3D = entity.getObject3D('mesh');
   let boundingBox = new THREE.Box3().setFromObject(object3D);
   let size = boundingBox.getSize();
   return Math.max(size.x, size.y, size.z);
@@ -49,7 +49,7 @@ export function getGeometryGroup(object3D) {
     let node = queue.shift();
     // text geometry doesn't behave well with bounding boxes
     if (node.geometry && node.geometry.constructor.name !== 'TextGeometry') {
-      geometryGroup.add(node);
+      geometryGroup.add(node.clone());
     }
     queue = queue.concat(node.children);
   }

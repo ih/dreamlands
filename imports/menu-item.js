@@ -9,6 +9,7 @@ AFRAME.registerComponent('menu-item', {
   },
   init: function () {
     var self = this;
+
     this.itemIcon = DOMHelpers.stringToDomElement(`
       <a-entity ${this.data.icon}>
       </a-entity>
@@ -25,7 +26,8 @@ AFRAME.registerComponent('menu-item', {
       // seems like component can get shifted to the parent at some point during creation
       // so handle that case by making sure this isn't the menu
       if (this.el.classList.contains('menu-item')) {
-        this.el.appendChild(this.itemIcon);
+        this.itemIcon = this.el.appendChild(this.itemIcon);
+        DOMHelpers.addReadyEvent(this.el, [{entity: this.itemIcon, event: 'ready'}]);
       }
   },
 
