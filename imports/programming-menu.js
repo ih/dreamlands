@@ -38,7 +38,6 @@ AFRAME.registerComponent('programming-menu', {
     for (let i = 0; i < this.menu.children.length; i++) {
       let menuItem = this.menu.children[i];
       console.log('in the loop');
-      debugger;
       menuItem.addEventListener('ready', () => {
         console.log('menu item ready');
         this.processMenuItem(menuItem, i);

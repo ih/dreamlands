@@ -34,10 +34,12 @@ AFRAME.registerComponent('menu-item', {
   createNewItem: function () {
     let item = DOMHelpers.stringToDomElement(`
       <a-entity ${this.data.item}></a-entity>
-      `);
+    `);
 
-      // set the position of the new item to be where the icon is in the world
-      item.setAttribute('position', Utility.getWorldPosition(this.itemIcon));
-      this.el.sceneEl.appendChild(item);
+    let newPosition = Utility.getWorldPosition(this.itemIcon);
+    item = this.el.sceneEl.appendChild(item);
+    // set the position of the new item to be where the icon is in the world
+    // item.setAttribute('position', `${newPosition.x} ${newPosition.y} ${newPosition.z}`);
+    item.setAttribute('position', newPosition);
   }
 });
