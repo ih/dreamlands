@@ -9,7 +9,7 @@ AFRAME.registerComponent('programming-menu', {
     this.itemsPerRow = 3;
     this.initX = -.2;
     this.initZ = .06;
-    this.initY = .2;
+    this.initY = -.1;
     this.margin = .2;
 
     // we add menu-item class to items here instead of on the component definition
