@@ -30,8 +30,6 @@ AFRAME.registerComponent('programming-menu', {
 
 
     this.el.appendChild(this.menu);
-    //this.formatMenuItems();
-    this.processMenuItems = this.processMenuItems.bind(this);
     this.processMenutItem = this.processMenuItem.bind(this);
     console.log(`number of children ${this.menu.children.length} `);
 
@@ -44,14 +42,6 @@ AFRAME.registerComponent('programming-menu', {
       });
     }
 
-   // this.menu.childNodes.forEach((menuItem, index) => {
-    //   console.log(`adding event listener for ${menuItem} ${index}`);
-    //   debugger;
-    //   this.menuItem.addEventListener('loaded', () => {
-    //     debugger;
-    //     this.processMenuItem(menuItem, index);
-    //   });
-    // });
     this.menu.addEventListener('loaded', () => {
      console.log(`after load number of children ${this.menu.children.length} `);
 
@@ -69,22 +59,7 @@ AFRAME.registerComponent('programming-menu', {
     console.log('removing');
   },
 
-  // play: function () {
-  //   console.log('programming-menu playing');
-  //
-  // },
-  //
-  // pause: function () {
-  //   console.log('programming-menu pausing');
-  //   this.el.removeEventListener('menudown', this.toggle);
-  // },
-
   tick: function () {
-    // a hack, figure out how to do this in init/update
-    // if (!this.menuProcessed) {
-    //   this.processMenuItems();
-    // }
-    //console.log(this.menu.getObject3D('mesh'));
   },
 
   toggle: function () {
@@ -110,36 +85,5 @@ AFRAME.registerComponent('programming-menu', {
     position.y = y;
     position.z = this.initZ;
     menuIcon.setAttribute('position', position);
-  },
-  // layout, size, and attach event handlers to menu items
-  processMenuItems: function () {
-    let targetSize = .05;
-    let itemsPerRow = 3;
-    let initX = -.2;
-    let currentZ = .06;
-    let initY = .2;
-    let margin = .2;
-    let self = this;
-    let currentX = null;
-    let currentY = null;
-    for (let i = 0; i < this.menu.children.length; i++) {
-      if (i % itemsPerRow === 0) {
-        currentX = initX;
-      }
-      currentY = initY + (-1 * Math.floor(i / itemsPerRow) * margin);
-      let menuItem = this.menu.children[i];
-      // scale to a set size
-      let menuIcon = menuItem.querySelector('.menu-icon');
-      Utility.scaleToSize(menuIcon, targetSize);
-      // position item
-      let position = menuIcon.getAttribute('position');
-      position.x = currentX;
-      position.y = currentY;
-      position.z = currentZ;
-      menuIcon.setAttribute('position', position);
-      currentX += margin;
-      menuIcon.flushToDOM(true);
-    }
-    this.menuProcessed = true;
-  }
+   }
 });
