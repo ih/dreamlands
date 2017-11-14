@@ -1,11 +1,12 @@
 {
     "version": "0.2.0",
     "configurations": [
+
         {
             "type": "firefox",
             "request": "launch",
             "reAttach": true,
-            "name": "Launch localhost",
+            "name": "Launch Firefox localhost",
             "url": "http://localhost:3000/",
             "webRoot": "${workspaceRoot}",
             "log": {
@@ -20,7 +21,8 @@
             "request": "launch",
             "name": "Launch Chrome against localhost",
             "url": "http://localhost:3000",
-            "webRoot": "${workspaceRoot}"
+            "webRoot": "${workspaceRoot}",
+            "runtimeExecutable": "D:\\Downloads\\chromium_webvr_v1.1_win\\Chrome-bin\\chrome.exe"
         },
         {
             "type": "chrome",
