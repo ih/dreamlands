@@ -6,7 +6,7 @@
  */
 AFRAME.registerComponent('debug-controller', {
   schema: {
-    enabled: { default: false }
+    enabled: { default: true }
   },
 
   init: function () {
@@ -19,8 +19,8 @@ AFRAME.registerComponent('debug-controller', {
 
     this.isTriggerDown = false;
 
-    primaryHand = document.getElementById('primaryHand');
-    secondaryHand = document.getElementById('secondaryHand');
+    primaryHand = document.getElementById('left-hand');
+    secondaryHand = document.getElementById('right-hand');
 
     secondaryHand.setAttribute('position', { x: -0.2, y: 1.5, z: -0.5 });
     primaryHand.setAttribute('position', { x: 0.2, y: 1.5, z: -0.5 });
@@ -37,10 +37,10 @@ AFRAME.registerComponent('debug-controller', {
       // <space> for trigger.
       if (evt.keyCode === 32) {
         if (this.isTriggerDown) {
-          primaryHand.emit('triggerup');
+          primaryHand.emit('menudown');
           this.isTriggerDown = false;
         } else {
-          primaryHand.emit('triggerdown');
+          primaryHand.emit('menuup');
           this.isTriggerDown = true;
         }
         return;
