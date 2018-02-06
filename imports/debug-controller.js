@@ -18,6 +18,7 @@ AFRAME.registerComponent('debug-controller', {
     console.log('%c debug-controller enabled ', 'background: #111; color: red');
 
     this.isTriggerDown = false;
+    this.isHandMode = false;
 
     primaryHand = document.getElementById('right-hand');
     secondaryHand = document.getElementById('left-hand');
@@ -32,7 +33,13 @@ AFRAME.registerComponent('debug-controller', {
       var primaryRotation;
 
       // <shift> + * for everything.
-      if (!evt.shiftKey) { return; }
+      if (evt.key === 'Shift') { 
+        this.isHandMode = !this.isHandMode;
+      }
+
+      if (!this.isHandMode) {
+        return;
+      }
 
       // <space> for trigger.
       if (evt.keyCode === 32) {
