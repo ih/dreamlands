@@ -41,6 +41,11 @@ AFRAME.registerComponent('debug-controller', {
         return;
       }
 
+      // don't move body if in hand mode
+      evt.preventDefault();
+      evt.stopImmediatePropagation()
+
+
       // <space> for trigger.
       if (evt.keyCode === 32) {
         if (this.isTriggerDown) {
@@ -55,20 +60,37 @@ AFRAME.registerComponent('debug-controller', {
 
       // Position bindings.
       primaryPosition = primaryHand.getAttribute('position');
-      if (evt.keyCode === 72) { primaryPosition.x -= 0.01 }  // h.
-      if (evt.keyCode === 74) { primaryPosition.y -= 0.01 }  // j.
-      if (evt.keyCode === 75) { primaryPosition.y += 0.01 }  // k.
-      if (evt.keyCode === 76) { primaryPosition.x += 0.01 }  // l.
-      if (evt.keyCode === 59 || evt.keyCode === 186) { primaryPosition.z -= 0.01 }  // ;.
-      if (evt.keyCode === 222) { primaryPosition.z += 0.01 }  // ;.
+      if (evt.key === 'j') { primaryPosition.x -= 0.01 }  
+      if (evt.key === 'k') { primaryPosition.y -= 0.01 }  
+      if (evt.key === 'i') { primaryPosition.y += 0.01 }  
+      if (evt.key === 'l') { primaryPosition.x += 0.01 }  
+      if (evt.key === 'o') { primaryPosition.z -= 0.01 }  // ;.
+      if (evt.key === 'u') { primaryPosition.z += 0.01 }  // ;.
 
       // Rotation bindings.
       primaryRotation = primaryHand.getAttribute('rotation');
-      if (evt.keyCode === 89) { primaryRotation.x -= 10 }  // y.
-      if (evt.keyCode === 79) { primaryRotation.x += 10 }  // o.
+      if (evt.key === 'm') { primaryRotation.x -= 10 }  // y.
+      if (evt.key === '.') { primaryRotation.x += 10 }  // o.
+
+      secondaryPosition = secondaryHand.getAttribute('position');
+      if (evt.key === 'a') { secondaryPosition.x -= 0.01 }  
+      if (evt.key === 's') { secondaryPosition.y -= 0.01 }  
+      if (evt.key === 'w') { secondaryPosition.y += 0.01 }  
+      if (evt.key === 'd') { secondaryPosition.x += 0.01 }  
+      if (evt.key === 'e') { secondaryPosition.z -= 0.01 }  // ;.
+      if (evt.key === 'q') { secondaryPosition.z += 0.01 }  // ;.
+
+      // Rotation bindings.
+      secondaryRotation = secondaryHand.getAttribute('rotation');
+      if (evt.key === 'c') { secondaryRotation.x -= 10 }  // y.
+      if (evt.key === 'z') { secondaryRotation.x += 10 }  // o.
+
 
       primaryHand.setAttribute('position', AFRAME.utils.clone(primaryPosition));
       primaryHand.setAttribute('rotation', AFRAME.utils.clone(primaryRotation));
+      secondaryHand.setAttribute('position', AFRAME.utils.clone(secondaryPosition));
+      secondaryHand.setAttribute('rotation', AFRAME.utils.clone(secondaryRotation));
+
     });
   }
 });
