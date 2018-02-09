@@ -17,7 +17,8 @@ AFRAME.registerComponent('debug-controller', {
 
     console.log('%c debug-controller enabled ', 'background: #111; color: red');
 
-    this.isTriggerDown = false;
+    this.isPrimaryTriggerDown = false;
+    this.isSecondaryTriggerDown = false;
     this.isHandMode = false;
 
     primaryHand = document.getElementById('right-hand');
@@ -46,16 +47,28 @@ AFRAME.registerComponent('debug-controller', {
       evt.stopImmediatePropagation()
 
 
-      // <space> for trigger.
-      if (evt.keyCode === 32) {
-        if (this.isTriggerDown) {
-          secondaryHand.emit('menudown');
-          this.isTriggerDown = false;
+      // trigger.
+      if (evt.key === 'h') {
+        if (this.isPrimaryTriggerDown) {
+          primaryHand.emit('triggerup');
+          this.isPrimaryTriggerDown = false;
         } else {
-          secondaryHand.emit('menuup');
-          this.isTriggerDown = true;
+          primaryHand.emit('triggerdown');
+          this.isPrimaryTriggerDown = true;
         }
         return;
+      }
+
+      // menu
+      if (evt.key === 'r') {
+        secondaryHand.emit('menudown');
+        secondaryHand.emit('menuup');
+      }
+
+      // menu
+      if (evt.key === 'u') {
+        primaryHand.emit('menudown');
+        primaryHand.emit('menuup');
       }
 
       // Position bindings.
