@@ -62,19 +62,22 @@ export function signalUserControlsUserEntitySync() {
     'currentUserLoaded', {detail:  userElement}
   );
   sendUserLoadedEvent(event, 'user-camera');
+  sendUserLoadedEvent(event, 'left-hand');
+  sendUserLoadedEvent(event, 'right-hand');
+  // TODO redo so if not in VR mode .left-hand and .right-hand are children of the body
   // load hands when in VR mode
-  document.querySelector('a-scene').addEventListener('enter-vr', function () {
-    event = new CustomEvent(
-      // detail is a "reserved keyword" here
-      'currentUserLoaded', {detail:  userElement}
-    );
-    sendUserLoadedEvent(event, 'left-hand');
-    event = new CustomEvent(
-      // detail is a "reserved keyword" here
-      'currentUserLoaded', {detail:  userElement}
-    );
-    sendUserLoadedEvent(event, 'right-hand');
-  });
+  // document.querySelector('a-scene').addEventListener('enter-vr', function () {
+  //   event = new CustomEvent(
+  //     // detail is a "reserved keyword" here
+  //     'currentUserLoaded', {detail:  userElement}
+  //   );
+  //   sendUserLoadedEvent(event, 'left-hand');
+  //   event = new CustomEvent(
+  //     // detail is a "reserved keyword" here
+  //     'currentUserLoaded', {detail:  userElement}
+  //   );
+  //   sendUserLoadedEvent(event, 'right-hand');
+  // });
 }
 
 // controls are either the camera or a hand controller
