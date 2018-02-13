@@ -50,10 +50,10 @@ AFRAME.registerComponent('debug-controller', {
       // trigger.
       if (evt.key === 'h') {
         if (this.isPrimaryTriggerDown) {
-          primaryHand.emit('triggerup');
+          primaryHand.emit('gripopen');
           this.isPrimaryTriggerDown = false;
         } else {
-          primaryHand.emit('triggerdown');
+          primaryHand.emit('gripclose');
           this.isPrimaryTriggerDown = true;
         }
         return;
