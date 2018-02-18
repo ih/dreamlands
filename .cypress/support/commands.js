@@ -1,3 +1,5 @@
+import { debug } from "util";
+
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -23,3 +25,10 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+console.log('hiiii');
+Cypress.Commands.add('keydown', (root, key) => {
+  console.log('keydown!');
+  debugger
+  let keyEvent = new KeyboardEvent('keydown', {key: key});
+  root.dispatchEvent(keyEvent);
+});

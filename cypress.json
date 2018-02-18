@@ -1,4 +1,5 @@
 {
-    "fixturesFolder": ".cypress/fixtures",
-    "integrationFolder": ".cypress/integration"
+  "fixturesFolder": ".cypress/fixtures",
+  "integrationFolder": ".cypress/integration",
+  "supportFile": ".cypress/support/index.js"
 }
