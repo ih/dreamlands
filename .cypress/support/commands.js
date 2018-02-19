@@ -25,10 +25,8 @@ import { debug } from "util";
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
-console.log('hiiii');
-Cypress.Commands.add('keydown', (root, key) => {
-  console.log('keydown!');
-  debugger
+
+export function dispatchKeyDown(root, key, repetitions=0) {
   let keyEvent = new KeyboardEvent('keydown', {key: key});
   root.dispatchEvent(keyEvent);
-});
+}
