@@ -4,16 +4,29 @@ let root = null;
 export const LEFT_HAND = 'leftHand';
 export const RIGHT_HAND = 'rightHand';
 export const LEFT = 'left';
+export const RIGHT = 'right';
+export const UP = 'up';
+export const BACK = 'back';
 export const MENU = 'menu';
+export const TRIGGER = 'trigger';
 
 let handMode = false;
 
 let leftHandMap = {};
 leftHandMap[LEFT] = 'a';
+leftHandMap[RIGHT] = 'd';
 leftHandMap[MENU] = 'r';
+
+let rightHandMap = {};
+rightHandMap[LEFT] = 'j';
+rightHandMap[RIGHT] = 'l';
+rightHandMap[UP] = 'i'
+rightHandMap[BACK] = 'o';
+rightHandMap[TRIGGER] = 'h';
 
 let handKeyMappings = {}
 handKeyMappings[LEFT_HAND] = leftHandMap;
+handKeyMappings[RIGHT_HAND] = rightHandMap;
 
 export function initialize(initialRoot) {
   root = initialRoot;

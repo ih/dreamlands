@@ -10,8 +10,12 @@ describe('Grab test', () => {
             Keyboard.initialize(window.document);
             // Keyboard.dispatchKeyDown('Shift');
             // Keyboard.dispatchKeyDown('r');
-
             Keyboard.handAction(Keyboard.LEFT_HAND, Keyboard.MENU);
+            Keyboard.handAction(Keyboard.RIGHT_HAND, Keyboard.LEFT, 22);
+            Keyboard.handAction(Keyboard.RIGHT_HAND, Keyboard.UP, 14);
+            Keyboard.handAction(Keyboard.RIGHT_HAND, Keyboard.BACK, 19);
+            Keyboard.handAction(Keyboard.RIGHT_HAND, Keyboard.TRIGGER);
+
 
 
             //leftHand.moveLeft(50);

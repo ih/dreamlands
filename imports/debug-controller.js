@@ -77,8 +77,8 @@ AFRAME.registerComponent('debug-controller', {
       if (evt.key === 'k') { primaryPosition.y -= 0.01 }  
       if (evt.key === 'i') { primaryPosition.y += 0.01 }  
       if (evt.key === 'l') { primaryPosition.x += 0.01 }  
-      if (evt.key === 'o') { primaryPosition.z -= 0.01 }  // ;.
-      if (evt.key === 'u') { primaryPosition.z += 0.01 }  // ;.
+      if (evt.key === 'u') { primaryPosition.z -= 0.01 }  // ;.
+      if (evt.key === 'o') { primaryPosition.z += 0.01 }  // ;.
 
       // Rotation bindings.
       primaryRotation = primaryHand.getAttribute('rotation');
