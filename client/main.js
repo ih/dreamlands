@@ -1,3 +1,5 @@
+import '../imports/testing/grab.js';
+
 import { Template } from 'meteor/templating-runtime';
 import { ReactiveVar } from 'meteor/reactive-var';
 
