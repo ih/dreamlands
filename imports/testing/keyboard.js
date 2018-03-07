@@ -1,4 +1,5 @@
 // @ts-check
+import { sleep } from '../utility';
 
 let root = null;
 export const LEFT_HAND = 'leftHand';
@@ -34,10 +35,11 @@ export function initialize(initialRoot) {
   root = initialRoot;
 }
 
-export function dispatchKeyDown(key, repetitions = 1) {
+export async function dispatchKeyDown(key, repetitions = 1, delay = 10) {
   let keyEvent = new KeyboardEvent('keydown', {key: key});
   for (let i = 0; i < repetitions; i++) {
     root.dispatchEvent(keyEvent);
+    await sleep(delay);
   }
 }
 
@@ -46,12 +48,12 @@ export function toggleHandMode() {
   handMode = !handMode;
 }
 
-export function handAction(hand, action, amount = 1) {
+export async function handAction(hand, action, amount = 1, delay = 10) {
   if (!handMode) {
     toggleHandMode();
   }
   let key = handKeyMappings[hand][action];
-  dispatchKeyDown(key, amount);
+  await dispatchKeyDown(key, amount, delay);
 }
 
 
