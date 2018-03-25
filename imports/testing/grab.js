@@ -9,8 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
     await Keyboard.handAction(Keyboard.RIGHT_HAND, Keyboard.UP, 14);
     await Keyboard.handAction(Keyboard.RIGHT_HAND, Keyboard.BACK, 19);
     await Keyboard.handAction(Keyboard.RIGHT_HAND, Keyboard.TRIGGER);
+    await Keyboard.handAction(Keyboard.RIGHT_HAND, Keyboard.TRIGGER);
     await Keyboard.handAction(Keyboard.LEFT_HAND, Keyboard.MENU);
     await Keyboard.handAction(Keyboard.RIGHT_HAND, Keyboard.down, 14);
     await Keyboard.handAction(Keyboard.RIGHT_HAND, Keyboard.FORWARD, 16);
+    await Keyboard.handAction(Keyboard.RIGHT_HAND, Keyboard.TRIGGER);
+    await Keyboard.handAction(Keyboard.RIGHT_HAND, Keyboard.LEFT, 22);
   });
 });

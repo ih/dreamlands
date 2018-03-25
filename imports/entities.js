@@ -137,15 +137,18 @@ export function createOrUpdateEntity(id, entityProperties) {
   if ('text' in entityProperties) {
     let entityElement = DOMHelpers.stringToDomElement(entityProperties.text);
     let position = entityElement.getAttribute('position');
-    if (position) {
-      position = DOMHelpers.positionStringToObject(position);
+    if (position ) {
+      if (typeof position === 'string') {
+        position = DOMHelpers.positionStringToObject(position);
+      }
     } else {
       position = Users.getUserPosition();
-      let positionString = DOMHelpers.positionObjectToString(position);
+      // let positionString = DOMHelpers.positionObjectToString(position);
       // this doesn't seem to work, but may be a problem w/ a-frame so leave
       // it in for now
       // maybe there is an aframe wrapper for dom elements
-      entityElement.setAttribute(positionString);
+      // entityElement.setAttribute(positionString);
+      entityElement.setAttribute('position', position);
     }
 
     entityElement.removeAttribute('id');
