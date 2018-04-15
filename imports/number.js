@@ -1,12 +1,23 @@
 import * as DOMHelpers from '../imports/dom-helpers.js';
+import * as Scene from '../imports/scene';
 
-class Number {
+export class Number {
   constructor(value = 1) {
     this.value = value;
   }
 
-  async display() {
-    
+  async render() {
+    console.log('rendering number');
+    let numberElement = DOMHelpers.stringToDomElement(`
+    <a-sphere color="red" radius=".1"></a-entity>
+    `);
+    numberElement.addEventListener('loaded', () => {
+      console.log('number loaded');
+    });
+    console.log('going to append number');
+    // document.querySelector('a-scene').appendChild(numberElement);
+    await Scene.appendChild(numberElement);
+    console.log('number appended');
   }
 }
 
