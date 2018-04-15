@@ -40,6 +40,7 @@ AFRAME.registerComponent('menu-item', {
     item = this.el.sceneEl.appendChild(item);
     // set the position of the new item to be where the icon is in the world
     // item.setAttribute('position', `${newPosition.x} ${newPosition.y} ${newPosition.z}`);
-    item.setAttribute('position', newPosition);
+    // item.setAttribute('position', newPosition);
+    setTimeout(() => {item.object3D.position.set(newPosition.x, newPosition.y, newPosition.z)}, 1000);
   }
 });

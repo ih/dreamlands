@@ -1,5 +1,15 @@
 import * as DOMHelpers from '../imports/dom-helpers.js';
 
+class Number {
+  constructor(value = 1) {
+    this.value = value;
+  }
+
+  async display() {
+    
+  }
+}
+
 AFRAME.registerComponent('number', {
   init: function () {
     this.el.setAttribute('syntax', true);
@@ -24,6 +34,7 @@ AFRAME.registerComponent('number', {
     });
     this.el.evaluate = this.evaluate.bind(this);
     this.el.getString = this.getString.bind(this);
+    debugger;
     console.log('number initialized');
   },
 

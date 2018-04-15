@@ -14,6 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     await Keyboard.handAction(Keyboard.RIGHT_HAND, Keyboard.down, 14);
     await Keyboard.handAction(Keyboard.RIGHT_HAND, Keyboard.FORWARD, 16);
     await Keyboard.handAction(Keyboard.RIGHT_HAND, Keyboard.TRIGGER);
-    await Keyboard.handAction(Keyboard.RIGHT_HAND, Keyboard.LEFT, 22);
+    // await Keyboard.handAction(Keyboard.RIGHT_HAND, Keyboard.LEFT, 22);
   });
 });
