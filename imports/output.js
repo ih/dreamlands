@@ -1,4 +1,30 @@
 import * as DOMHelpers from '../imports/dom-helpers.js';
+import * as Scene from '../imports/scene';
+
+export class Output {
+  constructor() {
+    this.status = 'ok';
+  }
+
+  async render() {
+    console.log('rendering output');
+    let outputElement = DOMHelpers.stringToDomElement(`
+    <a-icosahedron
+    radius=".3"
+    wireframe="true"
+    color="${this.color}"
+    position="0 0 0"
+    class="output">
+    </a-icosahedron>
+    `);
+
+    return await Scene.appendChild(outputElement);
+  }
+
+  get color() {
+    return this.status === 'ok' ? 'green' : 'red';
+  }
+}
 
 AFRAME.registerComponent('output', {
   schema: {
@@ -18,11 +44,11 @@ AFRAME.registerComponent('output', {
     }
     this.output = DOMHelpers.stringToDomElement(
       `<a-icosahedron
-        radius="${this.data.size}"
-        wireframe="true"
-        color="${this.getColor()}"
-        position="${this.data.position}"
-        class="output">
+      radius="${this.data.size}"
+      wireframe="true"
+      color="${this.getColor()}"
+      position="${this.data.position}"
+      class="output">
       </a-icosahedron>`
     );
 

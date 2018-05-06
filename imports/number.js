@@ -1,15 +1,18 @@
 import * as DOMHelpers from '../imports/dom-helpers.js';
 import * as Scene from '../imports/scene';
+import { Syntax } from './syntax';
 
-export class Number {
+export class Number extends Syntax {
   constructor(value = 1) {
+    super();
     this.value = value;
   }
 
   async render() {
+    super.render();
     console.log('rendering number');
     let numberElement = DOMHelpers.stringToDomElement(`
-    <a-sphere color="red" radius=".1"></a-entity>
+    <a-sphere color="red" radius=".1" class="snappable" text="value:${this.value};align:center;zOffset:.1"></a-entity>
     `);
     numberElement.addEventListener('loaded', () => {
       console.log('number loaded');
