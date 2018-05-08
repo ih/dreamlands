@@ -12,14 +12,16 @@ export class Number extends Syntax {
     super.render();
     console.log('rendering number');
     let numberElement = DOMHelpers.stringToDomElement(`
-    <a-sphere color="red" radius=".1" class="snappable" text="value:${this.value};align:center;zOffset:.1"></a-entity>
+    <a-sphere color="red" radius=".1" class="snappable" text="value:${this.value};align:center;zOffset:.1"></a-sphere>
     `);
     numberElement.addEventListener('loaded', () => {
       console.log('number loaded');
     });
     console.log('going to append number');
     // document.querySelector('a-scene').appendChild(numberElement);
-    await Scene.appendChild(numberElement);
+    this.renderedElement = await Scene.appendChild(numberElement);
+    // TODO generalize Scene.appendChild and make this synchronous
+    this.renderedElement.appendChild(this.output.renderedElement);
     console.log('number appended');
   }
 }

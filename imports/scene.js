@@ -6,7 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
 // bug if scene has not been set when this is called
 export async function appendChild(node) {
   return new Promise(resolve => {
-    node.addEventListener('loaded', resolve);
-    scene.appendChild(node);
+    let appendedNode;
+    node.addEventListener('loaded', () => {
+      resolve(appendedNode);
+    });
+    appendedNode = scene.appendChild(node);
   });
 }

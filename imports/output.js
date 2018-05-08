@@ -18,11 +18,20 @@ export class Output {
     </a-icosahedron>
     `);
 
-    return await Scene.appendChild(outputElement);
+    this.renderedElement = await Scene.appendChild(outputElement);
   }
 
   get color() {
     return this.status === 'ok' ? 'green' : 'red';
+  }
+
+  set value(newValue) {
+    this.renderedElement.setAttribute('text', {
+      value: newValue,
+      align: 'center',
+      color: 'white',
+      side: 'double'
+    });
   }
 }
 
