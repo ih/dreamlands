@@ -1,5 +1,5 @@
 import * as DOMHelpers from '../imports/dom-helpers.js';
-import * as Scene from '../imports/scene';
+import * as Scene from '../imports/scene.js';
 import { Syntax } from './syntax';
 
 export class Number extends Syntax {
@@ -21,7 +21,7 @@ export class Number extends Syntax {
     // document.querySelector('a-scene').appendChild(numberElement);
     this.renderedElement = await Scene.appendChild(numberElement);
     // TODO generalize Scene.appendChild and make this synchronous
-    this.renderedElement.appendChild(this.output.renderedElement);
+    await DOMHelpers.appendChild(this.renderedElement, this.output.renderedElement);
     console.log('number appended');
   }
 }

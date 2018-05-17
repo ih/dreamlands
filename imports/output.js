@@ -1,5 +1,5 @@
 import * as DOMHelpers from '../imports/dom-helpers.js';
-import * as Scene from '../imports/scene';
+import * as Scene from '../imports/scene.js'
 
 export class Output {
   constructor() {
@@ -17,7 +17,6 @@ export class Output {
     class="output">
     </a-icosahedron>
     `);
-
     this.renderedElement = await Scene.appendChild(outputElement);
   }
 

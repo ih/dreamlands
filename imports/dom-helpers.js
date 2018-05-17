@@ -37,7 +37,7 @@ export function matchAttributes(originalDomElement, targetDomElement) {
     }
     targetAttributeNames.add(targetAttribute.name);
   }
-
+  
   // NOTE: Don't remove for now since targetDomElement may not have default
   // attributes/components like rotation/visible/etc since it hasn't been
   // processed by aframe
@@ -88,9 +88,19 @@ export function addReadyEvent(entity, subEntityData) {
       resolve(event);
     }));
   });
-
+  
   Promise.all(promises).then(() => {
     console.log('everything loaded');
     entity.emit('ready', {}, false);
+  });
+}
+
+export function appendChild(parent, newChild) {
+  return new Promise(resolve => {
+    let appendedNode;
+    newChild.addEventListener('loaded', () => {
+      resolve(appendedNode);
+    });
+    appendedNode = parent.appendChild(newChild);
   });
 }
