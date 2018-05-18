@@ -8,8 +8,7 @@ export class Number extends Syntax {
     this.value = value;
   }
 
-  async render() {
-    super.render();
+  async createRenderedElement() {
     console.log('rendering number');
     let numberElement = DOMHelpers.stringToDomElement(`
     <a-sphere color="red" radius=".1" class="snappable" text="value:${this.value};align:center;zOffset:.1"></a-sphere>
