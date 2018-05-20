@@ -1,6 +1,16 @@
 import * as DOMHelpers from '../imports/dom-helpers.js';
 import * as Utility from '../imports/utility.js';
 
+export class MenuItem {
+  constructor() {
+
+  }
+  
+  createNewItem() {
+
+  }
+} 
+
 AFRAME.registerComponent('menu-item', {
   schema: {
     enabled: {type: 'boolean'},

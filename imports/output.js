@@ -6,7 +6,7 @@ export class Output {
     this.status = 'ok';
   }
 
-  async render() {
+  async render(parent) {
     console.log('rendering output');
     let outputElement = DOMHelpers.stringToDomElement(`
     <a-icosahedron
@@ -17,7 +17,8 @@ export class Output {
     class="output">
     </a-icosahedron>
     `);
-    this.renderedElement = await Scene.appendChild(outputElement);
+    this.renderedElement = await DOMHelpers.appendChild(parent, outputElement);
+    return this.renderedElement;
   }
 
   get color() {

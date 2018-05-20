@@ -1,6 +1,16 @@
 import * as DOMHelpers from '../imports/dom-helpers.js';
 import * as Utility from '../imports/utility.js';
 
+class ProgrammingMenu {
+  constructor() {
+    this.menuItems = [new NumberMenuItem()]
+  }
+
+  async render() {
+
+  }
+}
+
 AFRAME.registerComponent('programming-menu', {
   dependencies: ['aabb-collider', 'menu-item', 'number-menu-item'],
 

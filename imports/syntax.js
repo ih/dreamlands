@@ -6,17 +6,13 @@ export class Syntax {
   }
 
   async render() {
-    await this.output.render();
     console.assert(this.createRenderedElement);
     await this.createRenderedElement();
+    console.assert(this.renderedElement);
+    await this.output.render(this.renderedElement);
     this.renderedElement.setAttribute('grabbable', true);
     this.renderedElement.classList.add('collidable');
     this.renderedElement.classList.add('snappable');
-  }
-
-  afterRender() {
-    console.assert(this.renderedElement);
-
   }
 }
 
