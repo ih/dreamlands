@@ -96,6 +96,8 @@ export function addReadyEvent(entity, subEntityData) {
 }
 
 export function appendChild(parent, newChild) {
+  console.assert(parent);
+  console.assert(newChild);
   return new Promise(resolve => {
     let appendedNode;
     newChild.addEventListener('loaded', () => {

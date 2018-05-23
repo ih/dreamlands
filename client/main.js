@@ -1,4 +1,4 @@
-import '../imports/testing/number-test.js';
+import '../imports/testing/menu-test.js';
 
 import { Template } from 'meteor/templating-runtime';
 import { ReactiveVar } from 'meteor/reactive-var';
