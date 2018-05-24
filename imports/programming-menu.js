@@ -9,13 +9,21 @@ export class ProgrammingMenu {
 
   async render(parent) {
     this.menuElement = DOMHelpers.stringToDomElement(`
-      <a-plane class="programming-menu" visible="true" color="red" height=".4" width=".4" position=".2 0 0" rotation="0 45 -90" text="value: menu;">
+      <a-plane class="programming-menu2" visible="true" color="red" height=".4" width=".4" position=".2 0 0" rotation="0 45 -90" text="value: menu;">
       </a-plane>`
     );
     this.renderedElement = await DOMHelpers.appendChild(parent, this.menuElement);
     this.menuItems.map((item) => {
       item.render(this.renderedElement);
     });
+
+    this.renderedElement.instance = this;
+  }
+
+  toggle = () => {
+    this.enabled = !this.enabled;
+
+    this.renderedElement.setAttribute('visible', this.enabled);
   }
 }
 

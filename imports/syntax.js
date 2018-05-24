@@ -5,9 +5,9 @@ export class Syntax {
     this.output = new Output();
   }
 
-  async render() {
+  async render(parent) {
     console.assert(this.createRenderedElement);
-    await this.createRenderedElement();
+    await this.createRenderedElement(parent);
     console.assert(this.renderedElement);
     await this.output.render(this.renderedElement);
     this.renderedElement.setAttribute('grabbable', true);

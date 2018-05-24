@@ -8,7 +8,7 @@ export class Number extends Syntax {
     this.value = value;
   }
 
-  async createRenderedElement() {
+  async createRenderedElement(parent) {
     console.log('rendering number');
     let numberElement = DOMHelpers.stringToDomElement(`
     <a-sphere color="red" radius=".1" class="snappable" text="value:${this.value};align:center;zOffset:.1"></a-sphere>
@@ -18,7 +18,7 @@ export class Number extends Syntax {
     });
     console.log('going to append number');
     // document.querySelector('a-scene').appendChild(numberElement);
-    this.renderedElement = await Scene.appendChild(numberElement);
+    this.renderedElement = await DOMHelpers.appendChild(parent, numberElement);
     // TODO generalize Scene.appendChild and make this synchronous
     await DOMHelpers.appendChild(this.renderedElement, this.output.renderedElement);
     console.log('number appended');
