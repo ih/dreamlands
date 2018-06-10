@@ -19,8 +19,6 @@ export class Number extends Syntax {
     console.log('going to append number');
     // document.querySelector('a-scene').appendChild(numberElement);
     this.renderedElement = await DOMHelpers.appendChild(parent, numberElement);
-    // TODO generalize Scene.appendChild and make this synchronous
-    await DOMHelpers.appendChild(this.renderedElement, this.output.renderedElement);
     console.log('number appended');
   }
 }
