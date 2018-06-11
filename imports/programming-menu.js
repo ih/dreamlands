@@ -1,10 +1,11 @@
 import * as DOMHelpers from '../imports/dom-helpers.js';
 import * as Utility from '../imports/utility.js';
 import { NumberMenuItem } from '../imports/number-menu-item.js';
+import { ProgramMenuItem } from '../imports/program-menu-item.js';
 
 export class ProgrammingMenu {
   constructor() {
-    this.menuItems = [new NumberMenuItem()]
+    this.menuItems = [new NumberMenuItem(), new ProgramMenuItem()];
   }
 
   async render(parent) {

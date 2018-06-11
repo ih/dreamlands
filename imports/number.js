@@ -1,6 +1,5 @@
 import * as DOMHelpers from '../imports/dom-helpers.js';
-import * as Scene from '../imports/scene.js';
-import { Syntax } from './syntax';
+import { Syntax } from './syntax.js';
 
 export class Number extends Syntax {
   constructor(value = 1) {

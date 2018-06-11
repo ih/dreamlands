@@ -1,3 +1,22 @@
+import * as DOMHelpers from '../imports/dom-helpers.js';
+import { Syntax } from './syntax.js';
+
+export class Program extends Syntax {
+  constructor() {
+    super();
+  }
+
+  async createRenderedElement(parent) {
+    let environment = new environment();
+
+    let programElement = DOMHelpers.stringToDomElement(`
+    <a-torus color="yellow" radius=".1"></a-torus>
+    `);
+
+    this.renderedElement = await DOMHelpers.appendChild(parent, numberElement);
+
+  }
+}
 AFRAME.registerComponent('program', {
   init: function () {
     this.interval = 1000;
