@@ -6,7 +6,9 @@ export class ProgramMenuItem extends MenuItem {
   async render(parent) {
     let iconElement = DOMHelpers.stringToDomElement(`
     <a-torus
-    radius=".01"
+    radius=".05"
+    arc="270"
+    radius-tubular=".005"
     class="menu-icon"
     text="align:center;
     zOffset:.1;
