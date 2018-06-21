@@ -1,5 +1,6 @@
 import * as DOMHelpers from '../imports/dom-helpers.js';
 import { Syntax } from './syntax.js';
+import { Environment } from './environment.js';
 
 export class Program extends Syntax {
   constructor() {
@@ -7,16 +8,16 @@ export class Program extends Syntax {
   }
 
   async createRenderedElement(parent) {
-    let environment = new environment();
-
+    let environment = new Environment();
     let programElement = DOMHelpers.stringToDomElement(`
-    <a-torus color="yellow" radius=".1"></a-torus>
+    <a-torus color="yellow" radius=".1" radius-tubular=".005"></a-torus>
     `);
-
-    this.renderedElement = await DOMHelpers.appendChild(parent, numberElement);
+    this.renderedElement = await DOMHelpers.appendChild(parent, programElement);
+    await environment.render(this.renderedElement);
 
   }
 }
+
 AFRAME.registerComponent('program', {
   init: function () {
     this.interval = 1000;

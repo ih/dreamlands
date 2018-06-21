@@ -1,6 +1,19 @@
 import * as DOMHelpers from '../imports/dom-helpers.js';
 import * as Utility from '../imports/utility.js';
 
+export class Environment {
+  constructor() {
+
+  }
+
+  async render(parent) {
+    let environmentElement = DOMHelpers.stringToDomElement(`
+    <a-box color="white" depth="1" height="1" width="1"></a-box>
+    `);
+    this.renderedElement = await DOMHelpers.appendChild(parent, environmentElement);
+    debugger
+  }
+}
 // environment should never be created on it's own at the scene level , but
 // should exist as the child of another element otherwise see
 // environment-collider for more details

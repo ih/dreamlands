@@ -6,6 +6,8 @@ export class Syntax {
   }
 
   async render(parent) {
+    // createRenderedElement is implemented by classes that
+    // extend Syntax
     console.assert(this.createRenderedElement);
     await this.createRenderedElement(parent);
     console.assert(this.renderedElement);
