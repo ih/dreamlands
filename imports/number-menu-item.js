@@ -1,8 +1,14 @@
 import * as DOMHelpers from '../imports/dom-helpers.js';
 import { MenuItem } from '../imports/menu-item.js';
 import { Number } from '../imports/number.js';
+import * as Utility from '../imports/utility.js';
 
 export class NumberMenuItem extends MenuItem {
+
+  constructor() {
+    super();
+  }
+
   async render(parent) {
     let iconElement = DOMHelpers.stringToDomElement(`
     <a-sphere
@@ -19,9 +25,10 @@ export class NumberMenuItem extends MenuItem {
     return this.renderedElement;
   }
 
-  createItem() {
+  async createItem() {
     const number = new Number();
     const scene = document.querySelector('a-scene');
-    number.render(scene);
+    await number.render(scene);
+    super.positionNewItem(number.renderedElement);
   }
 }

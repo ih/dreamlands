@@ -6,8 +6,9 @@ export class MenuItem {
 
   }
   
-  createNewItem() {
-
+  positionNewItem(newItemElement) {
+    let iconPosition = Utility.getWorldPosition(this.renderedElement);
+    newItemElement.setAttribute('position', iconPosition);
   }
 } 
 

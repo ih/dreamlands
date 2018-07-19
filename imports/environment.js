@@ -8,7 +8,7 @@ export class Environment {
 
   async render(parent) {
     let environmentElement = DOMHelpers.stringToDomElement(`
-    <a-box color="white" depth="1" height="1" width="1"></a-box>
+    <a-box color="white" material="wireframe: true" depth="1" height="1" width="1"></a-box>
     `);
     this.renderedElement = await DOMHelpers.appendChild(parent, environmentElement);
     debugger
